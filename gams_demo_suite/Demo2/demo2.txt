@@ -1,0 +1,192 @@
+* Data exported from Hydra using GAMSplugin.
+* (c) Copyright 2013, 2014, University of Manchester
+*
+* GAMS App tutorial: 
+* Network-ID:  3
+* Scenario-ID: 6
+*******************************************************************************
+
+* Network definition
+
+SETS
+
+i vector of all nodes /
+Ag1
+EndPt
+J1
+SR1
+Urb1
+    /
+
+Alias(i,j)
+
+* Node types
+
+SETS
+
+demand(i) /
+Ag1
+Urb1
+/
+
+junction(i) /
+EndPt
+J1
+/
+
+surface_reservoir(i) /
+SR1
+/
+
+* Node groups
+
+node_groups vector of all node groups /
+demand_nodes
+non_storage_nodes
+storage_nodes
+/
+
+demand_nodes(i) /
+Ag1
+Urb1
+/
+
+non_storage_nodes(i) /
+Ag1
+J1
+Urb1
+/
+
+storage_nodes(i) /
+SR1
+/
+
+SETS
+
+links(i,j) vector of all links /
+J1 . EndPt
+J1 . Urb1
+SR1 . Ag1
+SR1 . J1
+    /
+
+* Link types
+
+link(i,j) /
+J1 . EndPt
+J1 . Urb1
+SR1 . Ag1
+SR1 . J1
+/
+
+* Connectivity matrix.
+Table Connect(i,j)
+                 Ag1     EndPt        J1       SR1      Urb1
+       Ag1         0         0         0         0         0
+
+     EndPt         0         0         0         0         0
+
+        J1         0         1         0         0         1
+
+       SR1         1         0         1         0         0
+
+      Urb1         0         0         0         0         0
+
+SETS
+
+* Time index
+t time index /
+0
+1
+2
+3
+4
+5
+/
+
+* define time steps dependent on time index (t)
+
+Parameter timestamp(t) ;
+
+    timestamp("0") = 730120.0 ;
+    timestamp("1") = 730151.0 ;
+    timestamp("2") = 730180.0 ;
+    timestamp("3") = 730211.0 ;
+    timestamp("4") = 730241.0 ;
+    timestamp("5") = 730272.0 ;
+
+
+* Node data
+
+* Data for node type demand
+
+SETS
+
+demand_scalars /
+consumption_coefficient
+/
+
+Table demand_scalar_data(i,demand_scalars) 
+
+                         consumption_coefficient
+Ag1                                 1.0
+Urb1                                1.0
+
+
+* Data for node type junction
+
+* Data for node type surface_reservoir
+
+SETS
+
+surface_reservoir_scalars /
+initial_storage
+/
+
+Table surface_reservoir_scalar_data(i,surface_reservoir_scalars) 
+
+                         initial_storage
+SR1                               450.0
+
+
+SETS
+
+surface_reservoir_timeseries /
+inflow
+storagelower
+storageupper
+/
+
+Table surface_reservoir_timeseries_data(t,i,surface_reservoir_timeseries) 
+
+            SR1.inflow SR1.storagelower SR1.storageupper
+0           300.000000        10.000000       500.000000
+1           320.000000        10.000000       500.000000
+2           320.000000        10.000000       500.000000
+3           330.000000        10.000000       500.000000
+4           310.000000        10.000000       500.000000
+5           310.000000        10.000000       500.000000
+
+* Link data
+
+* Data for link type link
+
+SETS
+
+link_timeseries /
+cost
+flow_multiplier
+min_flow
+max_flow
+/
+
+Table link_timeseries_data(t,i,j,link_timeseries) 
+
+        J1 . EndPt.cost J1 . Urb1.cost SR1 . Ag1.cost  SR1 . J1.cost J1 . EndPt.flow_multiplier J1 . Urb1.flow_multiplier SR1 . Ag1.flow_multiplier SR1 . J1.flow_multiplier J1 . EndPt.min_flow J1 . Urb1.min_flow SR1 . Ag1.min_flow SR1 . J1.min_flow J1 . EndPt.max_flow J1 . Urb1.max_flow SR1 . Ag1.max_flow SR1 . J1.max_flow
+0             10.000000       1.000000      20.000000      15.000000                   1.000000                  0.950000                  1.000000                 1.000000           10.000000          20.000000          25.000000         10.000000          200.000000         220.000000         200.000000        310.000000
+1             10.000000      10.000000       8.000000      15.000000                   1.000000                  0.850000                  1.000000                 0.900000           30.000000          10.000000          15.000000         10.000000          200.000000         250.000000         210.000000        300.000000
+2             10.000000       7.000000      20.000000      15.000000                   1.000000                  0.900000                  1.000000                 1.000000           30.000000          25.000000          10.000000         10.000000          200.000000         240.000000         210.000000        300.000000
+3             10.000000       2.000000      15.000000      15.000000                   1.000000                  0.850000                  1.000000                 0.950000           30.000000          20.000000          10.000000         10.000000          200.000000         230.000000         200.000000        300.000000
+4             10.000000       3.000000      19.000000      15.000000                   1.000000                  0.900000                  1.000000                 1.000000           30.000000          20.000000          15.000000         10.000000          200.000000         240.000000         200.000000        310.000000
+5             10.000000       5.000000      10.000000      15.000000                   1.000000                  1.000000                  1.000000                 1.000000           30.000000          20.000000          15.000000         10.000000          200.000000         250.000000         200.000000        300.000000
+
