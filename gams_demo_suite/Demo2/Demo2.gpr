@@ -1,0 +1,182 @@
+[PROJECT]
+
+[GDXDISP: Q Var 3]
+PlaneDim=0
+RowDim=3
+Squeeze=1
+Order=1,2,3,4
+Decim=7
+PlaneRownr=-1
+
+[GDXDISP: Z Var 0]
+PlaneDim=0
+RowDim=0
+Squeeze=1
+Order=1
+Decim=7
+PlaneRownr=-1
+
+[GDXDISP: S Var 2]
+PlaneDim=0
+RowDim=2
+Squeeze=1
+Order=1,2,3
+Decim=7
+PlaneRownr=-1
+
+[GDXDISP: MinStor Equ 2]
+PlaneDim=0
+RowDim=2
+Squeeze=1
+Order=1,2,3
+Decim=7
+PlaneRownr=-1
+
+[GDXDISP: MinFlow Equ 3]
+PlaneDim=0
+RowDim=3
+Squeeze=1
+Order=1,2,3,4
+Decim=7
+PlaneRownr=-1
+
+[GDXDISP: MaxStor Equ 2]
+PlaneDim=0
+RowDim=2
+Squeeze=1
+Order=1,2,3
+Decim=7
+PlaneRownr=-1
+
+[GDXDISP: MaxFlow Equ 3]
+PlaneDim=0
+RowDim=3
+Squeeze=1
+Order=1,2,3,4
+Decim=7
+PlaneRownr=-1
+
+[GDXDISP: MassBalance_nonstorage Equ 2]
+PlaneDim=0
+RowDim=2
+Squeeze=1
+Order=1,2,3
+Decim=7
+PlaneRownr=-1
+
+[GDXDISP: cost Par 3]
+PlaneDim=0
+RowDim=3
+Squeeze=1
+Order=1,2,3
+Decim=7
+PlaneRownr=-1
+
+[GDXDISP: MassBalance_storage Equ 2]
+PlaneDim=0
+RowDim=2
+Squeeze=1
+Order=1,2,3
+Decim=7
+PlaneRownr=-1
+
+[GDXDISP: MassBalance_nonstorage Equ 1]
+PlaneDim=0
+RowDim=1
+Squeeze=1
+Order=1,2
+Decim=7
+PlaneRownr=-1
+
+[GDXDISP: MassBalance_storage Equ 1]
+PlaneDim=0
+RowDim=1
+Squeeze=1
+Order=1,2
+Decim=7
+PlaneRownr=-1
+
+[RP:DEMO1]
+1=
+
+[SOLVERS]
+DNLP=COINIPOPT
+LP=COINIPOPT
+NLP=COINIPOPT
+QCP=COINIPOPT
+RMINLP=COINIPOPT
+RMIP=COINIPOPT
+RMIQCP=COINIPOPT
+
+[OPENWINDOW_1]
+MAXIM=0
+TOP=0
+LEFT=0
+HEIGHT=921
+WIDTH=1269
+
+[RP:DEMO22]
+1=
+
+[GDXDISP: storage Par 2]
+PlaneDim=0
+RowDim=2
+Squeeze=1
+Order=1,2
+Decim=7
+PlaneRownr=-1
+
+[GDXDISP: inflow Par 2]
+PlaneDim=0
+RowDim=2
+Squeeze=1
+Order=1,2
+Decim=7
+PlaneRownr=-1
+
+[GDXDISP: storage Var 2]
+PlaneDim=0
+RowDim=2
+Squeeze=1
+Order=1,2,3
+Decim=7
+PlaneRownr=-1
+
+[RP:DEMO23]
+1=
+
+[RP:UNTITLED_1]
+1=
+
+[RP:GWSSOM]
+1=
+
+[GDXDISP: Obj Var 1]
+PlaneDim=0
+RowDim=1
+Squeeze=1
+Order=1,2
+Decim=7
+PlaneRownr=-1
+
+[GDXDISP: delivery Var 1]
+PlaneDim=0
+RowDim=1
+Squeeze=1
+Order=1,2
+Decim=7
+PlaneRownr=-1
+
+[RP:DEMO2]
+1=
+
+[MRUFILES]
+1=C:\My Manchester\Watersys\Demo2\Demo2.gms
+2=C:\My Manchester\Watersys\Demo2\Results.gdx
+3=C:\My Manchester\Watersys\Demo2\Demo2.lst
+4=C:\My Manchester\CODES\GAMS\GWSSOM\GWSSOM.gms
+5=C:\My Manchester\CODES\GAMS\GWSSOM\Untitled_1.gms
+6=C:\My Manchester\Watersys\Demo2\Demo23.lst
+7=C:\My Manchester\Watersys\Demo2\Demo23.gms
+8=C:\My Manchester\Watersys\Demo2\Demo23.log
+9=C:\My Manchester\Watersys\Demo2\Demo23

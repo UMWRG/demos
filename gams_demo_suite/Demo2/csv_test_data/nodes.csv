@@ -1,0 +1,7 @@
+Name    , X         , Y         , Type              ,inflow , storagelower    , storageupper    , initial_storage , consumption_coefficient , Description
+Units   ,           ,           ,                   ,       , 1e6 m^3         , 1e6 m^3         , 1e6 m^3         , -                       ,
+J1      ,507143.6868,164415.5771, junction          ,       ,                 ,                 ,                 ,                         ,
+Urb1    ,515264.8958,169559.0095, demand            ,       ,                 ,                 ,                 ,1                        ,
+Ag1     ,494488.1362,148849.9266, demand            ,       ,                 ,                 ,                 ,1                        ,
+EndPt   ,501129.8185,140506.8892, junction          ,       ,                 ,                 ,                 ,                         ,
+SR1     ,507046.8452,169181.1477, surface_reservoir ,TS/inflow.csv, TS/min_stor.csv , TS/max_stor.csv ,450              ,                         ,

@@ -1,0 +1,2461 @@
+GAMS 24.3.2  r47788 Released Aug 29, 2014 LEX-LEG x86 64bit/Linux                                                                                                                                                                      11/18/14 17:34:53 Page 1
+Demo2.gmdataset 1s
+C o m p i l a t i o n
+
+
+   2   
+   3  * version: time-step by time-step
+   4   
+   5   option limrow=10000;
+   6   option limcol=10000;
+   7   
+   8  ** ----------------------------------------------------------------------
+   9  **  Loading Data: sets, parameters and tables
+  10  ** ----------------------------------------------------------------------
+  11   
+INCLUDE    /home/stephen/git/UMPlugins/GAMS/tutorial/Demo_models/Demo2/demo2.txt
+  13  * Data exported from Hydra using GAMSplugin.
+  14  * (c) Copyright 2013, 2014, University of Manchester
+  15  *
+  16  * GAMS App tutorial:
+  17  * Network-ID:  2
+  18  * Scenario-ID: 2
+  19  *******************************************************************************
+  20   
+  21  * Network definition
+  22   
+  23  SETS
+  24   
+  25  i vector of all nodes /
+  26  Ag1
+  27  EndPt
+  28  J1
+  29  SR1
+  30  Urb1
+  31      /
+  32   
+  33  Alias(i,j)
+  34   
+  35  * Node types
+  36   
+  37  SETS
+  38   
+  39  demand(i) /
+  40  Ag1
+  41  Urb1
+  42  /
+  43   
+  44  junction(i) /
+  45  EndPt
+  46  J1
+  47  /
+  48   
+  49  surface_reservoir(i) /
+  50  SR1
+  51  /
+  52   
+  53  * Node groups
+  54   
+GAMS 24.3.2  r47788 Released Aug 29, 2014 LEX-LEG x86 64bit/Linux                                                                                                                                                                      11/18/14 17:34:53 Page 2
+Demo2.gmdataset 1s
+C o m p i l a t i o n
+
+
+  55  node_groups vector of all node groups /
+  56  demand_nodes
+  57  non_storage_nodes
+  58  storage_nodes
+  59  /
+  60   
+  61  demand_nodes(i) /
+  62  Ag1
+  63  Urb1
+  64  /
+  65   
+  66  non_storage_nodes(i) /
+  67  Ag1
+  68  J1
+  69  Urb1
+  70  /
+  71   
+  72  storage_nodes(i) /
+  73  SR1
+  74  /
+  75   
+  76  SETS
+  77   
+  78  links(i,j) vector of all links /
+  79  J1 . EndPt
+  80  J1 . Urb1
+  81  SR1 . Ag1
+  82  SR1 . J1
+  83      /
+  84   
+  85  * Link types
+  86   
+  87  link(i,j) /
+  88  J1 . EndPt
+  89  J1 . Urb1
+  90  SR1 . Ag1
+  91  SR1 . J1
+  92  /
+  93   
+  94  * Connectivity matrix.
+  95  Table Connect(i,j)
+  96                   Ag1     EndPt        J1       SR1      Urb1
+  97         Ag1         0         0         0         0         0
+  98   
+  99       EndPt         0         0         0         0         0
+ 100   
+ 101          J1         0         1         0         0         1
+ 102   
+ 103         SR1         1         0         1         0         0
+ 104   
+ 105        Urb1         0         0         0         0         0
+ 106   
+ 107  SETS
+GAMS 24.3.2  r47788 Released Aug 29, 2014 LEX-LEG x86 64bit/Linux                                                                                                                                                                      11/18/14 17:34:53 Page 3
+Demo2.gmdataset 1s
+C o m p i l a t i o n
+
+
+ 108   
+ 109  * Time index
+ 110  t time index /
+ 111  0
+ 112  1
+ 113  2
+ 114  3
+ 115  4
+ 116  5
+ 117  /
+ 118   
+ 119  * define time steps dependent on time index (t)
+ 120   
+ 121  Parameter timestamp(t) ;
+ 122   
+ 123      timestamp("0") = 730120.0 ;
+ 124      timestamp("1") = 730151.0 ;
+ 125      timestamp("2") = 730180.0 ;
+ 126      timestamp("3") = 730211.0 ;
+ 127      timestamp("4") = 730241.0 ;
+ 128      timestamp("5") = 730272.0 ;
+ 129   
+ 130   
+ 131  * Node data
+ 132   
+ 133  * Data for node type demand
+ 134   
+ 135  SETS
+ 136   
+ 137  demand_scalars /
+ 138  consumption_coefficient
+ 139  /
+ 140   
+ 141  Table demand_scalar_data(i,demand_scalars)
+ 142   
+ 143                           consumption_coefficient
+ 144  Ag1                                 1.0
+ 145  Urb1                                1.0
+ 146   
+ 147   
+ 148  * Data for node type junction
+ 149   
+ 150  * Data for node type surface_reservoir
+ 151   
+ 152  SETS
+ 153   
+ 154  surface_reservoir_scalars /
+ 155  initial_storage
+ 156  /
+ 157   
+ 158  Table surface_reservoir_scalar_data(i,surface_reservoir_scalars)
+ 159   
+ 160                           initial_storage
+GAMS 24.3.2  r47788 Released Aug 29, 2014 LEX-LEG x86 64bit/Linux                                                                                                                                                                      11/18/14 17:34:53 Page 4
+Demo2.gmdataset 1s
+C o m p i l a t i o n
+
+
+ 161  SR1                               450.0
+ 162   
+ 163   
+ 164  SETS
+ 165   
+ 166  surface_reservoir_timeseries /
+ 167  inflow
+ 168  storagelower
+ 169  storageupper
+ 170  /
+ 171   
+ 172  Table surface_reservoir_timeseries_data(t,i,surface_reservoir_timeseries)
+ 173   
+ 174              SR1.inflow SR1.storagelower SR1.storageupper
+ 175  0           300.000000        10.000000       500.000000
+ 176  1           320.000000        10.000000       500.000000
+ 177  2           320.000000        10.000000       500.000000
+ 178  3           330.000000        10.000000       500.000000
+ 179  4           310.000000        10.000000       500.000000
+ 180  5           310.000000        10.000000       500.000000
+ 181   
+ 182  * Link data
+ 183   
+ 184  * Data for link type link
+ 185   
+ 186  SETS
+ 187   
+ 188  link_timeseries /
+ 189  cost
+ 190  flow_multiplier
+ 191  min_flow
+ 192  max_flow
+ 193  /
+ 194   
+ 195  Table link_timeseries_data(t,i,j,link_timeseries)
+ 196   
+ 197          J1 . EndPt.cost J1 . Urb1.cost SR1 . Ag1.cost  SR1 . J1.cost J1 . EndPt.flow_multiplier J1 . Urb1.flow_multiplier SR1 . Ag1.flow_multiplier SR1 . J1.flow_multiplier J1 . EndPt.min_flow J1 . Urb1.min_flow SR1 . Ag1.min_flow SR1 . J1.min_flow 
+      J1 . EndPt.max_flow J1 . Urb1.max_flow SR1 . Ag1.max_flow SR1 . J1.max_flow
+ 198  0             10.000000       1.000000      20.000000      15.000000                   1.000000                  0.950000                  1.000000                 1.000000           10.000000          20.000000          25.000000         10.000000 
+               200.000000         220.000000         200.000000        310.000000
+ 199  1             10.000000      10.000000       8.000000      15.000000                   1.000000                  0.850000                  1.000000                 0.900000           30.000000          10.000000          15.000000         10.000000 
+               200.000000         250.000000         210.000000        300.000000
+ 200  2             10.000000       7.000000      20.000000      15.000000                   1.000000                  0.900000                  1.000000                 1.000000           30.000000          25.000000          10.000000         10.000000 
+               200.000000         240.000000         210.000000        300.000000
+ 201  3             10.000000       2.000000      15.000000      15.000000                   1.000000                  0.850000                  1.000000                 0.950000           30.000000          20.000000          10.000000         10.000000 
+               200.000000         230.000000         200.000000        300.000000
+ 202  4             10.000000       3.000000      19.000000      15.000000                   1.000000                  0.900000                  1.000000                 1.000000           30.000000          20.000000          15.000000         10.000000 
+               200.000000         240.000000         200.000000        310.000000
+ 203  5             10.000000       5.000000      10.000000      15.000000                   1.000000                  1.000000                  1.000000                 1.000000           30.000000          20.000000          15.000000         10.000000 
+               200.000000         250.000000         200.000000        300.000000
+ 204   
+ 205   
+ 206  ** -------------------------t ---------------------------------------------
+GAMS 24.3.2  r47788 Released Aug 29, 2014 LEX-LEG x86 64bit/Linux                                                                                                                                                                      11/18/14 17:34:53 Page 5
+Demo2.gmdataset 1s
+C o m p i l a t i o n
+
+
+ 207  **  Model variables and equations
+ 208  ** ----------------------------------------------------------------------
+ 209   
+ 210  VARIABLES
+ 211  Q(i,j,t) flow in each link in each period
+ 212  S(i,t) storage volume in storage nodes
+ 213  delivery (i) water delivered to demand node i in each period
+ 214  Z objective function
+ 215  Obj (t);
+ 216  ;
+ 217   
+ 218  POSITIVE VARIABLES
+ 219  Q
+ 220  S
+ 221  ;
+ 222   
+ 223  positive variable  storage(i,t) an interim variable for saving the value of the storage at the end of each time-step;
+ 224   
+ 225  EQUATIONS
+ 226  MassBalance_nonstorage(non_storage_nodes)
+ 227  MassBalance_storage(storage_nodes)
+ 228  MinFlow(i,j,t)
+ 229  MaxFlow(i,j,t)
+ 230  MaxStor(storage_nodes,t)
+ 231  MinStor(storage_nodes,t)
+ 232  DemandEQ(demand_nodes)
+ 233  Objective
+ 234  ;
+ 235   
+ 236  * introducing a dummy variable to empty (reset) the time-step in each loop
+ 237   
+ 239  set dv(t) / /;
+ 240   
+ 241  * Objective function for time step by time step formulation
+ 242   
+ 243  Objective ..
+ 244      Z =E=sum(t$dv(t),SUM((i,j)$links(i,j), Q(i,j,t) * link_timeseries_data(t,i,j,"cost")));
+ 245   
+ 246  *Calculating water delivery for each demand node at each time step
+ 247   
+ 248  DemandEQ(demand_nodes)..
+ 249           delivery(demand_nodes) =E= sum(t$dv(t),SUM(j$links(j,demand_nodes), Q(j,demand_nodes,t)
+ 250           * link_timeseries_data(t,j, demand_nodes,"flow_multiplier")));
+ 251   
+ 252  * Mass balance constrait for non-storage nodes:
+ 253   
+ 254  MassBalance_nonstorage(non_storage_nodes) ..
+ 255      sum(t$dv(t),surface_reservoir_timeseries_data(t,non_storage_nodes,"inflow")+SUM(j$links(j,non_storage_nodes), Q(j,non_storage_nodes,t)* link_timeseries_data(t, j,non_storage_nodes,"flow_multiplier"))
+ 256      - SUM(j$links(non_storage_nodes,j), Q(non_storage_nodes,j,t))
+ 257      - demand_scalar_data(non_storage_nodes, "consumption_coefficient")$demand_nodes(non_storage_nodes) * delivery(non_storage_nodes))
+ 258      =E= 0;
+ 259   
+ 260  * Mass balance constraint for storage nodes:
+GAMS 24.3.2  r47788 Released Aug 29, 2014 LEX-LEG x86 64bit/Linux                                                                                                                                                                      11/18/14 17:34:53 Page 6
+Demo2.gmdataset 1s
+C o m p i l a t i o n
+
+
+ 261   
+ 262  MassBalance_storage(storage_nodes)..
+ 263           sum(t$dv(t),surface_reservoir_timeseries_data(t,storage_nodes,"inflow")+SUM(j$links(j,storage_nodes), Q(j,storage_nodes,t)* link_timeseries_data(t, j,storage_nodes,"flow_multiplier"))
+ 264           - SUM(j$links(storage_nodes,j), Q(storage_nodes,j,t))
+ 265           -S(storage_nodes,t)
+ 266           +storage(storage_nodes,t-1)$(ord(t) GT 1)
+ 267           + surface_reservoir_scalar_data(storage_nodes,"initial_storage")$(ord(t) EQ 1))
+ 268           =E= 0;
+ 269   
+ 270  * Lower and upper bound of possible flow in links
+ 271   
+ 272  MinFlow(i,j,t)$(links(i,j) and dv(t))..
+ 273      Q(i,j,t) =G= link_timeseries_data(t,i,j,"min_flow");
+ 274   
+ 275  MaxFlow(i,j,t)$(links(i,j) and dv(t))..
+ 276      Q(i,j,t) =L= link_timeseries_data(t,i,j,"max_flow");
+ 277   
+ 278  * Lower and upper bound of Storage volume at storage nodes
+ 279   
+ 280  MaxStor(storage_nodes,t)$dv(t)..
+ 281      S(storage_nodes,t) =L= surface_reservoir_timeseries_data(t,storage_nodes,"storageupper");
+ 282   
+ 283  MinStor(storage_nodes,t)$dv(t)..
+ 284      S(storage_nodes,t) =G= surface_reservoir_timeseries_data(t,storage_nodes,"storagelower");
+ 285   
+ 286  ** ----------------------------------------------------------------------
+ 287  **  Model declaration and solve statements
+ 288  ** ----------------------------------------------------------------------
+ 289  alias (t,tsteps);
+ 290  MODEL Demo2 /ALL/;
+ 291   
+ 292  loop (tsteps,
+ 293              dv(tsteps)=t(tsteps);
+ 294              display dv;
+ 295              SOLVE Demo2 USING LP MINIMIZING Z;
+ 296              storage.fx(i,tsteps)=S.l(i,tsteps) ;
+ 297              Obj.l(tsteps)=Z.l;
+ 298              DISPLAY  Z.l, Obj.l,storage.l,S.l, Q.l,delivery.l;
+ 299              dv(tsteps)=no;
+ 300        );
+ 301   
+ 302  *Generating results output
+ 303   
+ 304  execute_unload "Results.gdx" ,
+ 305      Q,
+ 306      S,
+ 307      MassBalance_storage,
+ 308      MassBalance_nonstorage,
+ 309      MinFlow,
+ 310      MaxFlow,
+ 311      MinStor,
+ 312      MaxStor,
+ 313      Z,
+GAMS 24.3.2  r47788 Released Aug 29, 2014 LEX-LEG x86 64bit/Linux                                                                                                                                                                      11/18/14 17:34:53 Page 7
+Demo2.gmdataset 1s
+C o m p i l a t i o n
+
+
+ 314      Obj,
+ 315      link_timeseries_data,
+ 316      storage,
+ 317      delivery;
+GAMS 24.3.2  r47788 Released Aug 29, 2014 LEX-LEG x86 64bit/Linux                                                                                                                                                                      11/18/14 17:34:53 Page 8
+Demo2.gmdataset 1s
+Include File Summary
+
+
+   SEQ   GLOBAL TYPE      PARENT   LOCAL  FILENAME
+
+     1        1 INPUT          0       0  /home/stephen/git/UMPlugins/GAMS/tutorial/Demo_models/Demo2/Demo2.gms
+     2       12 INCLUDE        1      12  ./home/stephen/git/UMPlugins/GAMS/tutorial/Demo_models/Demo2/demo2.txt
+
+
+COMPILATION TIME     =        0.001 SECONDS      3 MB  24.3.2 r47788 LEX-LEG
+GAMS 24.3.2  r47788 Released Aug 29, 2014 LEX-LEG x86 64bit/Linux                                                                                                                                                                      11/18/14 17:34:53 Page 9
+Demo2.gmdataset 1s
+E x e c u t i o n
+
+
+----    294 SET dv  
+
+0
+
+GAMS 24.3.2  r47788 Released Aug 29, 2014 LEX-LEG x86 64bit/Linux                                                                                                                                                                     11/18/14 17:34:53 Page 10
+Demo2.gmdataset 1s
+Equation Listing    SOLVE Demo2 Using LP From line 295
+
+
+---- MassBalance_nonstorage  =E=  
+
+MassBalance_nonstorage(Ag1)..  Q(SR1,Ag1,0) - delivery(Ag1) =E= 0 ; (LHS = 0)
+     
+MassBalance_nonstorage(J1)..  - Q(J1,EndPt,0) - Q(J1,Urb1,0) + Q(SR1,J1,0) =E= 0 ; (LHS = 0)
+     
+MassBalance_nonstorage(Urb1)..  0.95*Q(J1,Urb1,0) - delivery(Urb1) =E= 0 ; (LHS = 0)
+     
+
+---- MassBalance_storage  =E=  
+
+MassBalance_storage(SR1)..  - Q(SR1,Ag1,0) - Q(SR1,J1,0) - S(SR1,0) =E= -750 ; (LHS = 0, INFES = 750 ****)
+     
+
+---- MinFlow  =G=  
+
+MinFlow(J1,EndPt,0)..  Q(J1,EndPt,0) =G= 10 ; (LHS = 0, INFES = 10 ****)
+     
+MinFlow(J1,Urb1,0)..  Q(J1,Urb1,0) =G= 20 ; (LHS = 0, INFES = 20 ****)
+     
+MinFlow(SR1,Ag1,0)..  Q(SR1,Ag1,0) =G= 25 ; (LHS = 0, INFES = 25 ****)
+     
+MinFlow(SR1,J1,0)..  Q(SR1,J1,0) =G= 10 ; (LHS = 0, INFES = 10 ****)
+     
+
+---- MaxFlow  =L=  
+
+MaxFlow(J1,EndPt,0)..  Q(J1,EndPt,0) =L= 200 ; (LHS = 0)
+     
+MaxFlow(J1,Urb1,0)..  Q(J1,Urb1,0) =L= 220 ; (LHS = 0)
+     
+MaxFlow(SR1,Ag1,0)..  Q(SR1,Ag1,0) =L= 200 ; (LHS = 0)
+     
+MaxFlow(SR1,J1,0)..  Q(SR1,J1,0) =L= 310 ; (LHS = 0)
+     
+
+---- MaxStor  =L=  
+
+MaxStor(SR1,0)..  S(SR1,0) =L= 500 ; (LHS = 0)
+     
+
+---- MinStor  =G=  
+
+MinStor(SR1,0)..  S(SR1,0) =G= 10 ; (LHS = 0, INFES = 10 ****)
+     
+
+---- DemandEQ  =E=  
+
+DemandEQ(Ag1)..  - Q(SR1,Ag1,0) + delivery(Ag1) =E= 0 ; (LHS = 0)
+     
+GAMS 24.3.2  r47788 Released Aug 29, 2014 LEX-LEG x86 64bit/Linux                                                                                                                                                                     11/18/14 17:34:53 Page 11
+Demo2.gmdataset 1s
+Equation Listing    SOLVE Demo2 Using LP From line 295
+
+
+     DemandEQ  =E=  
+
+DemandEQ(Urb1)..  - 0.95*Q(J1,Urb1,0) + delivery(Urb1) =E= 0 ; (LHS = 0)
+     
+
+---- Objective  =E=  
+
+Objective..  - 10*Q(J1,EndPt,0) - Q(J1,Urb1,0) - 20*Q(SR1,Ag1,0) - 15*Q(SR1,J1,0) + Z =E= 0 ; (LHS = 0)
+     
+GAMS 24.3.2  r47788 Released Aug 29, 2014 LEX-LEG x86 64bit/Linux                                                                                                                                                                     11/18/14 17:34:53 Page 12
+Demo2.gmdataset 1s
+Column Listing      SOLVE Demo2 Using LP From line 295
+
+
+---- Q  flow in each link in each period
+
+Q(J1,EndPt,0)
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+       -1       MassBalance_nonstorage(J1)
+        1       MinFlow(J1,EndPt,0)
+        1       MaxFlow(J1,EndPt,0)
+      -10       Objective
+
+Q(J1,Urb1,0)
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+       -1       MassBalance_nonstorage(J1)
+        0.95    MassBalance_nonstorage(Urb1)
+        1       MinFlow(J1,Urb1,0)
+        1       MaxFlow(J1,Urb1,0)
+       -0.95    DemandEQ(Urb1)
+       -1       Objective
+
+Q(SR1,Ag1,0)
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+        1       MassBalance_nonstorage(Ag1)
+       -1       MassBalance_storage(SR1)
+        1       MinFlow(SR1,Ag1,0)
+        1       MaxFlow(SR1,Ag1,0)
+       -1       DemandEQ(Ag1)
+      -20       Objective
+
+Q(SR1,J1,0)
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+        1       MassBalance_nonstorage(J1)
+       -1       MassBalance_storage(SR1)
+        1       MinFlow(SR1,J1,0)
+        1       MaxFlow(SR1,J1,0)
+      -15       Objective
+
+
+---- S  storage volume in storage nodes
+
+S(SR1,0)
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+       -1       MassBalance_storage(SR1)
+        1       MaxStor(SR1,0)
+        1       MinStor(SR1,0)
+
+
+---- delivery  water delivered to demand node i in each period
+
+delivery(Ag1)
+                (.LO, .L, .UP, .M = -INF, 0, +INF, 0)
+       -1       MassBalance_nonstorage(Ag1)
+        1       DemandEQ(Ag1)
+
+delivery(Urb1)
+GAMS 24.3.2  r47788 Released Aug 29, 2014 LEX-LEG x86 64bit/Linux                                                                                                                                                                     11/18/14 17:34:53 Page 13
+Demo2.gmdataset 1s
+Column Listing      SOLVE Demo2 Using LP From line 295
+
+
+     delivery  water delivered to demand node i in each period
+
+                (.LO, .L, .UP, .M = -INF, 0, +INF, 0)
+       -1       MassBalance_nonstorage(Urb1)
+        1       DemandEQ(Urb1)
+
+
+---- Z  objective function
+
+Z
+                (.LO, .L, .UP, .M = -INF, 0, +INF, 0)
+        1       Objective
+
+GAMS 24.3.2  r47788 Released Aug 29, 2014 LEX-LEG x86 64bit/Linux                                                                                                                                                                     11/18/14 17:34:53 Page 14
+Demo2.gmdataset 1s
+Model Statistics    SOLVE Demo2 Using LP From line 295
+
+
+LOOPS                               tsteps   0
+
+
+MODEL STATISTICS
+
+BLOCKS OF EQUATIONS           8     SINGLE EQUATIONS           17
+BLOCKS OF VARIABLES           4     SINGLE VARIABLES            8
+NON ZERO ELEMENTS            29
+
+
+GENERATION TIME      =        0.002 SECONDS      4 MB  24.3.2 r47788 LEX-LEG
+
+
+EXECUTION TIME       =        0.002 SECONDS      4 MB  24.3.2 r47788 LEX-LEG
+               L O O P S             tsteps 0
+
+GAMS 24.3.2  r47788 Released Aug 29, 2014 LEX-LEG x86 64bit/Linux                                                                                                                                                                     11/18/14 17:34:53 Page 15
+Demo2.gmdataset 1s
+Solution Report     SOLVE Demo2 Using LP From line 295
+
+
+               S O L V E      S U M M A R Y
+
+     MODEL   Demo2               OBJECTIVE  Z
+     TYPE    LP                  DIRECTION  MINIMIZE
+     SOLVER  CPLEX               FROM LINE  295
+
+**** SOLVER STATUS     1 Normal Completion         
+**** MODEL STATUS      1 Optimal                   
+**** OBJECTIVE VALUE             4190.0000
+
+ RESOURCE USAGE, LIMIT          0.003      1000.000
+ ITERATION COUNT, LIMIT         2    2000000000
+
+IBM ILOG CPLEX   24.3.2 r47788 Released Aug 29, 2014 LEG x86 64bit/Linux      
+Cplex 12.6.0.1
+
+Space for names approximately 0.00 Mb
+Use option 'names no' to turn use of names off
+LP status(1): optimal
+Cplex Time: 0.00sec (det. 0.01 ticks)
+Optimal solution found.
+Objective :        4190.000000
+
+
+---- EQU MassBalance_nonstorage  
+
+            LOWER          LEVEL          UPPER         MARGINAL
+
+Ag1           .              .              .              .          
+J1            .              .              .            -1.0000      
+Urb1          .              .              .             EPS         
+
+---- EQU MassBalance_storage  
+
+           LOWER          LEVEL          UPPER         MARGINAL
+
+SR1      -750.0000      -750.0000      -750.0000       -16.0000      
+
+---- EQU MinFlow  
+
+                   LOWER          LEVEL          UPPER         MARGINAL
+
+J1 .EndPt.0        10.0000        10.0000        +INF            9.0000      
+J1 .Urb1 .0        20.0000       215.0000        +INF             .          
+SR1.Ag1  .0        25.0000        25.0000        +INF            4.0000      
+SR1.J1   .0        10.0000       225.0000        +INF             .          
+GAMS 24.3.2  r47788 Released Aug 29, 2014 LEX-LEG x86 64bit/Linux                                                                                                                                                                     11/18/14 17:34:53 Page 16
+Demo2.gmdataset 1s
+Solution Report     SOLVE Demo2 Using LP From line 295
+
+
+---- EQU MaxFlow  
+
+                   LOWER          LEVEL          UPPER         MARGINAL
+
+J1 .EndPt.0        -INF           10.0000       200.0000          .          
+J1 .Urb1 .0        -INF          215.0000       220.0000          .          
+SR1.Ag1  .0        -INF           25.0000       200.0000          .          
+SR1.J1   .0        -INF          225.0000       310.0000          .          
+
+---- EQU MaxStor  
+
+             LOWER          LEVEL          UPPER         MARGINAL
+
+SR1.0        -INF          500.0000       500.0000       -16.0000      
+
+---- EQU MinStor  
+
+             LOWER          LEVEL          UPPER         MARGINAL
+
+SR1.0        10.0000       500.0000        +INF             .          
+
+---- EQU DemandEQ  
+
+            LOWER          LEVEL          UPPER         MARGINAL
+
+Ag1           .              .              .             EPS         
+Urb1          .              .              .              .          
+
+                           LOWER          LEVEL          UPPER         MARGINAL
+
+---- EQU Objective           .              .              .             1.0000      
+
+---- VAR Q  flow in each link in each period
+
+                   LOWER          LEVEL          UPPER         MARGINAL
+
+J1 .EndPt.0          .            10.0000        +INF             .          
+J1 .Urb1 .0          .           215.0000        +INF             .          
+SR1.Ag1  .0          .            25.0000        +INF             .          
+SR1.J1   .0          .           225.0000        +INF             .          
+
+---- VAR S  storage volume in storage nodes
+
+             LOWER          LEVEL          UPPER         MARGINAL
+
+SR1.0          .           500.0000        +INF             .          
+GAMS 24.3.2  r47788 Released Aug 29, 2014 LEX-LEG x86 64bit/Linux                                                                                                                                                                     11/18/14 17:34:53 Page 17
+Demo2.gmdataset 1s
+Solution Report     SOLVE Demo2 Using LP From line 295
+
+
+---- VAR delivery  water delivered to demand node i in each period
+
+            LOWER          LEVEL          UPPER         MARGINAL
+
+Ag1         -INF           25.0000        +INF             .          
+Urb1        -INF          204.2500        +INF             .          
+
+                           LOWER          LEVEL          UPPER         MARGINAL
+
+---- VAR Z                 -INF         4190.0000        +INF             .          
+
+  Z  objective function
+
+
+**** REPORT SUMMARY :        0     NONOPT
+                             0 INFEASIBLE
+                             0  UNBOUNDED
+GAMS 24.3.2  r47788 Released Aug 29, 2014 LEX-LEG x86 64bit/Linux                                                                                                                                                                     11/18/14 17:34:53 Page 18
+Demo2.gmdataset 1s
+E x e c u t i o n
+
+
+----    298 VARIABLE Z.L                   =     4190.000  objective function
+
+----    298 VARIABLE Obj.L  
+
+0 4190.000
+
+
+----    298 VARIABLE storage.L  an interim variable for saving the value of the storage at the end of each time-step
+
+                0
+
+SR1       500.000
+
+
+----    298 VARIABLE S.L  storage volume in storage nodes
+
+              0
+
+SR1     500.000
+
+
+----    298 VARIABLE Q.L  flow in each link in each period
+
+                    0
+
+J1 .EndPt      10.000
+J1 .Urb1      215.000
+SR1.Ag1        25.000
+SR1.J1        225.000
+
+
+----    298 VARIABLE delivery.L  water delivered to demand node i in each period
+
+Ag1   25.000,    Urb1 204.250
+
+
+----    294 SET dv  
+
+1
+
+GAMS 24.3.2  r47788 Released Aug 29, 2014 LEX-LEG x86 64bit/Linux                                                                                                                                                                     11/18/14 17:34:53 Page 19
+Demo2.gmdataset 1s
+Equation Listing    SOLVE Demo2 Using LP From line 295
+
+
+---- MassBalance_nonstorage  =E=  
+
+MassBalance_nonstorage(Ag1)..  Q(SR1,Ag1,1) - delivery(Ag1) =E= 0 ; (LHS = -25, INFES = 25 ****)
+     
+MassBalance_nonstorage(J1)..  - Q(J1,EndPt,1) - Q(J1,Urb1,1) + 0.9*Q(SR1,J1,1) =E= 0 ; (LHS = 0)
+     
+MassBalance_nonstorage(Urb1)..  0.85*Q(J1,Urb1,1) - delivery(Urb1) =E= 0 ; (LHS = -204.25, INFES = 204.25 ****)
+     
+
+---- MassBalance_storage  =E=  
+
+MassBalance_storage(SR1)..  - Q(SR1,Ag1,1) - Q(SR1,J1,1) - S(SR1,1) + storage(SR1,0) =E= -320 ; (LHS = 500, INFES = 820 ****)
+     
+
+---- MinFlow  =G=  
+
+MinFlow(J1,EndPt,1)..  Q(J1,EndPt,1) =G= 30 ; (LHS = 0, INFES = 30 ****)
+     
+MinFlow(J1,Urb1,1)..  Q(J1,Urb1,1) =G= 10 ; (LHS = 0, INFES = 10 ****)
+     
+MinFlow(SR1,Ag1,1)..  Q(SR1,Ag1,1) =G= 15 ; (LHS = 0, INFES = 15 ****)
+     
+MinFlow(SR1,J1,1)..  Q(SR1,J1,1) =G= 10 ; (LHS = 0, INFES = 10 ****)
+     
+
+---- MaxFlow  =L=  
+
+MaxFlow(J1,EndPt,1)..  Q(J1,EndPt,1) =L= 200 ; (LHS = 0)
+     
+MaxFlow(J1,Urb1,1)..  Q(J1,Urb1,1) =L= 250 ; (LHS = 0)
+     
+MaxFlow(SR1,Ag1,1)..  Q(SR1,Ag1,1) =L= 210 ; (LHS = 0)
+     
+MaxFlow(SR1,J1,1)..  Q(SR1,J1,1) =L= 300 ; (LHS = 0)
+     
+
+---- MaxStor  =L=  
+
+MaxStor(SR1,1)..  S(SR1,1) =L= 500 ; (LHS = 0)
+     
+
+---- MinStor  =G=  
+
+MinStor(SR1,1)..  S(SR1,1) =G= 10 ; (LHS = 0, INFES = 10 ****)
+     
+
+---- DemandEQ  =E=  
+
+DemandEQ(Ag1)..  - Q(SR1,Ag1,1) + delivery(Ag1) =E= 0 ; (LHS = 25, INFES = 25 ****)
+     
+GAMS 24.3.2  r47788 Released Aug 29, 2014 LEX-LEG x86 64bit/Linux                                                                                                                                                                     11/18/14 17:34:53 Page 20
+Demo2.gmdataset 1s
+Equation Listing    SOLVE Demo2 Using LP From line 295
+
+
+     DemandEQ  =E=  
+
+DemandEQ(Urb1)..  - 0.85*Q(J1,Urb1,1) + delivery(Urb1) =E= 0 ; (LHS = 204.25, INFES = 204.25 ****)
+     
+
+---- Objective  =E=  
+
+Objective..  - 10*Q(J1,EndPt,1) - 10*Q(J1,Urb1,1) - 8*Q(SR1,Ag1,1) - 15*Q(SR1,J1,1) + Z =E= 0 ; (LHS = 4190, INFES = 4190 ****)
+     
+GAMS 24.3.2  r47788 Released Aug 29, 2014 LEX-LEG x86 64bit/Linux                                                                                                                                                                     11/18/14 17:34:53 Page 21
+Demo2.gmdataset 1s
+Column Listing      SOLVE Demo2 Using LP From line 295
+
+
+---- Q  flow in each link in each period
+
+Q(J1,EndPt,1)
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+       -1       MassBalance_nonstorage(J1)
+        1       MinFlow(J1,EndPt,1)
+        1       MaxFlow(J1,EndPt,1)
+      -10       Objective
+
+Q(J1,Urb1,1)
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+       -1       MassBalance_nonstorage(J1)
+        0.85    MassBalance_nonstorage(Urb1)
+        1       MinFlow(J1,Urb1,1)
+        1       MaxFlow(J1,Urb1,1)
+       -0.85    DemandEQ(Urb1)
+      -10       Objective
+
+Q(SR1,Ag1,1)
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+        1       MassBalance_nonstorage(Ag1)
+       -1       MassBalance_storage(SR1)
+        1       MinFlow(SR1,Ag1,1)
+        1       MaxFlow(SR1,Ag1,1)
+       -1       DemandEQ(Ag1)
+       -8       Objective
+
+Q(SR1,J1,1)
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+        0.9     MassBalance_nonstorage(J1)
+       -1       MassBalance_storage(SR1)
+        1       MinFlow(SR1,J1,1)
+        1       MaxFlow(SR1,J1,1)
+      -15       Objective
+
+
+---- S  storage volume in storage nodes
+
+S(SR1,1)
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+       -1       MassBalance_storage(SR1)
+        1       MaxStor(SR1,1)
+        1       MinStor(SR1,1)
+
+
+---- delivery  water delivered to demand node i in each period
+
+delivery(Ag1)
+                (.LO, .L, .UP, .M = -INF, 25, +INF, 0)
+       -1       MassBalance_nonstorage(Ag1)
+        1       DemandEQ(Ag1)
+
+delivery(Urb1)
+GAMS 24.3.2  r47788 Released Aug 29, 2014 LEX-LEG x86 64bit/Linux                                                                                                                                                                     11/18/14 17:34:53 Page 22
+Demo2.gmdataset 1s
+Column Listing      SOLVE Demo2 Using LP From line 295
+
+
+     delivery  water delivered to demand node i in each period
+
+                (.LO, .L, .UP, .M = -INF, 204.25, +INF, 0)
+       -1       MassBalance_nonstorage(Urb1)
+        1       DemandEQ(Urb1)
+
+
+---- Z  objective function
+
+Z
+                (.LO, .L, .UP, .M = -INF, 4190, +INF, 0)
+        1       Objective
+
+
+---- storage  an interim variable for saving the value of the storage at the end of each time-step
+
+storage(SR1,0)
+                (.LO, .L, .UP, .M = 500, 500, 500, 0)
+        1       MassBalance_storage(SR1)
+
+GAMS 24.3.2  r47788 Released Aug 29, 2014 LEX-LEG x86 64bit/Linux                                                                                                                                                                     11/18/14 17:34:53 Page 23
+Demo2.gmdataset 1s
+Model Statistics    SOLVE Demo2 Using LP From line 295
+
+
+LOOPS                               tsteps   1
+
+
+MODEL STATISTICS
+
+BLOCKS OF EQUATIONS           8     SINGLE EQUATIONS           17
+BLOCKS OF VARIABLES           5     SINGLE VARIABLES            9
+NON ZERO ELEMENTS            30
+
+
+GENERATION TIME      =        0.002 SECONDS      3 MB  24.3.2 r47788 LEX-LEG
+
+
+EXECUTION TIME       =        0.003 SECONDS      3 MB  24.3.2 r47788 LEX-LEG
+               L O O P S             tsteps 1
+
+GAMS 24.3.2  r47788 Released Aug 29, 2014 LEX-LEG x86 64bit/Linux                                                                                                                                                                     11/18/14 17:34:53 Page 24
+Demo2.gmdataset 1s
+Solution Report     SOLVE Demo2 Using LP From line 295
+
+
+               S O L V E      S U M M A R Y
+
+     MODEL   Demo2               OBJECTIVE  Z
+     TYPE    LP                  DIRECTION  MINIMIZE
+     SOLVER  CPLEX               FROM LINE  295
+
+**** SOLVER STATUS     1 Normal Completion         
+**** MODEL STATUS      1 Optimal                   
+**** OBJECTIVE VALUE             4320.0000
+
+ RESOURCE USAGE, LIMIT          0.003      1000.000
+ ITERATION COUNT, LIMIT         0    2000000000
+
+IBM ILOG CPLEX   24.3.2 r47788 Released Aug 29, 2014 LEG x86 64bit/Linux      
+Cplex 12.6.0.1
+
+Space for names approximately 0.00 Mb
+Use option 'names no' to turn use of names off
+LP status(1): optimal
+Cplex Time: 0.00sec (det. 0.02 ticks)
+Optimal solution found.
+Objective :        4320.000000
+
+
+---- EQU MassBalance_nonstorage  
+
+            LOWER          LEVEL          UPPER         MARGINAL
+
+Ag1           .              .              .              .          
+J1            .              .              .           -10.0000      
+Urb1          .              .              .             EPS         
+
+---- EQU MassBalance_storage  
+
+           LOWER          LEVEL          UPPER         MARGINAL
+
+SR1      -320.0000      -320.0000      -320.0000       -24.0000      
+
+---- EQU MinFlow  
+
+                   LOWER          LEVEL          UPPER         MARGINAL
+
+J1 .EndPt.1        30.0000        89.0000        +INF             .          
+J1 .Urb1 .1        10.0000        10.0000        +INF            EPS         
+SR1.Ag1  .1        15.0000       210.0000        +INF             .          
+SR1.J1   .1        10.0000       110.0000        +INF             .          
+GAMS 24.3.2  r47788 Released Aug 29, 2014 LEX-LEG x86 64bit/Linux                                                                                                                                                                     11/18/14 17:34:53 Page 25
+Demo2.gmdataset 1s
+Solution Report     SOLVE Demo2 Using LP From line 295
+
+
+---- EQU MaxFlow  
+
+                   LOWER          LEVEL          UPPER         MARGINAL
+
+J1 .EndPt.1        -INF           89.0000       200.0000          .          
+J1 .Urb1 .1        -INF           10.0000       250.0000          .          
+SR1.Ag1  .1        -INF          210.0000       210.0000       -16.0000      
+SR1.J1   .1        -INF          110.0000       300.0000          .          
+
+---- EQU MaxStor  
+
+             LOWER          LEVEL          UPPER         MARGINAL
+
+SR1.1        -INF          500.0000       500.0000       -24.0000      
+
+---- EQU MinStor  
+
+             LOWER          LEVEL          UPPER         MARGINAL
+
+SR1.1        10.0000       500.0000        +INF             .          
+
+---- EQU DemandEQ  
+
+            LOWER          LEVEL          UPPER         MARGINAL
+
+Ag1           .              .              .             EPS         
+Urb1          .              .              .              .          
+
+                           LOWER          LEVEL          UPPER         MARGINAL
+
+---- EQU Objective           .              .              .             1.0000      
+
+---- VAR Q  flow in each link in each period
+
+                   LOWER          LEVEL          UPPER         MARGINAL
+
+J1 .EndPt.1          .            89.0000        +INF             .          
+J1 .Urb1 .1          .            10.0000        +INF             .          
+SR1.Ag1  .1          .           210.0000        +INF             .          
+SR1.J1   .1          .           110.0000        +INF             .          
+
+---- VAR S  storage volume in storage nodes
+
+             LOWER          LEVEL          UPPER         MARGINAL
+
+SR1.1          .           500.0000        +INF             .          
+GAMS 24.3.2  r47788 Released Aug 29, 2014 LEX-LEG x86 64bit/Linux                                                                                                                                                                     11/18/14 17:34:53 Page 26
+Demo2.gmdataset 1s
+Solution Report     SOLVE Demo2 Using LP From line 295
+
+
+---- VAR delivery  water delivered to demand node i in each period
+
+            LOWER          LEVEL          UPPER         MARGINAL
+
+Ag1         -INF          210.0000        +INF             .          
+Urb1        -INF            8.5000        +INF             .          
+
+                           LOWER          LEVEL          UPPER         MARGINAL
+
+---- VAR Z                 -INF         4320.0000        +INF             .          
+
+  Z  objective function
+
+---- VAR storage  an interim variable for saving the value of the storage at the end of each time-step
+
+             LOWER          LEVEL          UPPER         MARGINAL
+
+SR1.0       500.0000       500.0000       500.0000        24.0000      
+
+
+**** REPORT SUMMARY :        0     NONOPT
+                             0 INFEASIBLE
+                             0  UNBOUNDED
+GAMS 24.3.2  r47788 Released Aug 29, 2014 LEX-LEG x86 64bit/Linux                                                                                                                                                                     11/18/14 17:34:53 Page 27
+Demo2.gmdataset 1s
+E x e c u t i o n
+
+
+----    298 VARIABLE Z.L                   =     4320.000  objective function
+
+----    298 VARIABLE Obj.L  
+
+0 4190.000,    1 4320.000
+
+
+----    298 VARIABLE storage.L  an interim variable for saving the value of the storage at the end of each time-step
+
+                0           1
+
+SR1       500.000     500.000
+
+
+----    298 VARIABLE S.L  storage volume in storage nodes
+
+              0           1
+
+SR1     500.000     500.000
+
+
+----    298 VARIABLE Q.L  flow in each link in each period
+
+                    0           1
+
+J1 .EndPt      10.000      89.000
+J1 .Urb1      215.000      10.000
+SR1.Ag1        25.000     210.000
+SR1.J1        225.000     110.000
+
+
+----    298 VARIABLE delivery.L  water delivered to demand node i in each period
+
+Ag1  210.000,    Urb1   8.500
+
+
+----    294 SET dv  
+
+2
+
+GAMS 24.3.2  r47788 Released Aug 29, 2014 LEX-LEG x86 64bit/Linux                                                                                                                                                                     11/18/14 17:34:53 Page 28
+Demo2.gmdataset 1s
+Equation Listing    SOLVE Demo2 Using LP From line 295
+
+
+---- MassBalance_nonstorage  =E=  
+
+MassBalance_nonstorage(Ag1)..  Q(SR1,Ag1,2) - delivery(Ag1) =E= 0 ; (LHS = -210, INFES = 210 ****)
+     
+MassBalance_nonstorage(J1)..  - Q(J1,EndPt,2) - Q(J1,Urb1,2) + Q(SR1,J1,2) =E= 0 ; (LHS = 0)
+     
+MassBalance_nonstorage(Urb1)..  0.9*Q(J1,Urb1,2) - delivery(Urb1) =E= 0 ; (LHS = -8.5, INFES = 8.5 ****)
+     
+
+---- MassBalance_storage  =E=  
+
+MassBalance_storage(SR1)..  - Q(SR1,Ag1,2) - Q(SR1,J1,2) - S(SR1,2) + storage(SR1,1) =E= -320 ; (LHS = 500, INFES = 820 ****)
+     
+
+---- MinFlow  =G=  
+
+MinFlow(J1,EndPt,2)..  Q(J1,EndPt,2) =G= 30 ; (LHS = 0, INFES = 30 ****)
+     
+MinFlow(J1,Urb1,2)..  Q(J1,Urb1,2) =G= 25 ; (LHS = 0, INFES = 25 ****)
+     
+MinFlow(SR1,Ag1,2)..  Q(SR1,Ag1,2) =G= 10 ; (LHS = 0, INFES = 10 ****)
+     
+MinFlow(SR1,J1,2)..  Q(SR1,J1,2) =G= 10 ; (LHS = 0, INFES = 10 ****)
+     
+
+---- MaxFlow  =L=  
+
+MaxFlow(J1,EndPt,2)..  Q(J1,EndPt,2) =L= 200 ; (LHS = 0)
+     
+MaxFlow(J1,Urb1,2)..  Q(J1,Urb1,2) =L= 240 ; (LHS = 0)
+     
+MaxFlow(SR1,Ag1,2)..  Q(SR1,Ag1,2) =L= 210 ; (LHS = 0)
+     
+MaxFlow(SR1,J1,2)..  Q(SR1,J1,2) =L= 300 ; (LHS = 0)
+     
+
+---- MaxStor  =L=  
+
+MaxStor(SR1,2)..  S(SR1,2) =L= 500 ; (LHS = 0)
+     
+
+---- MinStor  =G=  
+
+MinStor(SR1,2)..  S(SR1,2) =G= 10 ; (LHS = 0, INFES = 10 ****)
+     
+
+---- DemandEQ  =E=  
+
+DemandEQ(Ag1)..  - Q(SR1,Ag1,2) + delivery(Ag1) =E= 0 ; (LHS = 210, INFES = 210 ****)
+     
+GAMS 24.3.2  r47788 Released Aug 29, 2014 LEX-LEG x86 64bit/Linux                                                                                                                                                                     11/18/14 17:34:53 Page 29
+Demo2.gmdataset 1s
+Equation Listing    SOLVE Demo2 Using LP From line 295
+
+
+     DemandEQ  =E=  
+
+DemandEQ(Urb1)..  - 0.9*Q(J1,Urb1,2) + delivery(Urb1) =E= 0 ; (LHS = 8.5, INFES = 8.5 ****)
+     
+
+---- Objective  =E=  
+
+Objective..  - 10*Q(J1,EndPt,2) - 7*Q(J1,Urb1,2) - 20*Q(SR1,Ag1,2) - 15*Q(SR1,J1,2) + Z =E= 0 ; (LHS = 4320, INFES = 4320 ****)
+     
+GAMS 24.3.2  r47788 Released Aug 29, 2014 LEX-LEG x86 64bit/Linux                                                                                                                                                                     11/18/14 17:34:53 Page 30
+Demo2.gmdataset 1s
+Column Listing      SOLVE Demo2 Using LP From line 295
+
+
+---- Q  flow in each link in each period
+
+Q(J1,EndPt,2)
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+       -1       MassBalance_nonstorage(J1)
+        1       MinFlow(J1,EndPt,2)
+        1       MaxFlow(J1,EndPt,2)
+      -10       Objective
+
+Q(J1,Urb1,2)
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+       -1       MassBalance_nonstorage(J1)
+        0.9     MassBalance_nonstorage(Urb1)
+        1       MinFlow(J1,Urb1,2)
+        1       MaxFlow(J1,Urb1,2)
+       -0.9     DemandEQ(Urb1)
+       -7       Objective
+
+Q(SR1,Ag1,2)
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+        1       MassBalance_nonstorage(Ag1)
+       -1       MassBalance_storage(SR1)
+        1       MinFlow(SR1,Ag1,2)
+        1       MaxFlow(SR1,Ag1,2)
+       -1       DemandEQ(Ag1)
+      -20       Objective
+
+Q(SR1,J1,2)
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+        1       MassBalance_nonstorage(J1)
+       -1       MassBalance_storage(SR1)
+        1       MinFlow(SR1,J1,2)
+        1       MaxFlow(SR1,J1,2)
+      -15       Objective
+
+
+---- S  storage volume in storage nodes
+
+S(SR1,2)
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+       -1       MassBalance_storage(SR1)
+        1       MaxStor(SR1,2)
+        1       MinStor(SR1,2)
+
+
+---- delivery  water delivered to demand node i in each period
+
+delivery(Ag1)
+                (.LO, .L, .UP, .M = -INF, 210, +INF, 0)
+       -1       MassBalance_nonstorage(Ag1)
+        1       DemandEQ(Ag1)
+
+delivery(Urb1)
+GAMS 24.3.2  r47788 Released Aug 29, 2014 LEX-LEG x86 64bit/Linux                                                                                                                                                                     11/18/14 17:34:53 Page 31
+Demo2.gmdataset 1s
+Column Listing      SOLVE Demo2 Using LP From line 295
+
+
+     delivery  water delivered to demand node i in each period
+
+                (.LO, .L, .UP, .M = -INF, 8.5, +INF, 0)
+       -1       MassBalance_nonstorage(Urb1)
+        1       DemandEQ(Urb1)
+
+
+---- Z  objective function
+
+Z
+                (.LO, .L, .UP, .M = -INF, 4320, +INF, 0)
+        1       Objective
+
+
+---- storage  an interim variable for saving the value of the storage at the end of each time-step
+
+storage(SR1,1)
+                (.LO, .L, .UP, .M = 500, 500, 500, 0)
+        1       MassBalance_storage(SR1)
+
+GAMS 24.3.2  r47788 Released Aug 29, 2014 LEX-LEG x86 64bit/Linux                                                                                                                                                                     11/18/14 17:34:53 Page 32
+Demo2.gmdataset 1s
+Model Statistics    SOLVE Demo2 Using LP From line 295
+
+
+LOOPS                               tsteps   2
+
+
+MODEL STATISTICS
+
+BLOCKS OF EQUATIONS           8     SINGLE EQUATIONS           17
+BLOCKS OF VARIABLES           5     SINGLE VARIABLES            9
+NON ZERO ELEMENTS            30
+
+
+GENERATION TIME      =        0.002 SECONDS      3 MB  24.3.2 r47788 LEX-LEG
+
+
+EXECUTION TIME       =        0.003 SECONDS      3 MB  24.3.2 r47788 LEX-LEG
+               L O O P S             tsteps 2
+
+GAMS 24.3.2  r47788 Released Aug 29, 2014 LEX-LEG x86 64bit/Linux                                                                                                                                                                     11/18/14 17:34:53 Page 33
+Demo2.gmdataset 1s
+Solution Report     SOLVE Demo2 Using LP From line 295
+
+
+               S O L V E      S U M M A R Y
+
+     MODEL   Demo2               OBJECTIVE  Z
+     TYPE    LP                  DIRECTION  MINIMIZE
+     SOLVER  CPLEX               FROM LINE  295
+
+**** SOLVER STATUS     1 Normal Completion         
+**** MODEL STATUS      1 Optimal                   
+**** OBJECTIVE VALUE             6710.0000
+
+ RESOURCE USAGE, LIMIT          0.004      1000.000
+ ITERATION COUNT, LIMIT         1    2000000000
+
+IBM ILOG CPLEX   24.3.2 r47788 Released Aug 29, 2014 LEG x86 64bit/Linux      
+Cplex 12.6.0.1
+
+Space for names approximately 0.00 Mb
+Use option 'names no' to turn use of names off
+LP status(1): optimal
+Cplex Time: 0.00sec (det. 0.03 ticks)
+Optimal solution found.
+Objective :        6710.000000
+
+
+---- EQU MassBalance_nonstorage  
+
+            LOWER          LEVEL          UPPER         MARGINAL
+
+Ag1           .              .              .              .          
+J1            .              .              .            -7.0000      
+Urb1          .              .              .             EPS         
+
+---- EQU MassBalance_storage  
+
+           LOWER          LEVEL          UPPER         MARGINAL
+
+SR1      -320.0000      -320.0000      -320.0000       -22.0000      
+
+---- EQU MinFlow  
+
+                   LOWER          LEVEL          UPPER         MARGINAL
+
+J1 .EndPt.2        30.0000        30.0000        +INF            3.0000      
+J1 .Urb1 .2        25.0000        80.0000        +INF             .          
+SR1.Ag1  .2        10.0000       210.0000        +INF             .          
+SR1.J1   .2        10.0000       110.0000        +INF             .          
+GAMS 24.3.2  r47788 Released Aug 29, 2014 LEX-LEG x86 64bit/Linux                                                                                                                                                                     11/18/14 17:34:53 Page 34
+Demo2.gmdataset 1s
+Solution Report     SOLVE Demo2 Using LP From line 295
+
+
+---- EQU MaxFlow  
+
+                   LOWER          LEVEL          UPPER         MARGINAL
+
+J1 .EndPt.2        -INF           30.0000       200.0000          .          
+J1 .Urb1 .2        -INF           80.0000       240.0000          .          
+SR1.Ag1  .2        -INF          210.0000       210.0000        -2.0000      
+SR1.J1   .2        -INF          110.0000       300.0000          .          
+
+---- EQU MaxStor  
+
+             LOWER          LEVEL          UPPER         MARGINAL
+
+SR1.2        -INF          500.0000       500.0000       -22.0000      
+
+---- EQU MinStor  
+
+             LOWER          LEVEL          UPPER         MARGINAL
+
+SR1.2        10.0000       500.0000        +INF             .          
+
+---- EQU DemandEQ  
+
+            LOWER          LEVEL          UPPER         MARGINAL
+
+Ag1           .              .              .             EPS         
+Urb1          .              .              .              .          
+
+                           LOWER          LEVEL          UPPER         MARGINAL
+
+---- EQU Objective           .              .              .             1.0000      
+
+---- VAR Q  flow in each link in each period
+
+                   LOWER          LEVEL          UPPER         MARGINAL
+
+J1 .EndPt.2          .            30.0000        +INF             .          
+J1 .Urb1 .2          .            80.0000        +INF             .          
+SR1.Ag1  .2          .           210.0000        +INF             .          
+SR1.J1   .2          .           110.0000        +INF             .          
+
+---- VAR S  storage volume in storage nodes
+
+             LOWER          LEVEL          UPPER         MARGINAL
+
+SR1.2          .           500.0000        +INF             .          
+GAMS 24.3.2  r47788 Released Aug 29, 2014 LEX-LEG x86 64bit/Linux                                                                                                                                                                     11/18/14 17:34:53 Page 35
+Demo2.gmdataset 1s
+Solution Report     SOLVE Demo2 Using LP From line 295
+
+
+---- VAR delivery  water delivered to demand node i in each period
+
+            LOWER          LEVEL          UPPER         MARGINAL
+
+Ag1         -INF          210.0000        +INF             .          
+Urb1        -INF           72.0000        +INF             .          
+
+                           LOWER          LEVEL          UPPER         MARGINAL
+
+---- VAR Z                 -INF         6710.0000        +INF             .          
+
+  Z  objective function
+
+---- VAR storage  an interim variable for saving the value of the storage at the end of each time-step
+
+             LOWER          LEVEL          UPPER         MARGINAL
+
+SR1.1       500.0000       500.0000       500.0000        22.0000      
+
+
+**** REPORT SUMMARY :        0     NONOPT
+                             0 INFEASIBLE
+                             0  UNBOUNDED
+GAMS 24.3.2  r47788 Released Aug 29, 2014 LEX-LEG x86 64bit/Linux                                                                                                                                                                     11/18/14 17:34:53 Page 36
+Demo2.gmdataset 1s
+E x e c u t i o n
+
+
+----    298 VARIABLE Z.L                   =     6710.000  objective function
+
+----    298 VARIABLE Obj.L  
+
+0 4190.000,    1 4320.000,    2 6710.000
+
+
+----    298 VARIABLE storage.L  an interim variable for saving the value of the storage at the end of each time-step
+
+                0           1           2
+
+SR1       500.000     500.000     500.000
+
+
+----    298 VARIABLE S.L  storage volume in storage nodes
+
+              0           1           2
+
+SR1     500.000     500.000     500.000
+
+
+----    298 VARIABLE Q.L  flow in each link in each period
+
+                    0           1           2
+
+J1 .EndPt      10.000      89.000      30.000
+J1 .Urb1      215.000      10.000      80.000
+SR1.Ag1        25.000     210.000     210.000
+SR1.J1        225.000     110.000     110.000
+
+
+----    298 VARIABLE delivery.L  water delivered to demand node i in each period
+
+Ag1  210.000,    Urb1  72.000
+
+
+----    294 SET dv  
+
+3
+
+GAMS 24.3.2  r47788 Released Aug 29, 2014 LEX-LEG x86 64bit/Linux                                                                                                                                                                     11/18/14 17:34:53 Page 37
+Demo2.gmdataset 1s
+Equation Listing    SOLVE Demo2 Using LP From line 295
+
+
+---- MassBalance_nonstorage  =E=  
+
+MassBalance_nonstorage(Ag1)..  Q(SR1,Ag1,3) - delivery(Ag1) =E= 0 ; (LHS = -210, INFES = 210 ****)
+     
+MassBalance_nonstorage(J1)..  - Q(J1,EndPt,3) - Q(J1,Urb1,3) + 0.95*Q(SR1,J1,3) =E= 0 ; (LHS = 0)
+     
+MassBalance_nonstorage(Urb1)..  0.85*Q(J1,Urb1,3) - delivery(Urb1) =E= 0 ; (LHS = -72, INFES = 72 ****)
+     
+
+---- MassBalance_storage  =E=  
+
+MassBalance_storage(SR1)..  - Q(SR1,Ag1,3) - Q(SR1,J1,3) - S(SR1,3) + storage(SR1,2) =E= -330 ; (LHS = 500, INFES = 830 ****)
+     
+
+---- MinFlow  =G=  
+
+MinFlow(J1,EndPt,3)..  Q(J1,EndPt,3) =G= 30 ; (LHS = 0, INFES = 30 ****)
+     
+MinFlow(J1,Urb1,3)..  Q(J1,Urb1,3) =G= 20 ; (LHS = 0, INFES = 20 ****)
+     
+MinFlow(SR1,Ag1,3)..  Q(SR1,Ag1,3) =G= 10 ; (LHS = 0, INFES = 10 ****)
+     
+MinFlow(SR1,J1,3)..  Q(SR1,J1,3) =G= 10 ; (LHS = 0, INFES = 10 ****)
+     
+
+---- MaxFlow  =L=  
+
+MaxFlow(J1,EndPt,3)..  Q(J1,EndPt,3) =L= 200 ; (LHS = 0)
+     
+MaxFlow(J1,Urb1,3)..  Q(J1,Urb1,3) =L= 230 ; (LHS = 0)
+     
+MaxFlow(SR1,Ag1,3)..  Q(SR1,Ag1,3) =L= 200 ; (LHS = 0)
+     
+MaxFlow(SR1,J1,3)..  Q(SR1,J1,3) =L= 300 ; (LHS = 0)
+     
+
+---- MaxStor  =L=  
+
+MaxStor(SR1,3)..  S(SR1,3) =L= 500 ; (LHS = 0)
+     
+
+---- MinStor  =G=  
+
+MinStor(SR1,3)..  S(SR1,3) =G= 10 ; (LHS = 0, INFES = 10 ****)
+     
+
+---- DemandEQ  =E=  
+
+DemandEQ(Ag1)..  - Q(SR1,Ag1,3) + delivery(Ag1) =E= 0 ; (LHS = 210, INFES = 210 ****)
+     
+GAMS 24.3.2  r47788 Released Aug 29, 2014 LEX-LEG x86 64bit/Linux                                                                                                                                                                     11/18/14 17:34:53 Page 38
+Demo2.gmdataset 1s
+Equation Listing    SOLVE Demo2 Using LP From line 295
+
+
+     DemandEQ  =E=  
+
+DemandEQ(Urb1)..  - 0.85*Q(J1,Urb1,3) + delivery(Urb1) =E= 0 ; (LHS = 72, INFES = 72 ****)
+     
+
+---- Objective  =E=  
+
+Objective..  - 10*Q(J1,EndPt,3) - 2*Q(J1,Urb1,3) - 15*Q(SR1,Ag1,3) - 15*Q(SR1,J1,3) + Z =E= 0 ; (LHS = 6710, INFES = 6710 ****)
+     
+GAMS 24.3.2  r47788 Released Aug 29, 2014 LEX-LEG x86 64bit/Linux                                                                                                                                                                     11/18/14 17:34:53 Page 39
+Demo2.gmdataset 1s
+Column Listing      SOLVE Demo2 Using LP From line 295
+
+
+---- Q  flow in each link in each period
+
+Q(J1,EndPt,3)
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+       -1       MassBalance_nonstorage(J1)
+        1       MinFlow(J1,EndPt,3)
+        1       MaxFlow(J1,EndPt,3)
+      -10       Objective
+
+Q(J1,Urb1,3)
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+       -1       MassBalance_nonstorage(J1)
+        0.85    MassBalance_nonstorage(Urb1)
+        1       MinFlow(J1,Urb1,3)
+        1       MaxFlow(J1,Urb1,3)
+       -0.85    DemandEQ(Urb1)
+       -2       Objective
+
+Q(SR1,Ag1,3)
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+        1       MassBalance_nonstorage(Ag1)
+       -1       MassBalance_storage(SR1)
+        1       MinFlow(SR1,Ag1,3)
+        1       MaxFlow(SR1,Ag1,3)
+       -1       DemandEQ(Ag1)
+      -15       Objective
+
+Q(SR1,J1,3)
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+        0.95    MassBalance_nonstorage(J1)
+       -1       MassBalance_storage(SR1)
+        1       MinFlow(SR1,J1,3)
+        1       MaxFlow(SR1,J1,3)
+      -15       Objective
+
+
+---- S  storage volume in storage nodes
+
+S(SR1,3)
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+       -1       MassBalance_storage(SR1)
+        1       MaxStor(SR1,3)
+        1       MinStor(SR1,3)
+
+
+---- delivery  water delivered to demand node i in each period
+
+delivery(Ag1)
+                (.LO, .L, .UP, .M = -INF, 210, +INF, 0)
+       -1       MassBalance_nonstorage(Ag1)
+        1       DemandEQ(Ag1)
+
+delivery(Urb1)
+GAMS 24.3.2  r47788 Released Aug 29, 2014 LEX-LEG x86 64bit/Linux                                                                                                                                                                     11/18/14 17:34:53 Page 40
+Demo2.gmdataset 1s
+Column Listing      SOLVE Demo2 Using LP From line 295
+
+
+     delivery  water delivered to demand node i in each period
+
+                (.LO, .L, .UP, .M = -INF, 72, +INF, 0)
+       -1       MassBalance_nonstorage(Urb1)
+        1       DemandEQ(Urb1)
+
+
+---- Z  objective function
+
+Z
+                (.LO, .L, .UP, .M = -INF, 6710, +INF, 0)
+        1       Objective
+
+
+---- storage  an interim variable for saving the value of the storage at the end of each time-step
+
+storage(SR1,2)
+                (.LO, .L, .UP, .M = 500, 500, 500, 0)
+        1       MassBalance_storage(SR1)
+
+GAMS 24.3.2  r47788 Released Aug 29, 2014 LEX-LEG x86 64bit/Linux                                                                                                                                                                     11/18/14 17:34:53 Page 41
+Demo2.gmdataset 1s
+Model Statistics    SOLVE Demo2 Using LP From line 295
+
+
+LOOPS                               tsteps   3
+
+
+MODEL STATISTICS
+
+BLOCKS OF EQUATIONS           8     SINGLE EQUATIONS           17
+BLOCKS OF VARIABLES           5     SINGLE VARIABLES            9
+NON ZERO ELEMENTS            30
+
+
+GENERATION TIME      =        0.004 SECONDS      3 MB  24.3.2 r47788 LEX-LEG
+
+
+EXECUTION TIME       =        0.005 SECONDS      3 MB  24.3.2 r47788 LEX-LEG
+               L O O P S             tsteps 3
+
+GAMS 24.3.2  r47788 Released Aug 29, 2014 LEX-LEG x86 64bit/Linux                                                                                                                                                                     11/18/14 17:34:53 Page 42
+Demo2.gmdataset 1s
+Solution Report     SOLVE Demo2 Using LP From line 295
+
+
+               S O L V E      S U M M A R Y
+
+     MODEL   Demo2               OBJECTIVE  Z
+     TYPE    LP                  DIRECTION  MINIMIZE
+     SOLVER  CPLEX               FROM LINE  295
+
+**** SOLVER STATUS     1 Normal Completion         
+**** MODEL STATUS      1 Optimal                   
+**** OBJECTIVE VALUE             5437.0000
+
+ RESOURCE USAGE, LIMIT          0.004      1000.000
+ ITERATION COUNT, LIMIT         1    2000000000
+
+IBM ILOG CPLEX   24.3.2 r47788 Released Aug 29, 2014 LEG x86 64bit/Linux      
+Cplex 12.6.0.1
+
+Space for names approximately 0.00 Mb
+Use option 'names no' to turn use of names off
+LP status(1): optimal
+Cplex Time: 0.00sec (det. 0.03 ticks)
+Optimal solution found.
+Objective :        5437.000000
+
+
+---- EQU MassBalance_nonstorage  
+
+            LOWER          LEVEL          UPPER         MARGINAL
+
+Ag1           .              .              .              .          
+J1            .              .              .            -2.0000      
+Urb1          .              .              .             EPS         
+
+---- EQU MassBalance_storage  
+
+           LOWER          LEVEL          UPPER         MARGINAL
+
+SR1      -330.0000      -330.0000      -330.0000       -16.9000      
+
+---- EQU MinFlow  
+
+                   LOWER          LEVEL          UPPER         MARGINAL
+
+J1 .EndPt.3        30.0000        30.0000        +INF            8.0000      
+J1 .Urb1 .3        20.0000        93.5000        +INF             .          
+SR1.Ag1  .3        10.0000       200.0000        +INF             .          
+SR1.J1   .3        10.0000       130.0000        +INF             .          
+GAMS 24.3.2  r47788 Released Aug 29, 2014 LEX-LEG x86 64bit/Linux                                                                                                                                                                     11/18/14 17:34:53 Page 43
+Demo2.gmdataset 1s
+Solution Report     SOLVE Demo2 Using LP From line 295
+
+
+---- EQU MaxFlow  
+
+                   LOWER          LEVEL          UPPER         MARGINAL
+
+J1 .EndPt.3        -INF           30.0000       200.0000          .          
+J1 .Urb1 .3        -INF           93.5000       230.0000          .          
+SR1.Ag1  .3        -INF          200.0000       200.0000        -1.9000      
+SR1.J1   .3        -INF          130.0000       300.0000          .          
+
+---- EQU MaxStor  
+
+             LOWER          LEVEL          UPPER         MARGINAL
+
+SR1.3        -INF          500.0000       500.0000       -16.9000      
+
+---- EQU MinStor  
+
+             LOWER          LEVEL          UPPER         MARGINAL
+
+SR1.3        10.0000       500.0000        +INF             .          
+
+---- EQU DemandEQ  
+
+            LOWER          LEVEL          UPPER         MARGINAL
+
+Ag1           .              .              .             EPS         
+Urb1          .              .              .              .          
+
+                           LOWER          LEVEL          UPPER         MARGINAL
+
+---- EQU Objective           .              .              .             1.0000      
+
+---- VAR Q  flow in each link in each period
+
+                   LOWER          LEVEL          UPPER         MARGINAL
+
+J1 .EndPt.3          .            30.0000        +INF             .          
+J1 .Urb1 .3          .            93.5000        +INF             .          
+SR1.Ag1  .3          .           200.0000        +INF             .          
+SR1.J1   .3          .           130.0000        +INF             .          
+
+---- VAR S  storage volume in storage nodes
+
+             LOWER          LEVEL          UPPER         MARGINAL
+
+SR1.3          .           500.0000        +INF             .          
+GAMS 24.3.2  r47788 Released Aug 29, 2014 LEX-LEG x86 64bit/Linux                                                                                                                                                                     11/18/14 17:34:53 Page 44
+Demo2.gmdataset 1s
+Solution Report     SOLVE Demo2 Using LP From line 295
+
+
+---- VAR delivery  water delivered to demand node i in each period
+
+            LOWER          LEVEL          UPPER         MARGINAL
+
+Ag1         -INF          200.0000        +INF             .          
+Urb1        -INF           79.4750        +INF             .          
+
+                           LOWER          LEVEL          UPPER         MARGINAL
+
+---- VAR Z                 -INF         5437.0000        +INF             .          
+
+  Z  objective function
+
+---- VAR storage  an interim variable for saving the value of the storage at the end of each time-step
+
+             LOWER          LEVEL          UPPER         MARGINAL
+
+SR1.2       500.0000       500.0000       500.0000        16.9000      
+
+
+**** REPORT SUMMARY :        0     NONOPT
+                             0 INFEASIBLE
+                             0  UNBOUNDED
+GAMS 24.3.2  r47788 Released Aug 29, 2014 LEX-LEG x86 64bit/Linux                                                                                                                                                                     11/18/14 17:34:53 Page 45
+Demo2.gmdataset 1s
+E x e c u t i o n
+
+
+----    298 VARIABLE Z.L                   =     5437.000  objective function
+
+----    298 VARIABLE Obj.L  
+
+0 4190.000,    1 4320.000,    2 6710.000,    3 5437.000
+
+
+----    298 VARIABLE storage.L  an interim variable for saving the value of the storage at the end of each time-step
+
+                0           1           2           3
+
+SR1       500.000     500.000     500.000     500.000
+
+
+----    298 VARIABLE S.L  storage volume in storage nodes
+
+              0           1           2           3
+
+SR1     500.000     500.000     500.000     500.000
+
+
+----    298 VARIABLE Q.L  flow in each link in each period
+
+                    0           1           2           3
+
+J1 .EndPt      10.000      89.000      30.000      30.000
+J1 .Urb1      215.000      10.000      80.000      93.500
+SR1.Ag1        25.000     210.000     210.000     200.000
+SR1.J1        225.000     110.000     110.000     130.000
+
+
+----    298 VARIABLE delivery.L  water delivered to demand node i in each period
+
+Ag1  200.000,    Urb1  79.475
+
+
+----    294 SET dv  
+
+4
+
+GAMS 24.3.2  r47788 Released Aug 29, 2014 LEX-LEG x86 64bit/Linux                                                                                                                                                                     11/18/14 17:34:53 Page 46
+Demo2.gmdataset 1s
+Equation Listing    SOLVE Demo2 Using LP From line 295
+
+
+---- MassBalance_nonstorage  =E=  
+
+MassBalance_nonstorage(Ag1)..  Q(SR1,Ag1,4) - delivery(Ag1) =E= 0 ; (LHS = -200, INFES = 200 ****)
+     
+MassBalance_nonstorage(J1)..  - Q(J1,EndPt,4) - Q(J1,Urb1,4) + Q(SR1,J1,4) =E= 0 ; (LHS = 0)
+     
+MassBalance_nonstorage(Urb1)..  0.9*Q(J1,Urb1,4) - delivery(Urb1) =E= 0 ; (LHS = -79.475, INFES = 79.475 ****)
+     
+
+---- MassBalance_storage  =E=  
+
+MassBalance_storage(SR1)..  - Q(SR1,Ag1,4) - Q(SR1,J1,4) - S(SR1,4) + storage(SR1,3) =E= -310 ; (LHS = 500, INFES = 810 ****)
+     
+
+---- MinFlow  =G=  
+
+MinFlow(J1,EndPt,4)..  Q(J1,EndPt,4) =G= 30 ; (LHS = 0, INFES = 30 ****)
+     
+MinFlow(J1,Urb1,4)..  Q(J1,Urb1,4) =G= 20 ; (LHS = 0, INFES = 20 ****)
+     
+MinFlow(SR1,Ag1,4)..  Q(SR1,Ag1,4) =G= 15 ; (LHS = 0, INFES = 15 ****)
+     
+MinFlow(SR1,J1,4)..  Q(SR1,J1,4) =G= 10 ; (LHS = 0, INFES = 10 ****)
+     
+
+---- MaxFlow  =L=  
+
+MaxFlow(J1,EndPt,4)..  Q(J1,EndPt,4) =L= 200 ; (LHS = 0)
+     
+MaxFlow(J1,Urb1,4)..  Q(J1,Urb1,4) =L= 240 ; (LHS = 0)
+     
+MaxFlow(SR1,Ag1,4)..  Q(SR1,Ag1,4) =L= 200 ; (LHS = 0)
+     
+MaxFlow(SR1,J1,4)..  Q(SR1,J1,4) =L= 310 ; (LHS = 0)
+     
+
+---- MaxStor  =L=  
+
+MaxStor(SR1,4)..  S(SR1,4) =L= 500 ; (LHS = 0)
+     
+
+---- MinStor  =G=  
+
+MinStor(SR1,4)..  S(SR1,4) =G= 10 ; (LHS = 0, INFES = 10 ****)
+     
+
+---- DemandEQ  =E=  
+
+DemandEQ(Ag1)..  - Q(SR1,Ag1,4) + delivery(Ag1) =E= 0 ; (LHS = 200, INFES = 200 ****)
+     
+GAMS 24.3.2  r47788 Released Aug 29, 2014 LEX-LEG x86 64bit/Linux                                                                                                                                                                     11/18/14 17:34:53 Page 47
+Demo2.gmdataset 1s
+Equation Listing    SOLVE Demo2 Using LP From line 295
+
+
+     DemandEQ  =E=  
+
+DemandEQ(Urb1)..  - 0.9*Q(J1,Urb1,4) + delivery(Urb1) =E= 0 ; (LHS = 79.475, INFES = 79.475 ****)
+     
+
+---- Objective  =E=  
+
+Objective..  - 10*Q(J1,EndPt,4) - 3*Q(J1,Urb1,4) - 19*Q(SR1,Ag1,4) - 15*Q(SR1,J1,4) + Z =E= 0 ; (LHS = 5437, INFES = 5437 ****)
+     
+GAMS 24.3.2  r47788 Released Aug 29, 2014 LEX-LEG x86 64bit/Linux                                                                                                                                                                     11/18/14 17:34:53 Page 48
+Demo2.gmdataset 1s
+Column Listing      SOLVE Demo2 Using LP From line 295
+
+
+---- Q  flow in each link in each period
+
+Q(J1,EndPt,4)
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+       -1       MassBalance_nonstorage(J1)
+        1       MinFlow(J1,EndPt,4)
+        1       MaxFlow(J1,EndPt,4)
+      -10       Objective
+
+Q(J1,Urb1,4)
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+       -1       MassBalance_nonstorage(J1)
+        0.9     MassBalance_nonstorage(Urb1)
+        1       MinFlow(J1,Urb1,4)
+        1       MaxFlow(J1,Urb1,4)
+       -0.9     DemandEQ(Urb1)
+       -3       Objective
+
+Q(SR1,Ag1,4)
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+        1       MassBalance_nonstorage(Ag1)
+       -1       MassBalance_storage(SR1)
+        1       MinFlow(SR1,Ag1,4)
+        1       MaxFlow(SR1,Ag1,4)
+       -1       DemandEQ(Ag1)
+      -19       Objective
+
+Q(SR1,J1,4)
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+        1       MassBalance_nonstorage(J1)
+       -1       MassBalance_storage(SR1)
+        1       MinFlow(SR1,J1,4)
+        1       MaxFlow(SR1,J1,4)
+      -15       Objective
+
+
+---- S  storage volume in storage nodes
+
+S(SR1,4)
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+       -1       MassBalance_storage(SR1)
+        1       MaxStor(SR1,4)
+        1       MinStor(SR1,4)
+
+
+---- delivery  water delivered to demand node i in each period
+
+delivery(Ag1)
+                (.LO, .L, .UP, .M = -INF, 200, +INF, 0)
+       -1       MassBalance_nonstorage(Ag1)
+        1       DemandEQ(Ag1)
+
+delivery(Urb1)
+GAMS 24.3.2  r47788 Released Aug 29, 2014 LEX-LEG x86 64bit/Linux                                                                                                                                                                     11/18/14 17:34:53 Page 49
+Demo2.gmdataset 1s
+Column Listing      SOLVE Demo2 Using LP From line 295
+
+
+     delivery  water delivered to demand node i in each period
+
+                (.LO, .L, .UP, .M = -INF, 79.475, +INF, 0)
+       -1       MassBalance_nonstorage(Urb1)
+        1       DemandEQ(Urb1)
+
+
+---- Z  objective function
+
+Z
+                (.LO, .L, .UP, .M = -INF, 5437, +INF, 0)
+        1       Objective
+
+
+---- storage  an interim variable for saving the value of the storage at the end of each time-step
+
+storage(SR1,3)
+                (.LO, .L, .UP, .M = 500, 500, 500, 0)
+        1       MassBalance_storage(SR1)
+
+GAMS 24.3.2  r47788 Released Aug 29, 2014 LEX-LEG x86 64bit/Linux                                                                                                                                                                     11/18/14 17:34:53 Page 50
+Demo2.gmdataset 1s
+Model Statistics    SOLVE Demo2 Using LP From line 295
+
+
+LOOPS                               tsteps   4
+
+
+MODEL STATISTICS
+
+BLOCKS OF EQUATIONS           8     SINGLE EQUATIONS           17
+BLOCKS OF VARIABLES           5     SINGLE VARIABLES            9
+NON ZERO ELEMENTS            30
+
+
+GENERATION TIME      =        0.004 SECONDS      3 MB  24.3.2 r47788 LEX-LEG
+
+
+EXECUTION TIME       =        0.004 SECONDS      3 MB  24.3.2 r47788 LEX-LEG
+               L O O P S             tsteps 4
+
+GAMS 24.3.2  r47788 Released Aug 29, 2014 LEX-LEG x86 64bit/Linux                                                                                                                                                                     11/18/14 17:34:53 Page 51
+Demo2.gmdataset 1s
+Solution Report     SOLVE Demo2 Using LP From line 295
+
+
+               S O L V E      S U M M A R Y
+
+     MODEL   Demo2               OBJECTIVE  Z
+     TYPE    LP                  DIRECTION  MINIMIZE
+     SOLVER  CPLEX               FROM LINE  295
+
+**** SOLVER STATUS     1 Normal Completion         
+**** MODEL STATUS      1 Optimal                   
+**** OBJECTIVE VALUE             5830.0000
+
+ RESOURCE USAGE, LIMIT          0.005      1000.000
+ ITERATION COUNT, LIMIT         2    2000000000
+
+IBM ILOG CPLEX   24.3.2 r47788 Released Aug 29, 2014 LEG x86 64bit/Linux      
+Cplex 12.6.0.1
+
+Space for names approximately 0.00 Mb
+Use option 'names no' to turn use of names off
+LP status(1): optimal
+Cplex Time: 0.00sec (det. 0.03 ticks)
+Optimal solution found.
+Objective :        5830.000000
+
+
+---- EQU MassBalance_nonstorage  
+
+            LOWER          LEVEL          UPPER         MARGINAL
+
+Ag1           .              .              .              .          
+J1            .              .              .            -4.0000      
+Urb1          .              .              .             EPS         
+
+---- EQU MassBalance_storage  
+
+           LOWER          LEVEL          UPPER         MARGINAL
+
+SR1      -310.0000      -310.0000      -310.0000       -19.0000      
+
+---- EQU MinFlow  
+
+                   LOWER          LEVEL          UPPER         MARGINAL
+
+J1 .EndPt.4        30.0000        30.0000        +INF            6.0000      
+J1 .Urb1 .4        20.0000       240.0000        +INF             .          
+SR1.Ag1  .4        15.0000        40.0000        +INF             .          
+SR1.J1   .4        10.0000       270.0000        +INF             .          
+GAMS 24.3.2  r47788 Released Aug 29, 2014 LEX-LEG x86 64bit/Linux                                                                                                                                                                     11/18/14 17:34:53 Page 52
+Demo2.gmdataset 1s
+Solution Report     SOLVE Demo2 Using LP From line 295
+
+
+---- EQU MaxFlow  
+
+                   LOWER          LEVEL          UPPER         MARGINAL
+
+J1 .EndPt.4        -INF           30.0000       200.0000          .          
+J1 .Urb1 .4        -INF          240.0000       240.0000        -1.0000      
+SR1.Ag1  .4        -INF           40.0000       200.0000          .          
+SR1.J1   .4        -INF          270.0000       310.0000          .          
+
+---- EQU MaxStor  
+
+             LOWER          LEVEL          UPPER         MARGINAL
+
+SR1.4        -INF          500.0000       500.0000       -19.0000      
+
+---- EQU MinStor  
+
+             LOWER          LEVEL          UPPER         MARGINAL
+
+SR1.4        10.0000       500.0000        +INF             .          
+
+---- EQU DemandEQ  
+
+            LOWER          LEVEL          UPPER         MARGINAL
+
+Ag1           .              .              .             EPS         
+Urb1          .              .              .              .          
+
+                           LOWER          LEVEL          UPPER         MARGINAL
+
+---- EQU Objective           .              .              .             1.0000      
+
+---- VAR Q  flow in each link in each period
+
+                   LOWER          LEVEL          UPPER         MARGINAL
+
+J1 .EndPt.4          .            30.0000        +INF             .          
+J1 .Urb1 .4          .           240.0000        +INF             .          
+SR1.Ag1  .4          .            40.0000        +INF             .          
+SR1.J1   .4          .           270.0000        +INF             .          
+
+---- VAR S  storage volume in storage nodes
+
+             LOWER          LEVEL          UPPER         MARGINAL
+
+SR1.4          .           500.0000        +INF             .          
+GAMS 24.3.2  r47788 Released Aug 29, 2014 LEX-LEG x86 64bit/Linux                                                                                                                                                                     11/18/14 17:34:53 Page 53
+Demo2.gmdataset 1s
+Solution Report     SOLVE Demo2 Using LP From line 295
+
+
+---- VAR delivery  water delivered to demand node i in each period
+
+            LOWER          LEVEL          UPPER         MARGINAL
+
+Ag1         -INF           40.0000        +INF             .          
+Urb1        -INF          216.0000        +INF             .          
+
+                           LOWER          LEVEL          UPPER         MARGINAL
+
+---- VAR Z                 -INF         5830.0000        +INF             .          
+
+  Z  objective function
+
+---- VAR storage  an interim variable for saving the value of the storage at the end of each time-step
+
+             LOWER          LEVEL          UPPER         MARGINAL
+
+SR1.3       500.0000       500.0000       500.0000        19.0000      
+
+
+**** REPORT SUMMARY :        0     NONOPT
+                             0 INFEASIBLE
+                             0  UNBOUNDED
+GAMS 24.3.2  r47788 Released Aug 29, 2014 LEX-LEG x86 64bit/Linux                                                                                                                                                                     11/18/14 17:34:53 Page 54
+Demo2.gmdataset 1s
+E x e c u t i o n
+
+
+----    298 VARIABLE Z.L                   =     5830.000  objective function
+
+----    298 VARIABLE Obj.L  
+
+0 4190.000,    1 4320.000,    2 6710.000,    3 5437.000,    4 5830.000
+
+
+----    298 VARIABLE storage.L  an interim variable for saving the value of the storage at the end of each time-step
+
+                0           1           2           3           4
+
+SR1       500.000     500.000     500.000     500.000     500.000
+
+
+----    298 VARIABLE S.L  storage volume in storage nodes
+
+              0           1           2           3           4
+
+SR1     500.000     500.000     500.000     500.000     500.000
+
+
+----    298 VARIABLE Q.L  flow in each link in each period
+
+                    0           1           2           3           4
+
+J1 .EndPt      10.000      89.000      30.000      30.000      30.000
+J1 .Urb1      215.000      10.000      80.000      93.500     240.000
+SR1.Ag1        25.000     210.000     210.000     200.000      40.000
+SR1.J1        225.000     110.000     110.000     130.000     270.000
+
+
+----    298 VARIABLE delivery.L  water delivered to demand node i in each period
+
+Ag1   40.000,    Urb1 216.000
+
+
+----    294 SET dv  
+
+5
+
+GAMS 24.3.2  r47788 Released Aug 29, 2014 LEX-LEG x86 64bit/Linux                                                                                                                                                                     11/18/14 17:34:53 Page 55
+Demo2.gmdataset 1s
+Equation Listing    SOLVE Demo2 Using LP From line 295
+
+
+---- MassBalance_nonstorage  =E=  
+
+MassBalance_nonstorage(Ag1)..  Q(SR1,Ag1,5) - delivery(Ag1) =E= 0 ; (LHS = -40, INFES = 40 ****)
+     
+MassBalance_nonstorage(J1)..  - Q(J1,EndPt,5) - Q(J1,Urb1,5) + Q(SR1,J1,5) =E= 0 ; (LHS = 0)
+     
+MassBalance_nonstorage(Urb1)..  Q(J1,Urb1,5) - delivery(Urb1) =E= 0 ; (LHS = -216, INFES = 216 ****)
+     
+
+---- MassBalance_storage  =E=  
+
+MassBalance_storage(SR1)..  - Q(SR1,Ag1,5) - Q(SR1,J1,5) - S(SR1,5) + storage(SR1,4) =E= -310 ; (LHS = 500, INFES = 810 ****)
+     
+
+---- MinFlow  =G=  
+
+MinFlow(J1,EndPt,5)..  Q(J1,EndPt,5) =G= 30 ; (LHS = 0, INFES = 30 ****)
+     
+MinFlow(J1,Urb1,5)..  Q(J1,Urb1,5) =G= 20 ; (LHS = 0, INFES = 20 ****)
+     
+MinFlow(SR1,Ag1,5)..  Q(SR1,Ag1,5) =G= 15 ; (LHS = 0, INFES = 15 ****)
+     
+MinFlow(SR1,J1,5)..  Q(SR1,J1,5) =G= 10 ; (LHS = 0, INFES = 10 ****)
+     
+
+---- MaxFlow  =L=  
+
+MaxFlow(J1,EndPt,5)..  Q(J1,EndPt,5) =L= 200 ; (LHS = 0)
+     
+MaxFlow(J1,Urb1,5)..  Q(J1,Urb1,5) =L= 250 ; (LHS = 0)
+     
+MaxFlow(SR1,Ag1,5)..  Q(SR1,Ag1,5) =L= 200 ; (LHS = 0)
+     
+MaxFlow(SR1,J1,5)..  Q(SR1,J1,5) =L= 300 ; (LHS = 0)
+     
+
+---- MaxStor  =L=  
+
+MaxStor(SR1,5)..  S(SR1,5) =L= 500 ; (LHS = 0)
+     
+
+---- MinStor  =G=  
+
+MinStor(SR1,5)..  S(SR1,5) =G= 10 ; (LHS = 0, INFES = 10 ****)
+     
+
+---- DemandEQ  =E=  
+
+DemandEQ(Ag1)..  - Q(SR1,Ag1,5) + delivery(Ag1) =E= 0 ; (LHS = 40, INFES = 40 ****)
+     
+GAMS 24.3.2  r47788 Released Aug 29, 2014 LEX-LEG x86 64bit/Linux                                                                                                                                                                     11/18/14 17:34:53 Page 56
+Demo2.gmdataset 1s
+Equation Listing    SOLVE Demo2 Using LP From line 295
+
+
+     DemandEQ  =E=  
+
+DemandEQ(Urb1)..  - Q(J1,Urb1,5) + delivery(Urb1) =E= 0 ; (LHS = 216, INFES = 216 ****)
+     
+
+---- Objective  =E=  
+
+Objective..  - 10*Q(J1,EndPt,5) - 5*Q(J1,Urb1,5) - 10*Q(SR1,Ag1,5) - 15*Q(SR1,J1,5) + Z =E= 0 ; (LHS = 5830, INFES = 5830 ****)
+     
+GAMS 24.3.2  r47788 Released Aug 29, 2014 LEX-LEG x86 64bit/Linux                                                                                                                                                                     11/18/14 17:34:53 Page 57
+Demo2.gmdataset 1s
+Column Listing      SOLVE Demo2 Using LP From line 295
+
+
+---- Q  flow in each link in each period
+
+Q(J1,EndPt,5)
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+       -1       MassBalance_nonstorage(J1)
+        1       MinFlow(J1,EndPt,5)
+        1       MaxFlow(J1,EndPt,5)
+      -10       Objective
+
+Q(J1,Urb1,5)
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+       -1       MassBalance_nonstorage(J1)
+        1       MassBalance_nonstorage(Urb1)
+        1       MinFlow(J1,Urb1,5)
+        1       MaxFlow(J1,Urb1,5)
+       -1       DemandEQ(Urb1)
+       -5       Objective
+
+Q(SR1,Ag1,5)
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+        1       MassBalance_nonstorage(Ag1)
+       -1       MassBalance_storage(SR1)
+        1       MinFlow(SR1,Ag1,5)
+        1       MaxFlow(SR1,Ag1,5)
+       -1       DemandEQ(Ag1)
+      -10       Objective
+
+Q(SR1,J1,5)
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+        1       MassBalance_nonstorage(J1)
+       -1       MassBalance_storage(SR1)
+        1       MinFlow(SR1,J1,5)
+        1       MaxFlow(SR1,J1,5)
+      -15       Objective
+
+
+---- S  storage volume in storage nodes
+
+S(SR1,5)
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+       -1       MassBalance_storage(SR1)
+        1       MaxStor(SR1,5)
+        1       MinStor(SR1,5)
+
+
+---- delivery  water delivered to demand node i in each period
+
+delivery(Ag1)
+                (.LO, .L, .UP, .M = -INF, 40, +INF, 0)
+       -1       MassBalance_nonstorage(Ag1)
+        1       DemandEQ(Ag1)
+
+delivery(Urb1)
+GAMS 24.3.2  r47788 Released Aug 29, 2014 LEX-LEG x86 64bit/Linux                                                                                                                                                                     11/18/14 17:34:53 Page 58
+Demo2.gmdataset 1s
+Column Listing      SOLVE Demo2 Using LP From line 295
+
+
+     delivery  water delivered to demand node i in each period
+
+                (.LO, .L, .UP, .M = -INF, 216, +INF, 0)
+       -1       MassBalance_nonstorage(Urb1)
+        1       DemandEQ(Urb1)
+
+
+---- Z  objective function
+
+Z
+                (.LO, .L, .UP, .M = -INF, 5830, +INF, 0)
+        1       Objective
+
+
+---- storage  an interim variable for saving the value of the storage at the end of each time-step
+
+storage(SR1,4)
+                (.LO, .L, .UP, .M = 500, 500, 500, 0)
+        1       MassBalance_storage(SR1)
+
+GAMS 24.3.2  r47788 Released Aug 29, 2014 LEX-LEG x86 64bit/Linux                                                                                                                                                                     11/18/14 17:34:53 Page 59
+Demo2.gmdataset 1s
+Model Statistics    SOLVE Demo2 Using LP From line 295
+
+
+LOOPS                               tsteps   5
+
+
+MODEL STATISTICS
+
+BLOCKS OF EQUATIONS           8     SINGLE EQUATIONS           17
+BLOCKS OF VARIABLES           5     SINGLE VARIABLES            9
+NON ZERO ELEMENTS            30
+
+
+GENERATION TIME      =        0.004 SECONDS      3 MB  24.3.2 r47788 LEX-LEG
+
+
+EXECUTION TIME       =        0.004 SECONDS      3 MB  24.3.2 r47788 LEX-LEG
+               L O O P S             tsteps 5
+
+GAMS 24.3.2  r47788 Released Aug 29, 2014 LEX-LEG x86 64bit/Linux                                                                                                                                                                     11/18/14 17:34:53 Page 60
+Demo2.gmdataset 1s
+Solution Report     SOLVE Demo2 Using LP From line 295
+
+
+               S O L V E      S U M M A R Y
+
+     MODEL   Demo2               OBJECTIVE  Z
+     TYPE    LP                  DIRECTION  MINIMIZE
+     SOLVER  CPLEX               FROM LINE  295
+
+**** SOLVER STATUS     1 Normal Completion         
+**** MODEL STATUS      1 Optimal                   
+**** OBJECTIVE VALUE             4350.0000
+
+ RESOURCE USAGE, LIMIT          0.004      1000.000
+ ITERATION COUNT, LIMIT         2    2000000000
+
+IBM ILOG CPLEX   24.3.2 r47788 Released Aug 29, 2014 LEG x86 64bit/Linux      
+Cplex 12.6.0.1
+
+Space for names approximately 0.00 Mb
+Use option 'names no' to turn use of names off
+LP status(1): optimal
+Cplex Time: 0.00sec (det. 0.03 ticks)
+Optimal solution found.
+Objective :        4350.000000
+
+
+---- EQU MassBalance_nonstorage  
+
+            LOWER          LEVEL          UPPER         MARGINAL
+
+Ag1           .              .              .              .          
+J1            .              .              .            -5.0000      
+Urb1          .              .              .             EPS         
+
+---- EQU MassBalance_storage  
+
+           LOWER          LEVEL          UPPER         MARGINAL
+
+SR1      -310.0000      -310.0000      -310.0000       -20.0000      
+
+---- EQU MinFlow  
+
+                   LOWER          LEVEL          UPPER         MARGINAL
+
+J1 .EndPt.5        30.0000        30.0000        +INF            5.0000      
+J1 .Urb1 .5        20.0000        80.0000        +INF             .          
+SR1.Ag1  .5        15.0000       200.0000        +INF             .          
+SR1.J1   .5        10.0000       110.0000        +INF             .          
+GAMS 24.3.2  r47788 Released Aug 29, 2014 LEX-LEG x86 64bit/Linux                                                                                                                                                                     11/18/14 17:34:53 Page 61
+Demo2.gmdataset 1s
+Solution Report     SOLVE Demo2 Using LP From line 295
+
+
+---- EQU MaxFlow  
+
+                   LOWER          LEVEL          UPPER         MARGINAL
+
+J1 .EndPt.5        -INF           30.0000       200.0000          .          
+J1 .Urb1 .5        -INF           80.0000       250.0000          .          
+SR1.Ag1  .5        -INF          200.0000       200.0000       -10.0000      
+SR1.J1   .5        -INF          110.0000       300.0000          .          
+
+---- EQU MaxStor  
+
+             LOWER          LEVEL          UPPER         MARGINAL
+
+SR1.5        -INF          500.0000       500.0000       -20.0000      
+
+---- EQU MinStor  
+
+             LOWER          LEVEL          UPPER         MARGINAL
+
+SR1.5        10.0000       500.0000        +INF             .          
+
+---- EQU DemandEQ  
+
+            LOWER          LEVEL          UPPER         MARGINAL
+
+Ag1           .              .              .             EPS         
+Urb1          .              .              .              .          
+
+                           LOWER          LEVEL          UPPER         MARGINAL
+
+---- EQU Objective           .              .              .             1.0000      
+
+---- VAR Q  flow in each link in each period
+
+                   LOWER          LEVEL          UPPER         MARGINAL
+
+J1 .EndPt.5          .            30.0000        +INF             .          
+J1 .Urb1 .5          .            80.0000        +INF             .          
+SR1.Ag1  .5          .           200.0000        +INF             .          
+SR1.J1   .5          .           110.0000        +INF             .          
+
+---- VAR S  storage volume in storage nodes
+
+             LOWER          LEVEL          UPPER         MARGINAL
+
+SR1.5          .           500.0000        +INF             .          
+GAMS 24.3.2  r47788 Released Aug 29, 2014 LEX-LEG x86 64bit/Linux                                                                                                                                                                     11/18/14 17:34:53 Page 62
+Demo2.gmdataset 1s
+Solution Report     SOLVE Demo2 Using LP From line 295
+
+
+---- VAR delivery  water delivered to demand node i in each period
+
+            LOWER          LEVEL          UPPER         MARGINAL
+
+Ag1         -INF          200.0000        +INF             .          
+Urb1        -INF           80.0000        +INF             .          
+
+                           LOWER          LEVEL          UPPER         MARGINAL
+
+---- VAR Z                 -INF         4350.0000        +INF             .          
+
+  Z  objective function
+
+---- VAR storage  an interim variable for saving the value of the storage at the end of each time-step
+
+             LOWER          LEVEL          UPPER         MARGINAL
+
+SR1.4       500.0000       500.0000       500.0000        20.0000      
+
+
+**** REPORT SUMMARY :        0     NONOPT
+                             0 INFEASIBLE
+                             0  UNBOUNDED
+GAMS 24.3.2  r47788 Released Aug 29, 2014 LEX-LEG x86 64bit/Linux                                                                                                                                                                     11/18/14 17:34:53 Page 63
+Demo2.gmdataset 1s
+E x e c u t i o n
+
+
+----    298 VARIABLE Z.L                   =     4350.000  objective function
+
+----    298 VARIABLE Obj.L  
+
+0 4190.000,    1 4320.000,    2 6710.000,    3 5437.000,    4 5830.000,    5 4350.000
+
+
+----    298 VARIABLE storage.L  an interim variable for saving the value of the storage at the end of each time-step
+
+                0           1           2           3           4           5
+
+SR1       500.000     500.000     500.000     500.000     500.000     500.000
+
+
+----    298 VARIABLE S.L  storage volume in storage nodes
+
+              0           1           2           3           4           5
+
+SR1     500.000     500.000     500.000     500.000     500.000     500.000
+
+
+----    298 VARIABLE Q.L  flow in each link in each period
+
+                    0           1           2           3           4           5
+
+J1 .EndPt      10.000      89.000      30.000      30.000      30.000      30.000
+J1 .Urb1      215.000      10.000      80.000      93.500     240.000      80.000
+SR1.Ag1        25.000     210.000     210.000     200.000      40.000     200.000
+SR1.J1        225.000     110.000     110.000     130.000     270.000     110.000
+
+
+----    298 VARIABLE delivery.L  water delivered to demand node i in each period
+
+Ag1  200.000,    Urb1  80.000
+
+
+
+EXECUTION TIME       =        0.001 SECONDS      3 MB  24.3.2 r47788 LEX-LEG
+
+
+USER: GAMS Development Corporation, Washington, DC   G871201/0000CA-ANY
+      Free Demo,  202-342-0180,  sales@gams.com,  www.gams.com   DC0000
+
+
+**** FILE SUMMARY
+
+Input      /home/stephen/git/UMPlugins/GAMS/tutorial/Demo_models/Demo2/Demo2.gms
+Output     /home/stephen/git/UMPlugins/GAMS/tutorial/Demo_models/Demo2/Demo2.lst
