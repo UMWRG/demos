@@ -1,0 +1,6 @@
+Name        , From    , To    , Type , cost        , flow_multiplier , min_flow        , max_flow        , Description
+Units       ,         ,       ,      , USD           , -               , 1e6 m^3 mon^-1  , 1e6 m^3 mon^-1  ,
+J2_EndPt,J2,EndPt, link ,10,1,10,220,
+J2_Urb1,J2, Urb1  , link ,1,0.95,20,220,
+J1_Ag1   , J1      , Ag1 , link ,20,1,25,220,
+J1_J2,J1,J2,link,15,1,10,310,

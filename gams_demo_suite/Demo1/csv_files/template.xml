@@ -1,0 +1,150 @@
+<?xml version="1.0"?>
+<template_definition>
+<template_name>Demo 2 Model</template_name>
+<layout>	    
+        <item>
+            <name>grouping</name>
+            <value>			    
+			    <name>Demo 2 Model</name>
+				<description>Demo 2 network model</description>
+				<categories>
+				    <category>
+						<name>Resources</name>
+						<description>Network resources</description>
+						<displayname>Network resources</displayname>
+						<groups>
+							<group>
+								<name>demand</name>
+								<description>Demand</description>
+								<displayname>Demand</displayname>
+								<image>images\Demand16.png</image>
+							</group>
+							<group>
+								<name>junction</name>
+								<description>Junction</description>
+								<displayname>Junction</displayname>		
+								<image>images\Split16.png</image>
+							</group>
+							<group>
+								<name>link</name>
+								<description>Link</description>
+								<displayname>Link</displayname>
+								<image>images\RedsolidLine16.png</image>
+							</group>
+						</groups>
+				    </category>	
+				</categories>
+            </value>
+        </item>
+    </layout>
+<resources>
+  <resource>
+    <type>NODE</type>
+    <name>demand</name>
+	<layout>
+		<item>
+			<name>image</name>
+			<value>images\Demand16.png</value>
+		</item>
+		<item>
+			<name>symbol</name>
+			<value>square</value>
+		</item>
+		<item>
+			<name>colour</name>
+			<value>green</value>
+		</item>
+	</layout>
+    <attribute>
+      <name>consumption_coefficient</name>
+      <dimension>Dimensionless</dimension>
+      <is_var>N</is_var>
+	  <data_type>scalar</data_type>
+    </attribute>
+  </resource>
+  <resource>
+    <type>NODE</type>
+    <name>junction</name>
+	<layout>
+		<item>
+			<name>image</name>
+			<value>images\Split16.png</value>
+		</item>
+		<item>
+			<name>symbol</name>
+			<value>triangle</value>
+		</item>
+		<item>
+			<name>colour</name>
+			<value>yellow</value>
+		</item>
+	</layout>
+    <attribute>
+      <name>inflow</name>
+      <dimension>Volumetric flow rate</dimension>
+      <is_var>N</is_var>
+	  <data_type>scalar</data_type>
+    </attribute>
+  </resource>
+  <resource>
+    <type>LINK</type>
+    <name>link</name>
+	<layout>
+		<item>
+			<name>image</name>
+			<value>images\RedSolidLine16.png</value>
+		</item>
+		<item>
+			<name>symbol</name>
+			<value>solid</value>
+		</item>
+		<item>
+			<name>colour</name>
+			<value>red</value>
+		</item>
+		<item>
+			<name>line_weight</name>
+			<value>3</value>
+		</item>
+	</layout>
+    <attribute>
+      <name>cost</name>
+      <dimension>Monetary value</dimension>
+      <is_var>N</is_var>
+      <data_type>scalar</data_type>
+    </attribute>
+    <attribute>
+      <name>flow_multiplier</name>
+      <dimension>Dimensionless</dimension>
+      <is_var>N</is_var>
+	  <data_type>scalar</data_type>
+    </attribute>
+    <attribute>
+      <name>min_flow</name>
+      <dimension>Volumetric flow rate</dimension>
+      <is_var>N</is_var>
+	  <data_type>scalar</data_type>
+    </attribute>
+    <attribute>
+      <name>max_flow</name>
+      <dimension>Volumetric flow rate</dimension>
+      <is_var>N</is_var>
+	  <data_type>scalar</data_type>
+    </attribute>
+  </resource>
+  <resource>
+    <type>NETWORK</type>
+    <name>tutorial_model</name>
+    <attribute>
+      <name>Z</name>
+      <dimension>Monetary value</dimension>
+      <is_var>Y</is_var>
+    </attribute>
+  </resource>
+  <resource>
+	<type>GROUP</type>
+    <name>no_storage</name>
+  </resource>
+</resources>
+</template_definition>
+

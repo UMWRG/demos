@@ -27,18 +27,18 @@ $TITLE    Demo2.gmdataset 1s
 **  Loading Data: sets, parameters and tables
 ** ----------------------------------------------------------------------
 
-$        include "demo2.txt";
+$        include "no_shortage.txt"
 
 ** -------------------------t ---------------------------------------------
 **  Model variables and equations
 ** ----------------------------------------------------------------------
 
 VARIABLES
-Q(i,j,t) flow in each link in each period
-S(i,t) storage volume in storage nodes
-delivery (i) water delivered to demand node i in each period
-Z objective function
-Obj (t);
+Q(i,j,t) flow in each link in each period [1e6 m^3 mon^-1]
+S(i,t) storage volume in storage nodes [1e6 m^3]
+delivery (i) water delivered to demand node i in each period [1e6 m^3 mon^-1]
+Z objective function [-]
+Obj (t) [-];
 ;
 
 POSITIVE VARIABLES
@@ -78,15 +78,20 @@ DemandEQ(demand_nodes)..
 * Mass balance constrait for non-storage nodes:
 
 MassBalance_nonstorage(non_storage_nodes) ..
-    sum(t$dv(t),surface_reservoir_timeseries_data(t,non_storage_nodes,"inflow")+SUM(j$links(j,non_storage_nodes), Q(j,non_storage_nodes,t)* link_timeseries_data(t, j,non_storage_nodes,"flow_multiplier"))
+    sum(t$dv(t),surface_reservoir_timeseries_data(t,non_storage_nodes,"inflow")
+    +SUM(j$links(j,non_storage_nodes), Q(j,non_storage_nodes,t)
+    * link_timeseries_data(t, j,non_storage_nodes,"flow_multiplier"))
     - SUM(j$links(non_storage_nodes,j), Q(non_storage_nodes,j,t))
-    - demand_scalar_data(non_storage_nodes, "consumption_coefficient")$demand_nodes(non_storage_nodes) * delivery(non_storage_nodes))
+    - demand_scalar_data(non_storage_nodes, "consumption_coefficient")$demand_nodes(non_storage_nodes)
+    * delivery(non_storage_nodes))
     =E= 0;
 
 * Mass balance constraint for storage nodes:
 
 MassBalance_storage(storage_nodes)..
-         sum(t$dv(t),surface_reservoir_timeseries_data(t,storage_nodes,"inflow")+SUM(j$links(j,storage_nodes), Q(j,storage_nodes,t)* link_timeseries_data(t, j,storage_nodes,"flow_multiplier"))
+         sum(t$dv(t),surface_reservoir_timeseries_data(t,storage_nodes,"inflow")+
+         SUM(j$links(j,storage_nodes), Q(j,storage_nodes,t) 
+         * link_timeseries_data(t, j,storage_nodes,"flow_multiplier"))
          - SUM(j$links(storage_nodes,j), Q(storage_nodes,j,t))
          -S(storage_nodes,t)
          +storage(storage_nodes,t-1)$(ord(t) GT 1)

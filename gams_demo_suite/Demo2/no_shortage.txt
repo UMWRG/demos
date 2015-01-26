@@ -3,7 +3,7 @@
 *
 * GAMS App tutorial: 
 * Network-ID:  3
-* Scenario-ID: 6
+* Scenario-ID: 3
 *******************************************************************************
 
 * Network definition

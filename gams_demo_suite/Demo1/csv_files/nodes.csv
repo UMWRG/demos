@@ -1,0 +1,7 @@
+Name    , X         , Y         , Type              ,inflow , consumption_coefficient , Description
+Units   ,           ,           ,                   ,   1e6 m^3 mon^-1 , -                       ,
+J1      ,507143.6868,164415.5771, junction          ,300,                         ,
+J2,507154.6868,164425.5771, junction          ,-,                         ,
+Urb1    ,515264.8958,169559.0095, demand            ,       ,1,
+Ag1     ,494488.1362,148849.9266, demand            ,       ,1,
+EndPt   ,501129.8185,140506.8892, junction          ,       ,                         ,

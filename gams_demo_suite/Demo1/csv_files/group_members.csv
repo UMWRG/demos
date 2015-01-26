@@ -1,0 +1,8 @@
+Name       , Type , Member
+Units      ,      ,
+non_storage_nodes , Node ,J2
+non_storage_nodes , Node , J1
+non_storage_nodes , Node , Urb1
+non_storage_nodes , Node , Ag1
+demand_nodes      , Node, Ag1
+demand_nodes      , Node, Urb1
