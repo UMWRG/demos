@@ -4,3 +4,5 @@
 *.log
 *.~gm
 *.lxi
+*.pyc
+*.log

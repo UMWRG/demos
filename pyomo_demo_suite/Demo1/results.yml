@@ -1,0 +1,46 @@
+# ==========================================================
+# = Solver Results                                         =
+# ==========================================================
+# ----------------------------------------------------------
+#   Problem Information
+# ----------------------------------------------------------
+Problem: 
+- Lower bound: -inf
+  Upper bound: inf
+  Number of objectives: 1
+  Number of constraints: 4
+  Number of variables: 4
+  Sense: unknown
+# ----------------------------------------------------------
+#   Solver Information
+# ----------------------------------------------------------
+Solver: 
+- Status: ok
+  Message: CBC trunk optimal, objective 5e+03; 1 iterations
+  Termination condition: optimal
+  Id: 0
+# ----------------------------------------------------------
+#   Solution Information
+# ----------------------------------------------------------
+Solution: 
+- number of solutions: 1
+  number of solutions displayed: 1
+- Status: optimal
+  Objective: 
+    Z: 
+      Id: 0
+      Value: 5170.0
+  Variable: 
+    X[J1,Ag1]:
+      Id: 0
+      Value: 70
+    X[J1,J2]:
+      Id: 1
+      Value: 230
+    X[J2,Endpt]:
+      Id: 2
+      Value: 10
+    X[J2,Urb1]:
+      Id: 3
+      Value: 220
+  Constraint: No nonzero values

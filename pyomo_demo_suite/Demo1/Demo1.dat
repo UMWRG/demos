@@ -1,0 +1,57 @@
+
+set  nodes :=  J1  J2  Ag1  Urb1  Endpt;
+
+set demand_nodes:=
+  Ag1
+  Urb1;
+
+set  nonstorage_nodes:=
+  J1
+  J2
+  Urb1
+  Ag1;
+
+param  inflow:=
+  J1     300
+  J2      0
+  Ag1     0
+  Urb1    0
+  Endpt   0;
+
+param  consumption_coefficient:=
+  J1            0
+  J2            0
+  Ag1           1
+  Urb1          1
+  Endpt         0;
+
+set  links:=
+  J1 J2
+  J1 Ag1
+  J2 Urb1
+  J2 Endpt;
+
+param      cost:=
+  J1 J2         15
+  J1 Ag1        20
+  J2 Urb1       1
+  J2 Endpt      10;
+
+param     flow_multiplier:=
+  J1 J2         1
+  J1 Ag1        1
+  J2 Urb1       .95
+  J2 Endpt      1;
+
+param     lower_bound:=
+  J1 J2         10
+  J1 Ag1        25
+  J2 Urb1       20
+  J2 Endpt      10;
+
+param     upper_bound:=
+  J1 J2         310
+  J1 Ag1        220
+  J2 Urb1       220
+  J2 Endpt      300;
+
