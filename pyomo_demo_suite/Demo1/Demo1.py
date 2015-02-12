@@ -1,19 +1,20 @@
 #  (c) Copyright 2015, University of Manchester
 #
-#  This file is part of the GAMS Plugin Demo Suite.
+#  This file is part of the Pyomo Plugin Demo Suite.
 #
-#  The GAMS Plugin Demo Suite is free software: you can redistribute it and/or modify
+#  The Pyomo Plugin Demo Suite is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
 #  the Free Software Foundation, either version 3 of the License, or
 #  (at your option) any later version.
 #
-#  The GAMS Plugin Demo Suite is distributed in the hope that it will be useful,
+#  The Pyomo Plugin Demo Suite is distributed in the hope that it will be useful,
 #  but WITHOUT ANY WARRANTY; without even the implied warranty of
 #  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #  GNU General Public License for more details.
 #
 #  You should have received a copy of the GNU General Public License
-#  along with the GAMS Plugin Demo Suite.  If not, see <http://www.gnu.org/licenses/>.
+#  along with the Pyomo Plugin Demo Suite.  If not, see <http://www.gnu.org/licenses/>.
+
 
 # Demo1.py
 #Version: no time-step
@@ -75,9 +76,18 @@ def flow_mass_balance(model, nonstorage_nodes):
     
 model.flow_mass_balance_constraint = Constraint(model.nonstorage_nodes, rule=flow_mass_balance)
 
-if __name__ == '__main__':
+def run_model (input_data_file):
+    list=[]
+    insts=[]
     opt = SolverFactory("glpk")
-    instance=model.create("Demo1.dat")
+    instance=model.create(input_data_file)
     res = opt.solve(instance)
+    instance.load(res)
+    list.append(res)
+    insts.append(instance)
     print res
-#    instance.pprint()
+    return list, insts
+
+if __name__ == '__main__':
+    run_model("Demo1.dat")
+

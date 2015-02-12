@@ -11,7 +11,7 @@ set demand_nodes:=
   Ag1
   Urb1;
 
-set  nonstorage_nodes:=
+set  non_storage_nodes:=
   J1
   Urb1
   Ag1;
@@ -22,13 +22,9 @@ set storage_nodes:=
 set time_step:= 1 2 3 4 5 6;
 
 
-param  consumption_coefficient:
-                   1      2      3      4      5      6:=
-  SR1              0      0      0      0      0      0
-  J1               0      0      0      0      0      0
-  Ag1              1      1      1      1      1      1
-  Urb1             1      1      1      1      1      1
-  Endpt            0      0      0      0      0      0;
+param consumption_coefficient:=
+ Ag1  1.0
+ Urb1  1.0;
   
 param flow_multiplier:
                    1    2     3      4      5     6:=
@@ -37,14 +33,14 @@ param flow_multiplier:
   [J1,Urb1]        0.95 0.85  0.9    0.85   0.9   1
   [J1,Endpt]       1    1     1      1      1     1;
 
-param flow_lower_bound:
+param min_flow:
                    1    2     3      4      5     6:=
   [SR1,Ag1]        25   15    10     10     15    15
   [SR1,J1]         10   10    10     10     10    10
   [J1,Urb1]        20   10    25     20     20    20
   [J1,Endpt]       0    0     0      0      0     0;
   
-param flow_upper_bound:
+param max_flow:
                    1    2     3      4      5     6:=
   [SR1,Ag1]        200  210   210    200    200   200
   [SR1,J1]         310  300   300    300    310   300
@@ -55,11 +51,11 @@ param flow_upper_bound:
 param      initial_storage:=
   SR1       450;
 
-param      storage_lower_bound:
+param      storagelower:
              1       2      3       4      5      6:=
   SR1        10      10     10      10     10     10;
   
-param     storage_upper_bound:
+param     storageupper:
              1       2      3       4      5      6:=
   SR1        500     500    500     500    500    500;
 
