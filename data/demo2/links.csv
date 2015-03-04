@@ -1,0 +1,6 @@
+Name        , From    , To    , Type , cost        , flow_multiplier , min_flow        , max_flow        , Description
+Units       ,         ,       ,      , USD           , -               , 1e6 m^3 mon^-1  , 1e6 m^3 mon^-1  ,
+SR1_J1      , SR1     , J1    , river_section , TS/cost.csv , TS/flowmult.csv , TS/min_flow.csv , TS/max_flow.csv ,
+SR1_Ag1     , SR1     , Ag1   , river_section , TS/cost.csv , TS/flowmult.csv , TS/min_flow.csv , TS/max_flow.csv ,
+J1_Urb1     , J1      , Urb1  , river_section , TS/cost.csv , TS/flowmult.csv , TS/min_flow.csv , TS/max_flow.csv ,
+J1_EndPt    , J1      , EndPt , river_section , TS/cost.csv , TS/flowmult.csv , TS/min_flow.csv , TS/max_flow.csv ,

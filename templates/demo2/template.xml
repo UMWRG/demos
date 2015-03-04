@@ -50,7 +50,7 @@
 	<layout>
 		<item>
 			<name>image</name>
-			<value>images\Reservoir16.png</value>
+			<value>images\reservoir.png</value>
 		</item>
 		<item>
 			<name>symbol</name>
@@ -94,11 +94,41 @@
   </resource>
   <resource>
     <type>NODE</type>
-    <name>demand</name>
+    <name>urban</name>
+    <layout>
+        <item>
+            <name>image</name>
+            <value>images\urban.png</value>
+        </item>
+        <item>
+            <name>symbol</name>
+            <value>square</value>
+        </item>
+        <item>
+            <name>colour</name>
+            <value>green</value>
+        </item>
+    </layout>
+    <attribute>
+      <name>delivery</name>
+      <dimension>Volumetric flow rate</dimension>
+      <is_var>Y</is_var>
+      <data_type>timeseries</data_type>
+    </attribute>
+    <attribute>
+      <name>consumption_coefficient</name>
+      <dimension>Dimensionless</dimension>
+      <is_var>N</is_var>
+      <data_type>scalar</data_type>
+    </attribute>
+  </resource>
+  <resource>
+    <type>NODE</type>
+    <name>agricultural</name>
 	<layout>
 		<item>
 			<name>image</name>
-			<value>images\Demand16.png</value>
+			<value>images\agricultural.png</value>
 		</item>
 		<item>
 			<name>symbol</name>
@@ -128,7 +158,7 @@
 	<layout>
 		<item>
 			<name>image</name>
-			<value>images\Split16.png</value>
+			<value>images\junction.png</value>
 		</item>
 		<item>
 			<name>symbol</name>
@@ -140,13 +170,31 @@
 		</item>
 	</layout>
   </resource>
+    <resource>
+    <type>NODE</type>
+    <name>discharge</name>
+  <layout>
+    <item>
+      <name>image</name>
+      <value>images\discharge.png</value>
+    </item>
+    <item>
+      <name>symbol</name>
+      <value>triangle</value>
+    </item>
+    <item>
+      <name>colour</name>
+      <value>black</value>
+    </item>
+  </layout>
+  </resource>
   <resource>
     <type>LINK</type>
-    <name>link</name>
+    <name>river_section</name>
 	<layout>
 		<item>
 			<name>image</name>
-			<value>images\RedSolidLine16.png</value>
+			<value>images\red_line.png</value>
 		</item>
 		<item>
 			<name>symbol</name>
@@ -200,14 +248,6 @@
       <dimension>Monetary value</dimension>
       <is_var>Y</is_var>
     </attribute>
-  </resource>
-  <resource>
-    <type>GROUP</type>
-    <name>storage</name>
-  </resource>
-  <resource>
-	<type>GROUP</type>
-    <name>no_storage</name>
   </resource>
 </resources>
 </template_definition>

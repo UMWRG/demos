@@ -37,6 +37,7 @@ VARIABLES
 Q(i,j,t) flow in each link in each period [1e6 m^3 mon^-1]
 S(i,t) storage volume in storage nodes [1e6 m^3]
 delivery (i) water delivered to demand node i in each period [1e6 m^3 mon^-1]
+delivered_water (i,t) an interim variable for saving the value of the water delivery to each demand node at the end of each time-step [1e6 m^3 mon^-1]
 Z objective function [-]
 Obj (t) [-];
 ;
@@ -49,13 +50,14 @@ S
 positive variable  storage(i,t) an interim variable for saving the value of the storage at the end of each time-step;
 
 EQUATIONS
-MassBalance_nonstorage(non_storage_nodes)
-MassBalance_storage(storage_nodes)
+MassBalance_agricultural(agricultural)
+MassBalance_urban(urban)
+MassBalance_junction(junction)
+MassBalance_storage(surface_reservoir)
 MinFlow(i,j,t)
 MaxFlow(i,j,t)
-MaxStor(storage_nodes,t)
-MinStor(storage_nodes,t)
-DemandEQ(demand_nodes)
+MaxStor(surface_reservoir,t)
+MinStor(surface_reservoir,t)
 Objective
 ;
 
@@ -67,52 +69,62 @@ set dv(t) / /;
 * Objective function for time step by time step formulation
 
 Objective ..
-    Z =E=sum(t$dv(t),SUM((i,j)$links(i,j), Q(i,j,t) * link_timeseries_data(t,i,j,"cost")));
-
-*Calculating water delivery for each demand node at each time step
-
-DemandEQ(demand_nodes)..
-         delivery(demand_nodes) =E= sum(t$dv(t),SUM(j$links(j,demand_nodes), Q(j,demand_nodes,t)
-         * link_timeseries_data(t,j, demand_nodes,"flow_multiplier")));
+    Z =E=sum(t$dv(t),SUM((i,j)$links(i,j), Q(i,j,t) * river_section_timeseries_data(t,i,j,"cost")));
 
 * Mass balance constrait for non-storage nodes:
 
-MassBalance_nonstorage(non_storage_nodes) ..
-    sum(t$dv(t),surface_reservoir_timeseries_data(t,non_storage_nodes,"inflow")
-    +SUM(j$links(j,non_storage_nodes), Q(j,non_storage_nodes,t)
-    * link_timeseries_data(t, j,non_storage_nodes,"flow_multiplier"))
-    - SUM(j$links(non_storage_nodes,j), Q(non_storage_nodes,j,t))
-    - demand_scalar_data(non_storage_nodes, "consumption_coefficient")$demand_nodes(non_storage_nodes)
-    * delivery(non_storage_nodes))
+MassBalance_urban(urban) ..
+    sum(t$dv(t),surface_reservoir_timeseries_data(t,urban,"inflow")
+    +SUM(j$links(j,urban), Q(j,urban,t)
+    * river_section_timeseries_data(t, j,urban,"flow_multiplier"))
+    - SUM(j$links(urban,j), Q(urban,j,t))
+    - urban_scalar_data(urban, "consumption_coefficient")$urban(urban)
+    * delivery(urban))
+    =E= 0;
+
+MassBalance_agricultural(agricultural) ..
+    sum(t$dv(t),surface_reservoir_timeseries_data(t,agricultural,"inflow")
+    +SUM(j$links(j,agricultural), Q(j,agricultural,t)
+    * river_section_timeseries_data(t, j,agricultural,"flow_multiplier"))
+    - SUM(j$links(agricultural,j), Q(agricultural,j,t))
+    - agricultural_scalar_data(agricultural, "consumption_coefficient")$agricultural(agricultural)
+    * delivery(agricultural))
+    =E= 0;
+
+MassBalance_junction(junction) ..
+    sum(t$dv(t),surface_reservoir_timeseries_data(t,junction,"inflow")
+    + SUM(j$links(j,junction), Q(j,junction,t)
+    * river_section_timeseries_data(t, j,junction,"flow_multiplier"))
+    - SUM(j$links(junction,j), Q(junction,j,t)))
     =E= 0;
 
 * Mass balance constraint for storage nodes:
 
-MassBalance_storage(storage_nodes)..
-         sum(t$dv(t),surface_reservoir_timeseries_data(t,storage_nodes,"inflow")+
-         SUM(j$links(j,storage_nodes), Q(j,storage_nodes,t) 
-         * link_timeseries_data(t, j,storage_nodes,"flow_multiplier"))
-         - SUM(j$links(storage_nodes,j), Q(storage_nodes,j,t))
-         -S(storage_nodes,t)
-         +storage(storage_nodes,t-1)$(ord(t) GT 1)
-         + surface_reservoir_scalar_data(storage_nodes,"initial_storage")$(ord(t) EQ 1))
+MassBalance_storage(surface_reservoir)..
+         sum(t$dv(t),surface_reservoir_timeseries_data(t,surface_reservoir,"inflow")+
+         SUM(j$links(j,surface_reservoir), Q(j,surface_reservoir,t) 
+         * river_section_timeseries_data(t, j,surface_reservoir,"flow_multiplier"))
+         - SUM(j$links(surface_reservoir,j), Q(surface_reservoir,j,t))
+         -S(surface_reservoir,t)
+         +storage(surface_reservoir,t-1)$(ord(t) GT 1)
+         + surface_reservoir_scalar_data(surface_reservoir,"initial_storage")$(ord(t) EQ 1))
          =E= 0;
 
 * Lower and upper bound of possible flow in links
 
 MinFlow(i,j,t)$(links(i,j) and dv(t))..
-    Q(i,j,t) =G= link_timeseries_data(t,i,j,"min_flow");
+    Q(i,j,t) =G= river_section_timeseries_data(t,i,j,"min_flow");
 
 MaxFlow(i,j,t)$(links(i,j) and dv(t))..
-    Q(i,j,t) =L= link_timeseries_data(t,i,j,"max_flow");
+    Q(i,j,t) =L= river_section_timeseries_data(t,i,j,"max_flow");
 
 * Lower and upper bound of Storage volume at storage nodes
 
-MaxStor(storage_nodes,t)$dv(t)..
-    S(storage_nodes,t) =L= surface_reservoir_timeseries_data(t,storage_nodes,"storageupper");
+MaxStor(surface_reservoir,t)$dv(t)..
+    S(surface_reservoir,t) =L= surface_reservoir_timeseries_data(t,surface_reservoir,"storageupper");
 
-MinStor(storage_nodes,t)$dv(t)..
-    S(storage_nodes,t) =G= surface_reservoir_timeseries_data(t,storage_nodes,"storagelower");
+MinStor(surface_reservoir,t)$dv(t)..
+    S(surface_reservoir,t) =G= surface_reservoir_timeseries_data(t,surface_reservoir,"storagelower");
 
 ** ----------------------------------------------------------------------
 **  Model declaration and solve statements
@@ -126,6 +138,9 @@ loop (tsteps,
             SOLVE Demo2 USING LP MINIMIZING Z;
             storage.fx(i,tsteps)=S.l(i,tsteps) ;
             Obj.l(tsteps)=Z.l;
+            delivered_water.l(urban,tsteps)=delivery.l(urban);
+            delivered_water.l(agricultural,tsteps)=delivery.l(agricultural);
+            delivered_water.l(junction,tsteps)=delivery.l(junction);
             DISPLAY  Z.l, Obj.l,storage.l,S.l, Q.l,delivery.l;
             dv(tsteps)=no;
       );
@@ -136,13 +151,16 @@ execute_unload "Results.gdx" ,
     Q,
     S,
     MassBalance_storage,
-    MassBalance_nonstorage,
+    MassBalance_junction,
+    MassBalance_urban,
+    MassBalance_agricultural,
     MinFlow,
     MaxFlow,
     MinStor,
     MaxStor,
     Z,
     Obj,
-    link_timeseries_data,
+    river_section_timeseries_data,
     storage,
-    delivery;
+    delivery,
+    delivered_water;

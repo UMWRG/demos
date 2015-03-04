@@ -1,6 +1,5 @@
 set nodes:= SR1 J1 Ag1 Urb1 Endpt;
 
-
 set  links:=
   SR1 J1
   SR1 Ag1
@@ -12,15 +11,14 @@ set demand_nodes:=
   Urb1;
 
 set  non_storage_nodes:=
-  J1
   Urb1
+  J1
   Ag1;
 
 set storage_nodes:=
   SR1;
 
 set time_step:= 1 2 3 4 5 6;
-
 
 param consumption_coefficient:=
  Ag1  1.0
