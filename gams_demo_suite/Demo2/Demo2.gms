@@ -29,7 +29,7 @@ $TITLE    Demo2.gmdataset 1s
 
 $        include "no_shortage.txt"
 
-** -------------------------t ---------------------------------------------
+** ----------------------------------------------------------------------
 **  Model variables and equations
 ** ----------------------------------------------------------------------
 
@@ -73,12 +73,21 @@ Objective ..
 
 * Mass balance constrait for non-storage nodes:
 
+*MassBalance(i) $ (urban(i) or agricultural(i)or junction(i)) ..
+*    sum(t$dv(t),surface_reservoir_timeseries_data(t,i,"inflow")
+*    +SUM(j$links(j,i), Q(j,i,t)
+*    * river_section_timeseries_data(t, j,i,"flow_multiplier"))
+*    - SUM(j$links(i,j), Q(i,j,t))
+*    - urban_scalar_data(i, "consumption_coefficient")
+*    * delivery(i))
+*    =E= 0;
+
 MassBalance_urban(urban) ..
     sum(t$dv(t),surface_reservoir_timeseries_data(t,urban,"inflow")
     +SUM(j$links(j,urban), Q(j,urban,t)
     * river_section_timeseries_data(t, j,urban,"flow_multiplier"))
     - SUM(j$links(urban,j), Q(urban,j,t))
-    - urban_scalar_data(urban, "consumption_coefficient")$urban(urban)
+    - urban_scalar_data(urban, "consumption_coefficient")
     * delivery(urban))
     =E= 0;
 
@@ -87,7 +96,7 @@ MassBalance_agricultural(agricultural) ..
     +SUM(j$links(j,agricultural), Q(j,agricultural,t)
     * river_section_timeseries_data(t, j,agricultural,"flow_multiplier"))
     - SUM(j$links(agricultural,j), Q(agricultural,j,t))
-    - agricultural_scalar_data(agricultural, "consumption_coefficient")$agricultural(agricultural)
+    - agricultural_scalar_data(agricultural, "consumption_coefficient")
     * delivery(agricultural))
     =E= 0;
 
