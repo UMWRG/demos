@@ -60,7 +60,6 @@ class PyMode():
         model.storage_mass_balance_const = Constraint(model.surface_reservoir, rule=storage_mass_balance)
         self.model=model
 
-
     def run(self, input_file):
         opt = SolverFactory("glpk")
         list=[]
@@ -144,41 +143,40 @@ def objective_function(model):
 ##======================================== Declaring constraints
 # Mass balance for non-storage nodes:
 
-def mass_balance_agricultural(model, nonstorage_nodes):
+def mass_balance_agricultural(model, agricultural_nodes):
     # inflow
-
-    term2 = sum([model.Q[node_in, nonstorage_nodes]*model.flow_multiplier_river_section[node_in, nonstorage_nodes, model.current_time_step]
-                  for node_in in model.nodes if (node_in, nonstorage_nodes) in model.river_section])
+    #nonstorage_nodes
+    term2 = sum([model.Q[node_in, agricultural_nodes]*model.flow_multiplier_river_section[node_in, agricultural_nodes, model.current_time_step]
+                  for node_in in model.nodes if (node_in, agricultural_nodes) in model.river_section])
     # outflow
-    term3 = sum([model.Q[nonstorage_nodes, node_out]
-                  for node_out in model.nodes if (nonstorage_nodes, node_out) in model.river_section])
-    term4 = model.consumption_coefficient_agricultural[nonstorage_nodes] \
-        * sum([model.Q[node_in, nonstorage_nodes]*model.flow_multiplier_river_section[node_in, nonstorage_nodes, model.current_time_step]
-               for node_in in model.nodes if (node_in, nonstorage_nodes) in model.river_section])
+    term3 = sum([model.Q[agricultural_nodes, node_out]
+                  for node_out in model.nodes if (agricultural_nodes, node_out) in model.river_section])
+    term4 = model.consumption_coefficient_agricultural[agricultural_nodes] \
+        * sum([model.Q[node_in, agricultural_nodes]*model.flow_multiplier_river_section[node_in, agricultural_nodes, model.current_time_step]
+               for node_in in model.nodes if (node_in, agricultural_nodes) in model.river_section])
         # inflow - outflow = 0:
     return  term2 - (term3 + term4) == 0
 
 
-def mass_balance_urban(model, nonstorage_nodes):
-    # inflow
-    term1 = sum([model.Q[node_in, nonstorage_nodes]*model.flow_multiplier_river_section[node_in, nonstorage_nodes, model.current_time_step]
-                  for node_in in model.nodes if (node_in, nonstorage_nodes) in model.river_section])
-    term2 = model.consumption_coefficient_urban[nonstorage_nodes] \
-        * sum([model.Q[node_in, nonstorage_nodes]*model.flow_multiplier_river_section[node_in, nonstorage_nodes, model.current_time_step]
-               for node_in in model.nodes if (node_in, nonstorage_nodes) in model.river_section])
-    term3 = sum([model.Q[nonstorage_nodes, node_out]
-                  for node_out in model.nodes if (nonstorage_nodes, node_out) in model.river_section])
+def mass_balance_urban(model, urban_nodes):
+    #nonstorage_nodes
+    term1 = sum([model.Q[node_in, urban_nodes]*model.flow_multiplier_river_section[node_in, urban_nodes, model.current_time_step]
+                  for node_in in model.nodes if (node_in, urban_nodes) in model.river_section])
+    term2 = model.consumption_coefficient_urban[urban_nodes] \
+        * sum([model.Q[node_in, urban_nodes]*model.flow_multiplier_river_section[node_in, urban_nodes, model.current_time_step]
+               for node_in in model.nodes if (node_in, urban_nodes) in model.river_section])
+    term3 = sum([model.Q[urban_nodes, node_out]
+                  for node_out in model.nodes if (urban_nodes, node_out) in model.river_section])
     # inflow - outflow = 0:
     return term1 - (term2 + term3) == 0
 
-
-def mass_balance_junction(model, nonstorage_nodes):
+def mass_balance_junction(model, junction_nodes):
     # inflow
-    term1 = sum([model.Q[node_in, nonstorage_nodes]*model.flow_multiplier_river_section[node_in, nonstorage_nodes, model.current_time_step]
-                  for node_in in model.nodes if (node_in, nonstorage_nodes) in model.river_section])
+    term1 = sum([model.Q[node_in, junction_nodes]*model.flow_multiplier_river_section[node_in, junction_nodes, model.current_time_step]
+                  for node_in in model.nodes if (node_in, junction_nodes) in model.river_section])
     # outflow
-    term2 = sum([model.Q[nonstorage_nodes, node_out]
-                  for node_out in model.nodes if (nonstorage_nodes, node_out) in model.river_section])
+    term2 = sum([model.Q[junction_nodes, node_out]
+                  for node_out in model.nodes if (junction_nodes, node_out) in model.river_section])
     return (term1 -  term2) == 0
 
 
@@ -278,5 +276,3 @@ def run_model(datafile):
 if __name__ == '__main__':
     pymodel=PyMode()
     pymodel.run("Demo2.dat")
-
-
