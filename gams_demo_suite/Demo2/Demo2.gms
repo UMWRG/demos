@@ -50,10 +50,10 @@ S
 positive variable  storage(i,t) an interim variable for saving the value of the storage at the end of each time-step;
 
 EQUATIONS
-*MassBalance(i)
-MassBalance_agricultural(agricultural)
-MassBalance_urban(urban)
-MassBalance_junction(junction)
+MassBalance(i)
+*MassBalance_agricultural(agricultural)
+*MassBalance_urban(urban)
+*MassBalance_junction(junction)
 MassBalance_storage(surface_reservoir)
 MinFlow(i,j,t)
 MaxFlow(i,j,t)
@@ -74,40 +74,40 @@ Objective ..
 
 * Mass balance constrait for non-storage nodes:
 
-*MassBalance(i) $ (urban(i) or agricultural(i) or junction(i)) ..
-*    sum(t$dv(t),surface_reservoir_timeseries_data(t,i,"inflow")
-*    +SUM(j$links(j,i), Q(j,i,t)
-*    * river_section_timeseries_data(t, j,i,"flow_multiplier"))
-*    - SUM(j$links(i,j), Q(i,j,t))
-*    - urban_scalar_data(i, "consumption_coefficient")
-*    - agricultural_scalar_data(i, "consumption_coefficient")
-*    * delivery(i))
+MassBalance(i) $ (urban(i) or agricultural(i) or junction(i)) ..
+    sum(t$dv(t),surface_reservoir_timeseries_data(t,i,"inflow")
+    +SUM(j$links(j,i), Q(j,i,t)
+    * river_section_timeseries_data(t, j,i,"flow_multiplier"))
+    - SUM(j$links(i,j), Q(i,j,t))
+    - urban_scalar_data(i, "consumption_coefficient") * delivery(i)
+    - agricultural_scalar_data(i, "consumption_coefficient")
+    * delivery(i))
+    =E= 0;
+
+*MassBalance_urban(urban) ..
+*    sum(t$dv(t),surface_reservoir_timeseries_data(t,urban,"inflow")
+*    +SUM(j$links(j,urban), Q(j,urban,t)
+*    * river_section_timeseries_data(t, j,urban,"flow_multiplier"))
+*    - SUM(j$links(urban,j), Q(urban,j,t))
+*    - urban_scalar_data(urban, "consumption_coefficient")
+*    * delivery(urban))
 *    =E= 0;
-
-MassBalance_urban(urban) ..
-    sum(t$dv(t),surface_reservoir_timeseries_data(t,urban,"inflow")
-    +SUM(j$links(j,urban), Q(j,urban,t)
-    * river_section_timeseries_data(t, j,urban,"flow_multiplier"))
-    - SUM(j$links(urban,j), Q(urban,j,t))
-    - urban_scalar_data(urban, "consumption_coefficient")
-    * delivery(urban))
-    =E= 0;
-
-MassBalance_agricultural(agricultural) ..
-    sum(t$dv(t),surface_reservoir_timeseries_data(t,agricultural,"inflow")
-    +SUM(j$links(j,agricultural), Q(j,agricultural,t)
-    * river_section_timeseries_data(t, j,agricultural,"flow_multiplier"))
-    - SUM(j$links(agricultural,j), Q(agricultural,j,t))
-    - agricultural_scalar_data(agricultural, "consumption_coefficient")
-    * delivery(agricultural))
-    =E= 0;
-
-MassBalance_junction(junction) ..
-    sum(t$dv(t),surface_reservoir_timeseries_data(t,junction,"inflow")
-    + SUM(j$links(j,junction), Q(j,junction,t)
-    * river_section_timeseries_data(t, j,junction,"flow_multiplier"))
-    - SUM(j$links(junction,j), Q(junction,j,t)))
-    =E= 0;
+*
+*MassBalance_agricultural(agricultural) ..
+*    sum(t$dv(t),surface_reservoir_timeseries_data(t,agricultural,"inflow")
+*    +SUM(j$links(j,agricultural), Q(j,agricultural,t)
+*    * river_section_timeseries_data(t, j,agricultural,"flow_multiplier"))
+*    - SUM(j$links(agricultural,j), Q(agricultural,j,t))
+*    - agricultural_scalar_data(agricultural, "consumption_coefficient")
+*    * delivery(agricultural))
+*    =E= 0;
+*
+*MassBalance_junction(junction) ..
+*    sum(t$dv(t),surface_reservoir_timeseries_data(t,junction,"inflow")
+*    + SUM(j$links(j,junction), Q(j,junction,t)
+*    * river_section_timeseries_data(t, j,junction,"flow_multiplier"))
+*    - SUM(j$links(junction,j), Q(junction,j,t)))
+*    =E= 0;
 
 * Mass balance constraint for storage nodes:
 
@@ -162,10 +162,10 @@ loop (tsteps,
 execute_unload "Results.gdx" ,
     Q,
     S,
-*    MassBalance,
-    MassBalance_junction,
-    MassBalance_urban,
-    MassBalance_agricultural,
+    MassBalance,
+*    MassBalance_junction,
+*    MassBalance_urban,
+*    MassBalance_agricultural,
     MassBalance_storage,
     MinFlow,
     MaxFlow,
