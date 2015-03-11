@@ -50,6 +50,7 @@ S
 positive variable  storage(i,t) an interim variable for saving the value of the storage at the end of each time-step;
 
 EQUATIONS
+*MassBalance(i)
 MassBalance_agricultural(agricultural)
 MassBalance_urban(urban)
 MassBalance_junction(junction)
@@ -73,14 +74,13 @@ Objective ..
 
 * Mass balance constrait for non-storage nodes:
 
-*MassBalance(i) $ (urban(i) or agricultural(i)or junction(i)) ..
+*MassBalance(i) $ (urban(i) or agricultural(i) or junction(i)) ..
 *    sum(t$dv(t),surface_reservoir_timeseries_data(t,i,"inflow")
 *    +SUM(j$links(j,i), Q(j,i,t)
 *    * river_section_timeseries_data(t, j,i,"flow_multiplier"))
 *    - SUM(j$links(i,j), Q(i,j,t))
 *    - urban_scalar_data(i, "consumption_coefficient")
-*    - agricutural_scalar_data(i, "consumption_coefficient")
-*    - junction_scalar_data(i, "consumption_coefficient")
+*    - agricultural_scalar_data(i, "consumption_coefficient")
 *    * delivery(i))
 *    =E= 0;
 
@@ -158,13 +158,15 @@ loop (tsteps,
 
 *Generating results output
 
+
 execute_unload "Results.gdx" ,
     Q,
     S,
-    MassBalance_storage,
+*    MassBalance,
     MassBalance_junction,
     MassBalance_urban,
     MassBalance_agricultural,
+    MassBalance_storage,
     MinFlow,
     MaxFlow,
     MinStor,
