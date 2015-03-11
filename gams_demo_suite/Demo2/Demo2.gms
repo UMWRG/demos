@@ -79,6 +79,8 @@ Objective ..
 *    * river_section_timeseries_data(t, j,i,"flow_multiplier"))
 *    - SUM(j$links(i,j), Q(i,j,t))
 *    - urban_scalar_data(i, "consumption_coefficient")
+*    - agricutural_scalar_data(i, "consumption_coefficient")
+*    - junction_scalar_data(i, "consumption_coefficient")
 *    * delivery(i))
 *    =E= 0;
 
