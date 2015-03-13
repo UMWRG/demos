@@ -1,6 +1,85 @@
 <?xml version="1.0"?>
 <template_definition>
 <template_name>demo3</template_name>
+<layout>	    
+        <item>
+            <name>grouping</name>
+            <value>			    
+			    <name>Demo 3 Model</name>
+				<description>Demo 3 network model</description>
+				<categories>
+				    <category>
+						<name>Resources</name>
+						<description>Network resources</description>
+						<displayname>Network resources</displayname>
+						<groups>
+							<group>
+								<name>surface_reservoir</name>
+								<description>Surface Reservoir</description>
+								<displayname>Surface Reservoir</displayname>
+								<image>images\reservoir.png</image>
+							</group>
+                            <group>
+								<name>urban</name>
+								<description>Urban</description>
+								<displayname>Urban</displayname>
+								<image>images\urban.png</image>
+							</group>
+                            <group>
+								<name>agricultural</name>
+								<description>Agricultural</description>
+								<displayname>Agricultural</displayname>
+								<image>images\agricultural.png</image>
+							</group>
+                            <group>
+								<name>junction</name>
+								<description>Junction</description>
+								<displayname>Junction</displayname>
+								<image>images\junction.png</image>
+							</group>
+                            <group>
+								<name>discharge</name>
+								<description>discharge</description>
+								<displayname>discharge</displayname>
+								<image>images\discharge.png</image>
+                            </group>
+                            <group>
+								<name>wastewater</name>
+								<description>Waste Water Treatement Plant</description>
+								<displayname>Waste Water TP</displayname>
+								<image>images\wastewater.png</image>
+                            </group>
+                            <group>
+								<name>hydropower</name>
+								<description>Hydropower Plant</description>
+								<displayname>Hydropower Plant</displayname>
+								<image>images\hydropower.png</image>
+                            </group>
+                            <group>
+								<name>groundwater</name>
+								<description>Groundwater</description>
+								<displayname>Groundwater</displayname>
+								<image>images\groundwater.png</image>
+                            </group>
+                            <group>
+								<name>desalination</name>
+								<description>Desalination Plant</description>
+								<displayname>Desalination Plant</displayname>
+								<image>images\desalination.png</image>
+                            </group>
+                            <group>
+								<name>river_section</name>
+								<description>River Section</description>
+								<displayname>River Section</displayname>		
+								<image>images\red_line.png</image>
+							</group>
+
+						</groups>
+				    </category>	
+				</categories>
+            </value>
+        </item>
+    </layout>
 <resources>
     
     <resource>
@@ -15,7 +94,17 @@
   
     <resource>
         <type>NODE</type>
-        <name>supply</name>
+        <name>desalination</name>
+        <layout>
+            <item>
+                <name>image</name>
+                <value>images\desalination.png</value>
+            </item>
+            <item>
+                <name>group</name>
+                <value>desalination</value>
+            </item>
+        </layout>
         <attribute>
             <name>inflow</name>
             <dimension>Dimensionless</dimension>
@@ -43,10 +132,99 @@
             <is_var>Y</is_var>
         </attribute>
     </resource>
-  
     <resource>
         <type>NODE</type>
-        <name>non_storage</name>
+        <name>surface_reservoir</name>
+        <layout>
+            <item>
+                <name>image</name>
+                <value>images\surface_reservoir.png</value>
+            </item>
+            <item>
+                <name>group</name>
+                <value>surface_reservoir</value>
+            </item>
+        </layout>
+        <attribute>
+            <name>inflow</name>
+            <dimension>Dimensionless</dimension>
+            <is_var>N</is_var>
+            <data_type>timeseries</data_type>
+        </attribute>
+        <attribute>
+            <name>min_storage</name>
+            <dimension>Volume</dimension>
+            <is_var>N</is_var>
+        </attribute>
+        <attribute>
+            <name>max_storage</name>
+            <dimension>Volume</dimension>
+            <is_var>N</is_var>
+        </attribute>
+        <attribute>
+            <name>initial_storage</name>
+            <dimension>Volume</dimension>
+            <is_var>N</is_var>
+        </attribute>
+        <attribute>
+            <name>S</name>
+            <dimension>Volume</dimension>
+            <is_var>Y</is_var>
+        </attribute>
+    </resource>
+    <resource>
+        <type>NODE</type>
+        <name>groundwater</name>
+        <layout>
+            <item>
+                <name>image</name>
+                <value>images\groundwater.png</value>
+            </item>
+            <item>
+                <name>group</name>
+                <value>groundwater</value>
+            </item>
+        </layout>
+        <attribute>
+            <name>inflow</name>
+            <dimension>Dimensionless</dimension>
+            <is_var>N</is_var>
+            <data_type>timeseries</data_type>
+        </attribute>
+        <attribute>
+            <name>min_storage</name>
+            <dimension>Volume</dimension>
+            <is_var>N</is_var>
+        </attribute>
+        <attribute>
+            <name>max_storage</name>
+            <dimension>Volume</dimension>
+            <is_var>N</is_var>
+        </attribute>
+        <attribute>
+            <name>initial_storage</name>
+            <dimension>Volume</dimension>
+            <is_var>N</is_var>
+        </attribute>
+        <attribute>
+            <name>S</name>
+            <dimension>Volume</dimension>
+            <is_var>Y</is_var>
+        </attribute>
+    </resource>
+    <resource>
+        <type>NODE</type>
+        <name>wastewater</name>
+        <layout>
+            <item>
+                <name>image</name>
+                <value>images\wwtp.png</value>
+            </item>
+            <item>
+                <name>group</name>
+                <value>wastewater</value>
+            </item>
+        </layout>
         <attribute>
             <name>cost</name>
             <dimension>Monetary value</dimension>
@@ -58,10 +236,129 @@
             <is_var>N</is_var>
         </attribute>
     </resource>
-
+    <resource>
+        <type>NODE</type>
+        <name>hydropower</name>
+        <layout>
+            <item>
+                <name>image</name>
+                <value>images\hydropower.png</value>
+            </item>
+            <item>
+                <name>group</name>
+                <value>hydropower</value>
+            </item>
+        </layout>
+        <attribute>
+            <name>cost</name>
+            <dimension>Monetary value</dimension>
+            <is_var>N</is_var>
+            </attribute>
+        <attribute>
+            <name>demand</name>
+            <dimension>Volume</dimension>
+            <is_var>N</is_var>
+        </attribute>
+    </resource>
+    <resource>
+        <type>NODE</type>
+        <name>junction</name>
+        <layout>
+            <item>
+                <name>image</name>
+                <value>images\junction.png</value>
+            </item>
+            <item>
+                <name>group</name>
+                <value>junction</value>
+            </item>
+        </layout>
+        <attribute>
+            <name>cost</name>
+            <dimension>Monetary value</dimension>
+            <is_var>N</is_var>
+            </attribute>
+        <attribute>
+            <name>demand</name>
+            <dimension>Volume</dimension>
+            <is_var>N</is_var>
+        </attribute>
+    </resource>
+    <resource>
+        <type>NODE</type>
+        <name>discharge</name>
+        <layout>
+            <item>
+                <name>image</name>
+                <value>images\discharge.png</value>
+            </item>
+            <item>
+                <name>group</name>
+                <value>discharge</value>
+            </item>
+        </layout>
+        <attribute>
+            <name>cost</name>
+            <dimension>Monetary value</dimension>
+            <is_var>N</is_var>
+            </attribute>
+        <attribute>
+            <name>demand</name>
+            <dimension>Volume</dimension>
+            <is_var>N</is_var>
+        </attribute>
+    </resource>
+    <resource>
+        <type>NODE</type>
+        <name>urban</name>
+        <layout>
+            <item>
+                <name>image</name>
+                <value>images\urban.png</value>
+            </item>
+            <item>
+                <name>group</name>
+                <value>urban</value>
+            </item>
+        </layout>
+        <attribute>
+            <name>cost</name>
+            <dimension>Monetary value</dimension>
+            <is_var>N</is_var>
+            </attribute>
+        <attribute>
+            <name>demand</name>
+            <dimension>Volume</dimension>
+            <is_var>N</is_var>
+        </attribute>
+    </resource>
+    <resource>
+        <type>NODE</type>
+        <name>agricultural</name>
+        <layout>
+            <item>
+                <name>image</name>
+                <value>images\agricultural.png</value>
+            </item>
+            <item>
+                <name>group</name>
+                <value>agricultural</value>
+            </item>
+        </layout>
+        <attribute>
+            <name>cost</name>
+            <dimension>Monetary value</dimension>
+            <is_var>N</is_var>
+            </attribute>
+        <attribute>
+            <name>demand</name>
+            <dimension>Volume</dimension>
+            <is_var>N</is_var>
+        </attribute>
+    </resource>
     <resource>
         <type>LINK</type>
-        <name>link</name>
+        <name>river_section</name>
         <attribute>
             <name>Q</name>
             <dimension>Volumetric flow rate</dimension>
@@ -88,7 +385,6 @@
             <is_var>N</is_var>
         </attribute>
     </resource>
-
     <resource>
         <type>GROUP</type>
         <name>group</name>
