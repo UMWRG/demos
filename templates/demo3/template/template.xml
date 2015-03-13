@@ -138,7 +138,7 @@
         <layout>
             <item>
                 <name>image</name>
-                <value>images\surface_reservoir.png</value>
+                <value>images\reservoir.png</value>
             </item>
             <item>
                 <name>group</name>
@@ -218,7 +218,7 @@
         <layout>
             <item>
                 <name>image</name>
-                <value>images\wwtp.png</value>
+                <value>images\wastewater.png</value>
             </item>
             <item>
                 <name>group</name>
@@ -359,6 +359,16 @@
     <resource>
         <type>LINK</type>
         <name>river_section</name>
+        <layout>
+            <item>
+                <name>image</name>
+                <value>images\red_line.png</value>
+            </item>
+            <item>
+                <name>group</name>
+                <value>river_section</value>
+            </item>
+        </layout>
         <attribute>
             <name>Q</name>
             <dimension>Volumetric flow rate</dimension>
