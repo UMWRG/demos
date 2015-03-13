@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <template_definition>
-<template_name>Demo 2 Model</template_name>
+<template_name>demo2</template_name>
 <layout>	    
         <item>
             <name>grouping</name>

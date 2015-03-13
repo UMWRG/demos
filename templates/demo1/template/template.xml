@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <template_definition>
-<template_name>Demo 2 Model</template_name>
+<template_name>demo1</template_name>
 <layout>	    
         <item>
             <name>grouping</name>
             <value>			    
-			    <name>Demo 2 Model</name>
-				<description>Demo 2 network model</description>
+			    <name>Demo 1 Model</name>
+				<description>Demo 1 network model</description>
 				<categories>
 				    <category>
 						<name>Resources</name>
