@@ -14,23 +14,42 @@
 						<displayname>Network resources</displayname>
 						<groups>
 							<group>
-								<name>supply</name>
-								<description>Supply</description>
-								<displayname>Supply</displayname>
+								<name>surface_reservoir</name>
+								<description>Surface Reservoir</description>
+								<displayname>Surface Reservoir</displayname>
 								<image>images\reservoir.png</image>
 							</group>
                             <group>
-								<name>demand</name>
-								<description>Demand</description>
-								<displayname>Demand</displayname>
+								<name>urban</name>
+								<description>Urban</description>
+								<displayname>Urban</displayname>
 								<image>images\urban.png</image>
 							</group>
                             <group>
-								<name>dummy</name>
-								<description>Dummy</description>
-								<displayname>Dummy</displayname>		
-								<image>images\discharge.png</image>
+								<name>agricultural</name>
+								<description>Agricultural</description>
+								<displayname>Agricultural</displayname>
+								<image>images\agricultural.png</image>
 							</group>
+                            <group>
+								<name>junction</name>
+								<description>Junction</description>
+								<displayname>Junction</displayname>
+								<image>images\junction.png</image>
+							</group>
+                            <group>
+								<name>discharge</name>
+								<description>discharge</description>
+								<displayname>discharge</displayname>
+								<image>images\discharge.png</image>
+                            </group>
+                            <group>
+								<name>river_section</name>
+								<description>River Section</description>
+								<displayname>River Section</displayname>		
+								<image>images\red_line.png</image>
+							</group>
+
 						</groups>
 				    </category>	
 				</categories>
@@ -108,7 +127,7 @@
         </item>
         <item>
             <name>group</name>
-            <value>demand</value>
+            <value>urban</value>
         </item>
     </layout>
     <attribute>
@@ -142,7 +161,7 @@
 		</item>
         <item>
             <name>group</name>
-            <value>demand</value>
+            <value>agricultural</value>
         </item>
 	</layout>
     <attribute>
@@ -176,7 +195,7 @@
 		</item>
         <item>
             <name>group</name>
-            <value>demand</value>
+            <value>junction</value>
         </item>
 	</layout>
   </resource>
@@ -198,7 +217,7 @@
     </item>
     <item>
         <name>group</name>
-        <value>dummy</value>
+        <value>discharge</value>
     </item>
   </layout>
   </resource>
@@ -222,6 +241,10 @@
 			<name>line_weight</name>
 			<value>3</value>
 		</item>
+        <item>
+               <name>group</name>
+               <value>river_section</name>
+        </item>
         
 	</layout>
     <attribute>
