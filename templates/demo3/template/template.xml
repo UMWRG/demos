@@ -5,7 +5,7 @@
         <item>
             <name>grouping</name>
             <value>			    
-			    <name>Demo 3 Model</name>
+			    <name>demo3</name>
 				<description>Demo 3 network model</description>
 				<categories>
 				    <category>
@@ -73,7 +73,6 @@
 								<displayname>River Section</displayname>		
 								<image>images\red_line.png</image>
 							</group>
-
 						</groups>
 				    </category>	
 				</categories>
