@@ -6,3 +6,4 @@
 *.lxi
 *.pyc
 *.log
+parse_table_datacmds.py
