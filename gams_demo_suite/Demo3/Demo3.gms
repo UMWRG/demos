@@ -27,8 +27,8 @@ $TITLE    Demo3.gms
 **  Loading Data: sets, parameters and tables
 ** ----------------------------------------------------------------------
 
-$        include "shortage.txt";
-*$        include "non_shortage.txt";
+*$        include "shortage.txt";
+$        include "non_shortage.txt";
 
 ** ----------------------------------------------------------------------
 **  Model variables and equations
@@ -72,46 +72,46 @@ set dv(t) / /;
 
 Objective ..
     Z =E= sum(t$dv(t),SUM((demand_nodes), alpha(demand_nodes)
-          * non_storage_timeseries_data(t, demand_nodes, "cost")));
+          * cost(demand_nodes, t)));
 
 * Mass balance constraint for non-storage nodes:
 
 MassBalance_nonstorage(non_storage_nodes)..
 
-         SUM(t$dv(t),supply_timeseries_data(t, non_storage_nodes, "inflow")
+         SUM(t$dv(t),inflow(non_storage_nodes, t)
          +SUM(j$links(j,non_storage_nodes), Q(j,non_storage_nodes,t)
-         * link_timeseries_data(t, j,non_storage_nodes, "flow_multiplier"))
+         * flow_multiplier(j,non_storage_nodes, t))
          - SUM(j$links(non_storage_nodes,j), Q(non_storage_nodes,j,t))
-         - (alpha(non_storage_nodes)* non_storage_timeseries_data(t, non_storage_nodes, "demand")))
+         - (alpha(non_storage_nodes)* demand(non_storage_nodes, t)))
          =E= 0;
 
 * Mass balance constraint for storage nodes:
 
 MassBalance_storage(storage_nodes)..
 
-         SUM(t$dv(t),supply_timeseries_data(t, storage_nodes, "inflow")
+         SUM(t$dv(t),inflow(storage_nodes, t)
          + SUM(j$links(j,storage_nodes), Q(j,storage_nodes,t)
-         * link_timeseries_data(t, j, storage_nodes, "flow_multiplier"))
+         * flow_multiplier(j, storage_nodes, t))
          - SUM(j$links(storage_nodes,j), Q(storage_nodes,j,t))
          - S(storage_nodes,t)
          + storage(storage_nodes,t-1)$(ord(t) GT 1)
-         + supply_scalar_data(storage_nodes, "initial_storage")$(ord(t) EQ 1))
+         + initial_storage(storage_nodes, t)$(ord(t) EQ 1))
          =E= 0;
 
 * Lower and upper bound of possible flow in links
 
 MinFlow(i,j,t)$(links(i,j) and dv(t)) ..
-    Q(i,j,t) =G= link_timeseries_data(t, i,j,"min_flow");
+    Q(i,j,t) =G= min_flow(i,j, t);
 
 MaxFlow(i,j,t)$(links(i,j)  and dv(t))..
-    Q(i,j,t) =L= link_timeseries_data(t, i,j,"max_flow");
+    Q(i,j,t) =L= max_flow(i,j, t);
 
 * Lower and upper bound of Storage volume at storage nodes
 MaxStor(storage_nodes,t)$dv(t)..
-    S(storage_nodes,t) =L= supply_timeseries_data(t, storage_nodes, "max_storage");
+    S(storage_nodes,t) =L= max_storage(storage_nodes, t);
 
 MinStor(storage_nodes,t)$dv(t)..
-    S(storage_nodes,t) =G= supply_timeseries_data(t, storage_nodes, "min_storage");
+    S(storage_nodes,t) =G= min_storage(storage_nodes, t);
 
 ** ----------------------------------------------------------------------
 **  Model declaration and solve statements
