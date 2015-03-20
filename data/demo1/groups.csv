@@ -1,4 +1,0 @@
-Name       , Type , Description
-Units      ,      ,
-non_storage_nodes , no_storage, Nodes that don't feature a storage
-demand_nodes      , no_storage, Demand Nodes

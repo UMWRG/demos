@@ -44,41 +44,51 @@ Q
 ;
 
 EQUATIONS
-MassBalance_nonstorage(non_storage_nodes)
+MassBalance_junction(i)
+MassBalance_urban(i)
+MassBalance_agricultural(i)
 MinFlow(i,j)
 MaxFlow(i,j)
-DemandDelivery(demand_nodes)
 Objective
 ;
 
 * Objective function
 
 Objective ..
-    Z =E= SUM((i,j)$links(i,j), Q(i,j) * link_scalar_data(i,j, 'cost'))
+    Z =E= SUM((i,j)$links(i,j), Q(i,j) * cost(i,j, "0"))
 ;
 
-*Calculating water delivery for each demand node at each time step
+* Mass balance constraints for all the non-storage nodes
 
-DemandDelivery(demand_nodes)..
-         delivery(demand_nodes) =E= SUM(j$links(j,demand_nodes), link_scalar_data(j,demand_nodes, "flow_multiplier")
-         *Q(j,demand_nodes));
+MassBalance_junction(junction) ..
+    inflow(junction, "0") +
+    SUM(j$links(j,junction), Q(j,junction) * flow_multiplier(j,junction, '0')) -
+    SUM(j$links(junction,j), Q(junction,j)) -
+    consumption_coefficient(junction, "0") * 
+    delivery(junction)
+    =E= 0;
 
-* Mass balance constrait for non-storage nodes
+MassBalance_urban(urban) ..
+    SUM(j$links(j,urban), Q(j,urban) * flow_multiplier(j,urban, '0')) -
+    SUM(j$links(urban,j), Q(urban,j)) -
+    consumption_coefficient(urban, "0") * 
+    delivery(urban)
+    =E= 0;
 
-MassBalance_nonstorage(non_storage_nodes) ..
-    junction_scalar_data(non_storage_nodes, 'inflow')+
-    SUM(j$links(j,non_storage_nodes), Q(j,non_storage_nodes)* link_scalar_data(j,non_storage_nodes, 'flow_multiplier'))
-    - SUM(j$links(non_storage_nodes,j), Q(non_storage_nodes,j))
-    - demand_scalar_data(non_storage_nodes, 'consumption_coefficient')$demand_nodes(non_storage_nodes) * delivery(non_storage_nodes)
+MassBalance_agricultural(agricultural) ..
+    SUM(j$links(j,agricultural), Q(j,agricultural) * flow_multiplier(j,agricultural, '0')) -
+    SUM(j$links(agricultural,j), Q(agricultural,j)) -
+    consumption_coefficient(agricultural, "0") * 
+    delivery(agricultural)
     =E= 0;
 
 * Lower and upper bound of possible flow in links
 
 MinFlow(i,j)$links(i,j) ..
-    Q(i,j) =G= link_scalar_data(i,j, 'min_flow');
+    Q(i,j) =G= min_flow(i,j, '0');
 
 MaxFlow(i,j)$links(i,j) ..
-    Q(i,j) =L= link_scalar_data(i,j, 'max_flow');
+    Q(i,j) =L= max_flow(i,j, '0');
 
 ** ----------------------------------------------------------------------
 **  Model declaration and solve statements
@@ -92,8 +102,9 @@ SOLVE Demo1 USING LP MINIMIZING Z;
 
 execute_unload "Results.gdx" ,
     Q,
-    MassBalance_nonstorage,
+    MassBalance_junction,
+    MassBalance_urban,
+    MassBalance_agricultural,
     MinFlow,
     MaxFlow,
-    Z
-    link_scalar_data;
+    Z;

@@ -2,8 +2,8 @@
 * (c) Copyright 2015, University of Manchester
 *
 * GAMS App tutorial: 
-* Network-ID:  2
-* Scenario-ID: 2
+* Network-ID:  4
+* Scenario-ID: 4
 *******************************************************************************
 
 * Network definition
@@ -99,92 +99,70 @@ Parameter timestamp(t) ;
     timestamp("5") = 730272.0 ;
 
 
-* Node data
+* Nodes data
+Table consumption_coefficient(i, t)
+            0
+Ag1         1.0
+Urb1        1.0
 
-* Data for node type agricultural
+Table initial_storage(i, t)
+            0
+SR1         450.0
 
-SETS
+*inflow
+Table inflow (i,t)
 
-agricultural_scalars /
-consumption_coefficient
-/
+        0              1              2              3              4             5             
+SR1     300.000000     320.000000     320.000000     330.000000     310.000000    310.000000
 
-Table agricultural_scalar_data(i,agricultural_scalars) 
+*storagelower
+Table storagelower (i,t)
 
-                         consumption_coefficient
-Ag1                                 1.0
+         0              1              2              3              4              5             
+SR1      10.000000      10.000000      10.000000      10.000000      10.000000      10.000000
 
+*storageupper
+Table storageupper (i,t)
 
-* Data for node type discharge
+        0              1              2              3              4              5             
+SR1     500.000000     500.000000     500.000000     500.000000     500.000000     500.000000
 
-* Data for node type junction
+* Links data
 
-* Data for node type surface_reservoir
+*cost
+Table cost (i,j,t)
 
-SETS
+              0              1             2              3              4              5             
+J1.EndPt      10.000000      10.000000     10.000000      10.000000      10.000000      10.000000
+J1.Urb1       1.000000       10.000000     7.000000       2.000000       3.000000       5.000000
+SR1.Ag1       20.000000      8.000000      20.000000      15.000000      19.000000      10.000000
+SR1.J1        15.000000      15.000000     15.000000      15.000000      15.000000      15.000000
 
-surface_reservoir_scalars /
-initial_storage
-/
+*flow_multiplier
+Table flow_multiplier (i,j,t)
 
-Table surface_reservoir_scalar_data(i,surface_reservoir_scalars) 
+             0              1              2              3              4              5             
+J1.EndPt     1.000000       1.000000       1.000000       1.000000       1.000000       1.000000
+J1.Urb1      0.950000       0.850000       0.900000       0.850000       0.900000       1.000000
+SR1.Ag1      1.000000       1.000000       1.000000       1.000000       1.000000       1.000000
+SR1.J1       1.000000       0.900000       1.000000       0.950000       1.000000       1.000000
 
-                         initial_storage
-SR1                               450.0
+*min_flow
+Table min_flow (i,j,t)
 
+             0              1              2              3              4              5             
+J1.EndPt     10.000000      30.000000      30.000000      30.000000      30.000000      30.000000
+J1.Urb1      20.000000      10.000000      25.000000      20.000000      20.000000      20.000000
+SR1.Ag1      25.000000      15.000000      10.000000      10.000000      15.000000      15.000000
+SR1.J1       10.000000      10.000000      10.000000      10.000000      10.000000      10.000000
 
-SETS
-
-surface_reservoir_timeseries /
-inflow
-storagelower
-storageupper
-/
-
-Table surface_reservoir_timeseries_data(t,i,surface_reservoir_timeseries) 
-
-            SR1.inflow SR1.storagelower SR1.storageupper
-0           300.000000        10.000000       500.000000
-1           320.000000        10.000000       500.000000
-2           320.000000        10.000000       500.000000
-3           330.000000        10.000000       500.000000
-4           310.000000        10.000000       500.000000
-5           310.000000        10.000000       500.000000
-
-* Data for node type urban
-
-SETS
-
-urban_scalars /
-consumption_coefficient
-/
-
-Table urban_scalar_data(i,urban_scalars) 
-
-                         consumption_coefficient
-Urb1                                1.0
+*max_flow
+Table max_flow (i,j,t)
+             0              1              2              3              4              5             
+J1.EndPt     200.000000     200.000000     200.000000     200.000000     200.000000     200.000000
+J1.Urb1      220.000000     250.000000     240.000000     230.000000     240.000000     250.000000
+SR1.Ag1      200.000000     210.000000     210.000000     200.000000     200.000000     200.000000
+SR1.J1       310.000000     300.000000     300.000000     300.000000     310.000000     300.000000
 
 
-* Link data
-
-* Data for link type river_section
-
-SETS
-
-river_section_timeseries /
-cost
-flow_multiplier
-min_flow
-max_flow
-/
-
-Table river_section_timeseries_data(t,i,j,river_section_timeseries) 
-
-        J1 . EndPt.cost J1 . Urb1.cost SR1 . Ag1.cost  SR1 . J1.cost J1 . EndPt.flow_multiplier J1 . Urb1.flow_multiplier SR1 . Ag1.flow_multiplier SR1 . J1.flow_multiplier J1 . EndPt.min_flow J1 . Urb1.min_flow SR1 . Ag1.min_flow SR1 . J1.min_flow J1 . EndPt.max_flow J1 . Urb1.max_flow SR1 . Ag1.max_flow SR1 . J1.max_flow
-0             10.000000       1.000000      20.000000      15.000000                   1.000000                  0.950000                  1.000000                 1.000000           10.000000          20.000000          25.000000         10.000000          200.000000         220.000000         200.000000        310.000000
-1             10.000000      10.000000       8.000000      15.000000                   1.000000                  0.850000                  1.000000                 0.900000           30.000000          10.000000          15.000000         10.000000          200.000000         250.000000         210.000000        300.000000
-2             10.000000       7.000000      20.000000      15.000000                   1.000000                  0.900000                  1.000000                 1.000000           30.000000          25.000000          10.000000         10.000000          200.000000         240.000000         210.000000        300.000000
-3             10.000000       2.000000      15.000000      15.000000                   1.000000                  0.850000                  1.000000                 0.950000           30.000000          20.000000          10.000000         10.000000          200.000000         230.000000         200.000000        300.000000
-4             10.000000       3.000000      19.000000      15.000000                   1.000000                  0.900000                  1.000000                 1.000000           30.000000          20.000000          15.000000         10.000000          200.000000         240.000000         200.000000        310.000000
-5             10.000000       5.000000      10.000000      15.000000                   1.000000                  1.000000                  1.000000                 1.000000           30.000000          20.000000          15.000000         10.000000          200.000000         250.000000         200.000000        300.000000
 
