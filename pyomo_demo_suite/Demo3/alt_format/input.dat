@@ -1,0 +1,312 @@
+#*******************************************************************************
+# Data exported from Hydra using PyomoPlugin.
+# (c) Copyright 2015, University of Manchester
+# Network-ID:  4
+# Scenario-ID: 4
+#*******************************************************************************
+
+set  nodes :=  Ag1 Ag2 Desal1 EndPt GW1 GW2 Hp1 J1 J2 J3 SR1 SR2 SR3 SR4 Urb1 Urb2 WWTP1;
+
+set  links:= 
+Ag1 GW2
+Ag1 J2
+Ag2 GW2
+Ag2 J3
+Desal1 Urb2
+GW1 Urb1
+GW2 Ag1
+GW2 Ag2
+Hp1 SR4
+J1 SR2
+J2 Ag2
+J2 J3
+J3 EndPt
+SR1 J1
+SR1 Urb1
+SR2 SR4
+SR3 Hp1
+SR4 Ag1
+SR4 J2
+SR4 Urb2
+Urb1 GW1
+Urb1 J1
+Urb2 WWTP1
+WWTP1 J2
+WWTP1 Urb2;
+
+#Nodes groups
+
+set  demand_nodes:= 
+Ag1
+Ag2
+EndPt
+Urb1
+Urb2
+;
+
+set  non_storage_nodes:= 
+Ag1
+Ag2
+EndPt
+Hp1
+J1
+J2
+J3
+Urb1
+Urb2
+WWTP1
+;
+
+set  storage_nodes:= 
+Desal1
+GW1
+GW2
+SR1
+SR2
+SR3
+SR4
+;
+
+#Nodes types
+
+set  agricultural:= 
+Ag1
+Ag2
+;
+
+set  desalination:= 
+Desal1
+;
+
+set  discharge:= 
+EndPt
+;
+
+set  groundwater:= 
+GW1
+GW2
+;
+
+set  hydropower:= 
+Hp1
+;
+
+set  junction:= 
+J1
+J2
+J3
+;
+
+set  surface_reservoir:= 
+SR1
+SR2
+SR3
+SR4
+;
+
+set  urban:= 
+Urb1
+Urb2
+;
+
+set  wastewater:= 
+WWTP1
+;
+
+set  river_section:= 
+
+Ag1 GW2
+Ag1 J2
+Ag2 GW2
+Ag2 J3
+Desal1 Urb2
+GW1 Urb1
+GW2 Ag1
+GW2 Ag2
+Hp1 SR4
+J1 SR2
+J2 Ag2
+J2 J3
+J3 EndPt
+SR1 J1
+SR1 Urb1
+SR2 SR4
+SR3 Hp1
+SR4 Ag1
+SR4 J2
+SR4 Urb2
+Urb1 GW1
+Urb1 J1
+Urb2 WWTP1
+WWTP1 J2
+WWTP1 Urb2;
+
+set time_step:= 1 2 3 4 5 6 7 8 9;
+
+set actual_time_step:= 2000-01-01 00:00:00 2000-02-01 00:00:00 2000-03-01 00:00:00 2000-04-01 00:00:00 2000-05-01 00:00:00 2000-06-01 00:00:00 2000-07-01 00:00:00 2000-08-01 00:00:00 2000-09-01 00:00:00;
+
+param cost_agricultural:
+                 1                2                3                4                5                6                7                8                9                :=
+  Ag1           50               50               50               50               50               50               50               50               50               
+  Ag2           30               30               30               30               30               30               30               30               30               ;
+
+param demand_agricultural:
+                 1                2                3                4                5                6                7                8                9                :=
+  Ag1           55               270              27               27               27               29               29               29               280              
+  Ag2           60               210              21               21               22               22               22               22               210              ;
+
+param initial_storage_desalination:=
+ Desal1           10000.0          ;
+
+param min_storage_desalination:
+                 1                2                3                4                5                6                7                8                9                :=
+  Desal1        10               10               10               10               10               10               10               10               10               ;
+
+param max_storage_desalination:
+                 1                2                3                4                5                6                7                8                9                :=
+  Desal1        100000           100000           100000           100000           100000           100000           100000           100000           100000           ;
+
+param inflow_desalination:
+                 1                2                3                4                5                6                7                8                9                :=
+  Desal1        1000             1000             1000             1000             1000             1000             1000             1000             1000             ;
+
+param cost_discharge:
+                 1                2                3                4                5                6                7                8                9                :=
+  EndPt         1                1                1                1                1                1                1                1                1                ;
+
+param demand_discharge:
+                 1                2                3                4                5                6                7                8                9                :=
+  EndPt         15               160              14               15               15               15               14               15               160              ;
+
+param initial_storage_groundwater:=
+ GW1              600.0            
+ GW2              600.0            ;
+
+param min_storage_groundwater:
+                 1                2                3                4                5                6                7                8                9                :=
+  GW1           300              300              300              300              300              300              300              300              300              
+  GW2           300              300              300              300              300              300              300              300              300              ;
+
+param max_storage_groundwater:
+                 1                2                3                4                5                6                7                8                9                :=
+  GW1           2000             2000             2000             2000             2000             2000             2000             2000             2000             
+  GW2           2000             2000             2000             2000             2000             2000             2000             2000             2000             ;
+
+param initial_storage_surface_reservoir:=
+ SR1              150.0            
+ SR2              200.0            
+ SR3              600.0            
+ SR4              150.0            ;
+
+param min_storage_surface_reservoir:
+                 1                2                3                4                5                6                7                8                9                :=
+  SR1           50               50               50               50               50               50               50               50               50               
+  SR2           20               20               20               20               20               20               20               20               20               
+  SR3           30               30               30               30               30               30               30               30               30               
+  SR4           60               60               60               60               60               60               60               60               60               ;
+
+param max_storage_surface_reservoir:
+                 1                2                3                4                5                6                7                8                9                :=
+  SR1           500              500              500              500              500              500              500              500              500              
+  SR2           200              200              200              200              200              200              200              200              200              
+  SR3           700              700              700              700              700              700              700              700              700              
+  SR4           600              600              600              600              600              600              600              600              600              ;
+
+param inflow_surface_reservoir:
+                 1                2                3                4                5                6                7                8                9                :=
+  SR1           100              120              120              130              110              110              100              120              120              
+  SR3           40               30               30               30               40               50               40               40               50               ;
+
+param cost_urban:
+                 1                2                3                4                5                6                7                8                9                :=
+  Urb1          90               90               90               90               90               90               90               90               90               
+  Urb2          100              100              100              100              100              100              100              100              100              ;
+
+param demand_urban:
+                 1                2                3                4                5                6                7                8                9                :=
+  Urb1          75               430              44               44               46               49               50               50               470              
+  Urb2          90               600              60               62               62               65               69               69               640              ;
+
+param flow_multiplier_river_section:
+                 1                2                3                4                5                6                7                8                9                :=
+  [Ag1,GW2]     1                1                1                1                1                1                1                1                1                
+  [Ag1,J2]      0.95             0.95             0.95             0.95             0.95             0.95             0.95             0.95             0.95             
+  [Ag2,GW2]     1                1                1                1                1                1                1                1                1                
+  [Ag2,J3]      1                1                1                1                1                1                1                1                1                
+  [Desal1,Urb2] 1                1                1                1                1                1                1                1                1                
+  [GW1,Urb1]    1                1                1                1                1                1                1                1                1                
+  [GW2,Ag1]     1                1                1                1                1                1                1                1                1                
+  [GW2,Ag2]     1                1                1                1                1                1                1                1                1                
+  [Hp1,SR4]     1                1                1                1                1                1                1                1                1                
+  [J1,SR2]      1                1                1                1                1                1                1                1                1                
+  [J2,Ag2]      1                1                1                1                1                1                1                1                1                
+  [J2,J3]       0.9              0.9              0.9              0.9              0.9              0.9              0.9              0.9              0.9              
+  [J3,EndPt]    1                1                1                1                1                1                1                1                1                
+  [SR1,J1]      1                1                1                1                1                1                1                1                1                
+  [SR1,Urb1]    1                1                1                1                1                1                1                1                1                
+  [SR2,SR4]     1                1                1                1                1                1                1                1                1                
+  [SR3,Hp1]     1                1                1                1                1                1                1                1                1                
+  [SR4,Ag1]     0.95             0.95             0.95             0.95             0.95             0.95             0.95             0.95             0.95             
+  [SR4,J2]      0.95             0.95             0.95             0.95             0.95             0.95             0.95             0.95             0.95             
+  [SR4,Urb2]    1                1                1                1                1                1                1                1                1                
+  [Urb1,GW1]    1                1                1                1                1                1                1                1                1                
+  [Urb1,J1]     1                1                1                1                1                1                1                1                1                
+  [Urb2,WWTP1]  1                1                1                1                1                1                1                1                1                
+  [WWTP1,J2]    1                1                1                1                1                1                1                1                1                
+  [WWTP1,Urb2]  1                1                1                1                1                1                1                1                1                ;
+
+param min_flow_river_section:
+                 1                2                3                4                5                6                7                8                9                :=
+  [Ag1,GW2]     0                0                0                0                0                0                0                0                0                
+  [Ag1,J2]      0                0                0                0                0                0                0                0                0                
+  [Ag2,GW2]     0                0                0                0                0                0                0                0                0                
+  [Ag2,J3]      0                0                0                0                0                0                0                0                0                
+  [Desal1,Urb2] 0                0                0                0                0                0                0                0                0                
+  [GW1,Urb1]    0                0                0                0                0                0                0                0                0                
+  [GW2,Ag1]     0                0                0                0                0                0                0                0                0                
+  [GW2,Ag2]     0                0                0                0                0                0                0                0                0                
+  [Hp1,SR4]     50               50               50               50               50               50               50               50               50               
+  [J1,SR2]      10               10               10               10               10               10               10               10               10               
+  [J2,Ag2]      0                0                0                0                0                0                0                0                0                
+  [J2,J3]       10               10               10               10               10               10               10               10               10               
+  [J3,EndPt]    10               10               10               10               10               10               10               10               10               
+  [SR1,J1]      10               10               10               10               10               10               10               10               10               
+  [SR1,Urb1]    0                0                0                0                0                0                0                0                0                
+  [SR2,SR4]     10               10               10               10               10               10               10               10               10               
+  [SR3,Hp1]     50               50               50               50               50               50               50               50               50               
+  [SR4,Ag1]     0                0                0                0                0                0                0                0                0                
+  [SR4,J2]      10               10               10               10               10               10               10               10               10               
+  [SR4,Urb2]    0                0                0                0                0                0                0                0                0                
+  [Urb1,GW1]    0                0                0                0                0                0                0                0                0                
+  [Urb1,J1]     0                0                0                0                0                0                0                0                0                
+  [Urb2,WWTP1]  0                0                0                0                0                0                0                0                0                
+  [WWTP1,J2]    0                0                0                0                0                0                0                0                0                
+  [WWTP1,Urb2]  0                0                0                0                0                0                0                0                0                ;
+
+param max_flow_river_section:
+                 1                2                3                4                5                6                7                8                9                :=
+  [Ag1,GW2]     100              100              100              100              100              100              100              100              100              
+  [Ag1,J2]      100              100              100              100              100              100              100              100              100              
+  [Ag2,GW2]     100              100              100              100              100              100              100              100              100              
+  [Ag2,J3]      100              100              100              100              100              100              100              100              100              
+  [Desal1,Urb2] 400              400              400              400              400              400              400              400              400              
+  [GW1,Urb1]    400              400              400              400              400              400              400              400              400              
+  [GW2,Ag1]     400              400              400              400              400              400              400              400              400              
+  [GW2,Ag2]     400              400              400              400              400              400              400              400              400              
+  [Hp1,SR4]     100              100              100              100              100              100              100              100              100              
+  [J1,SR2]      100              100              100              100              100              100              100              100              100              
+  [J2,Ag2]      100              100              100              100              100              100              100              100              100              
+  [J2,J3]       200              200              200              200              200              200              200              200              200              
+  [J3,EndPt]    350              350              350              350              350              350              350              350              350              
+  [SR1,J1]      100              100              100              100              100              100              100              100              100              
+  [SR1,Urb1]    100              100              100              100              100              100              100              100              100              
+  [SR2,SR4]     100              100              100              100              100              100              100              100              100              
+  [SR3,Hp1]     100              100              100              100              100              100              100              100              100              
+  [SR4,Ag1]     100              100              100              100              100              100              100              100              100              
+  [SR4,J2]      200              200              200              200              200              200              200              200              200              
+  [SR4,Urb2]    100              100              100              100              100              100              100              100              100              
+  [Urb1,GW1]    100              100              100              100              100              100              100              100              100              
+  [Urb1,J1]     100              100              100              100              100              100              100              100              100              
+  [Urb2,WWTP1]  100              100              100              100              100              100              100              100              100              
+  [WWTP1,J2]    400              400              400              400              400              400              400              400              400              
+  [WWTP1,Urb2]  400              400              400              400              400              400              400              400              400              ;
