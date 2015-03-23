@@ -37,17 +37,17 @@ class PyMode():
         #model.nonstorage_nodes = Set() #=>junction, urban and agricultural
         model.time_step = Set()
         # Declaring model parameters
-        model.inflow_surface_reservoir = Param(model.surface_reservoir, model.time_step)
+        model.inflow = Param(model.surface_reservoir, model.time_step)
         model.current_time_step = Set()
-        model.consumption_coefficient_agricultural = Param(model.agricultural)
-        model.consumption_coefficient_urban = Param(model.urban)
-        model.initial_storage_surface_reservoir = Param(model.surface_reservoir, mutable=True)
-        model.cost_river_section = Param(model.river_section, model.time_step)
-        model.flow_multiplier_river_section = Param(model.river_section, model.time_step)
-        model.min_flow_river_section = Param(model.river_section, model.time_step)
-        model.max_flow_river_section = Param(model.river_section, model.time_step)
-        model.storagelower_surface_reservoir= Param(model.surface_reservoir, model.time_step)
-        model.storageupper_surface_reservoir = Param(model.surface_reservoir, model.time_step)
+        model.consumption_coefficient = Param(model.nodes)
+        #model.consumption_coefficient = Param(model.urban)
+        model.initial_storage = Param(model.surface_reservoir, mutable=True)
+        model.cost = Param(model.river_section, model.time_step)
+        model.flow_multiplier = Param(model.river_section, model.time_step)
+        model.min_flow = Param(model.river_section, model.time_step)
+        model.max_flow = Param(model.river_section, model.time_step)
+        model.storagelower= Param(model.surface_reservoir, model.time_step)
+        model.storageupper = Param(model.surface_reservoir, model.time_step)
         model.Q = Var(model.river_section, domain=NonNegativeReals, bounds=flow_capacity_constraint) #* [ 1e6 m^3 mon^-1]
         model.Z = Objective(rule=objective_function, sense=minimize) #*[1e6 m^3 mon^-1]
     #Declaring delivery
@@ -124,17 +124,17 @@ class PyMode():
 
 # Defining the flow lower and upper bound
 def flow_capacity_constraint(model, node, node2):
-    return (model.min_flow_river_section[node, node2, model.current_time_step], model.max_flow_river_section[node, node2, model.current_time_step])
+    return (model.min_flow[node, node2, model.current_time_step], model.max_flow[node, node2, model.current_time_step])
 
 # Defining the storage lower and upper bound
 def storage_capacity_constraint(model, storage_nodes):
-    return (model.storagelower_surface_reservoir[storage_nodes, model.current_time_step], model.storageupper_surface_reservoir[storage_nodes, model.current_time_step])
+    return (model.storagelower[storage_nodes, model.current_time_step], model.storageupper[storage_nodes, model.current_time_step])
 
 
 def get_current_cost(model):
     current_cost= {}
     for link in model.river_section:
-        current_cost[link]= model.cost_river_section[link, model.current_time_step]
+        current_cost[link]= model.cost[link, model.current_time_step]
     return current_cost
 
 def objective_function(model):
@@ -146,13 +146,13 @@ def objective_function(model):
 def mass_balance_agricultural(model, agricultural_nodes):
     # inflow
     #nonstorage_nodes
-    term2 = sum([model.Q[node_in, agricultural_nodes]*model.flow_multiplier_river_section[node_in, agricultural_nodes, model.current_time_step]
+    term2 = sum([model.Q[node_in, agricultural_nodes]*model.flow_multiplier[node_in, agricultural_nodes, model.current_time_step]
                   for node_in in model.nodes if (node_in, agricultural_nodes) in model.river_section])
     # outflow
     term3 = sum([model.Q[agricultural_nodes, node_out]
                   for node_out in model.nodes if (agricultural_nodes, node_out) in model.river_section])
-    term4 = model.consumption_coefficient_agricultural[agricultural_nodes] \
-        * sum([model.Q[node_in, agricultural_nodes]*model.flow_multiplier_river_section[node_in, agricultural_nodes, model.current_time_step]
+    term4 = model.consumption_coefficient[agricultural_nodes] \
+        * sum([model.Q[node_in, agricultural_nodes]*model.flow_multiplier[node_in, agricultural_nodes, model.current_time_step]
                for node_in in model.nodes if (node_in, agricultural_nodes) in model.river_section])
         # inflow - outflow = 0:
     return  term2 - (term3 + term4) == 0
@@ -160,10 +160,10 @@ def mass_balance_agricultural(model, agricultural_nodes):
 
 def mass_balance_urban(model, urban_nodes):
     #nonstorage_nodes
-    term1 = sum([model.Q[node_in, urban_nodes]*model.flow_multiplier_river_section[node_in, urban_nodes, model.current_time_step]
+    term1 = sum([model.Q[node_in, urban_nodes]*model.flow_multiplier[node_in, urban_nodes, model.current_time_step]
                   for node_in in model.nodes if (node_in, urban_nodes) in model.river_section])
-    term2 = model.consumption_coefficient_urban[urban_nodes] \
-        * sum([model.Q[node_in, urban_nodes]*model.flow_multiplier_river_section[node_in, urban_nodes, model.current_time_step]
+    term2 = model.consumption_coefficient[urban_nodes] \
+        * sum([model.Q[node_in, urban_nodes]*model.flow_multiplier[node_in, urban_nodes, model.current_time_step]
                for node_in in model.nodes if (node_in, urban_nodes) in model.river_section])
     term3 = sum([model.Q[urban_nodes, node_out]
                   for node_out in model.nodes if (urban_nodes, node_out) in model.river_section])
@@ -172,7 +172,7 @@ def mass_balance_urban(model, urban_nodes):
 
 def mass_balance_junction(model, junction_nodes):
     # inflow
-    term1 = sum([model.Q[node_in, junction_nodes]*model.flow_multiplier_river_section[node_in, junction_nodes, model.current_time_step]
+    term1 = sum([model.Q[node_in, junction_nodes]*model.flow_multiplier[node_in, junction_nodes, model.current_time_step]
                   for node_in in model.nodes if (node_in, junction_nodes) in model.river_section])
     # outflow
     term2 = sum([model.Q[junction_nodes, node_out]
@@ -183,8 +183,8 @@ def mass_balance_junction(model, junction_nodes):
 # Mass balance for storage nodes:
 def storage_mass_balance(model, storage_nodes):
     # inflow
-    term1 = model.inflow_surface_reservoir[storage_nodes, model.current_time_step]
-    term2 = sum([model.Q[node_in, storage_nodes]*model.flow_multiplier_river_section[node_in, storage_nodes, model.current_time_step]
+    term1 = model.inflow[storage_nodes, model.current_time_step]
+    term2 = sum([model.Q[node_in, storage_nodes]*model.flow_multiplier[node_in, storage_nodes, model.current_time_step]
                   for node_in in model.nodes if (node_in, storage_nodes) in model.river_section])
 
     # outflow
@@ -192,7 +192,7 @@ def storage_mass_balance(model, storage_nodes):
                   for node_out in model.nodes if (storage_nodes, node_out) in  model.river_section])
 
     # storage
-    term4 = model.initial_storage_surface_reservoir[storage_nodes]
+    term4 = model.initial_storage[storage_nodes]
     term5 = model.S[storage_nodes]
     # inflow - outflow = 0:
     return (term1 + term2 + term4) - (term3 + term5) == 0
@@ -210,7 +210,7 @@ def get_storage(instance):
 
 def set_initial_storage(instance, storage):
     for var in instance.active_components(Param):
-            if(var=="initial_storage_surface_reservoir"):
+            if(var=="initial_storage"):
                 s_var = getattr(instance, var)
                 for vv in s_var:
                     s_var[vv]=storage[vv]
@@ -222,7 +222,7 @@ def get_demand_nodes_list(instance):
             parmobject = getattr(instance, comp)
             for vv in parmobject.value:
                 for comp_2 in instance.active_components():
-                    if(comp_2=="consumption_coefficient_agricultural"):
+                    if(comp_2=="consumption_coefficient"):
                         parmobject_2 = getattr(instance, comp_2)
                         for vv2 in parmobject_2:
                             list[vv]=parmobject_2[vv2]
@@ -230,7 +230,7 @@ def get_demand_nodes_list(instance):
                 parmobject = getattr(instance, comp)
                 for vv in parmobject.value:
                     for comp_2 in instance.active_components():
-                        if(comp_2=="consumption_coefficient_urban"):
+                        if(comp_2=="consumption_coefficient"):
                             parmobject_2 = getattr(instance, comp_2)
                             for vv2 in parmobject_2:
                                 list[vv]=parmobject_2[vv2]
@@ -256,7 +256,7 @@ def set_delivery(instance, demand_nodes, cs):
                                             sum=sum+q*flow_m
                                             q=0
                                             flow_m=0
-                            if(var_2=="flow_multiplier_river_section"):
+                            if(var_2=="flow_multiplier"):
                                 s_var_2 = getattr(instance, var_2)
                                 for vv2 in s_var_2:
                                     if(vv == vv2[1] and cs== vv2[2]):
@@ -268,7 +268,7 @@ def set_delivery(instance, demand_nodes, cs):
                                         #print flow_m, q
 
                         s_var[vv]=sum
-                
+
 def run_model(datafile):
     pymodel=PyMode()
     return pymodel.run(datafile)
