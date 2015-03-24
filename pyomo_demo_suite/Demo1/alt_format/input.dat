@@ -1,0 +1,79 @@
+#*******************************************************************************
+# Data exported from Hydra using PyomoPlugin.
+# (c) Copyright 2015, University of Manchester
+# Network-ID:  2
+# Scenario-ID: 2
+#*******************************************************************************
+
+set  nodes :=  Ag1 EndPt J1 J2 Urb1;
+
+set  links:= 
+J1 Ag1
+J1 J2
+J2 EndPt
+J2 Urb1;
+
+#Nodes groups
+
+#Nodes types
+
+set  agricultural:= 
+Ag1
+;
+
+set  discharge:= 
+EndPt
+;
+
+set  junction:= 
+J1
+J2
+;
+
+set  urban:= 
+Urb1
+;
+
+set  river_section:= 
+
+J1 Ag1
+J1 J2
+J2 EndPt
+J2 Urb1;
+
+set time_step:= 1 2 3 4 5 6;
+
+set actual_time_step:= 2000-01-01 00:00:00 2000-02-01 00:00:00 2000-03-01 00:00:00 2000-04-01 00:00:00 2000-05-01 00:00:00 2000-06-01 00:00:00;
+
+param consumption_coefficient_agricultural:=
+ Ag1            1.0            ;
+
+param inflow_junction:=
+ J1             300.0          ;
+
+param consumption_coefficient_urban:=
+ Urb1           1.0            ;
+
+param cost_river_section:=
+ J1 Ag1         20.0           
+ J1 J2          15.0           
+ J2 EndPt       10.0           
+ J2 Urb1        1.0            ;
+
+param flow_multiplier_river_section:=
+ J1 Ag1         1.0            
+ J1 J2          1.0            
+ J2 EndPt       1.0            
+ J2 Urb1        0.95           ;
+
+param min_flow_river_section:=
+ J1 Ag1         25.0           
+ J1 J2          10.0           
+ J2 EndPt       10.0           
+ J2 Urb1        20.0           ;
+
+param max_flow_river_section:=
+ J1 Ag1         220.0          
+ J1 J2          310.0          
+ J2 EndPt       220.0          
+ J2 Urb1        220.0          ;

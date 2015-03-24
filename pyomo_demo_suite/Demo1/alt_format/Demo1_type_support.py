@@ -34,25 +34,31 @@ model.links = Set(within=model.nodes*model.nodes)
 model.river_section= Set(within=model.nodes*model.nodes)
 model.demand_nodes = Set()
 model.nonstorage_nodes = Set()
+model.junction=Set()
+model.urban=Set()
+model.agricultural=Set()
+model.discharge=Set()
 
 # Declaring model parameters
-model.consumption_coefficient = Param(model.nodes)
-model.cost = Param(model.river_section)
-model.inflow = Param(model.nodes)
-model.flow_multiplier = Param(model.river_section)
-model.min_flow = Param(model.river_section)
-model.max_flow = Param(model.river_section)
+model.consumption_coefficient_agricultural = Param(model.agricultural)
+model.consumption_coefficient_urban = Param(model.urban)
+
+model.cost_river_section = Param(model.river_section)
+model.inflow_junction = Param(model.junction)
+model.flow_multiplier_river_section = Param(model.river_section)
+model.min_flow_river_section = Param(model.river_section)
+model.max_flow_river_section = Param(model.river_section)
 
 # Defining the flow lower and upper bound
 def capacity_constraint(model, node, node2):
-    return (model.min_flow[node,node2], model.max_flow[node, node2])
+    return (model.min_flow_river_section[node,node2], model.max_flow_river_section[node, node2])
 
 # Declaring decision variable X
 model.X = Var(model.river_section, domain=NonNegativeReals, bounds=capacity_constraint)
 
 # Declaring the objective function Z
 def objective_function(model):
-    return summation(model.cost, model.X)
+    return summation(model.cost_river_section, model.X)
 
 model.Z = Objective(rule=objective_function, sense=minimize)
 
@@ -61,13 +67,13 @@ model.Z = Objective(rule=objective_function, sense=minimize)
 def flow_mass_balance(model, nonstorage_nodes):
     
     # inflow
-    term1 = model.inflow[nonstorage_nodes]
-    term2 = sum([model.X[node_in,nonstorage_nodes]*model.flow_multiplier[node_in,nonstorage_nodes]
+    term1 = model.inflow_junction[nonstorage_nodes]
+    term2 = sum([model.X[node_in,nonstorage_nodes]*model.flow_multiplier_river_section[node_in,nonstorage_nodes]
                   for node_in in model.nodes if (node_in, nonstorage_nodes) in model.river_section])
 
     # outflow
     term3 = model.consumption_coefficient[nonstorage_nodes] \
-        * sum([model.X[node_in, nonstorage_nodes]*model.flow_multiplier[node_in, nonstorage_nodes]
+        * sum([model.X[node_in, nonstorage_nodes]*model.flow_multiplier_river_section[node_in, nonstorage_nodes]
                for node_in in model.nodes if (node_in, nonstorage_nodes) in model.river_section])
     term4 = sum([model.X[nonstorage_nodes, node_out]
                for node_out in model.nodes if (nonstorage_nodes, node_out) in model.river_section])
