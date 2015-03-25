@@ -38,13 +38,14 @@ model.junction=Set()
 model.urban=Set()
 model.agricultural=Set()
 model.discharge=Set()
+model.nonstorage_nodes=model.urban|model.junction|model.agricultural
 
 # Declaring model parameters
-model.consumption_coefficient_agricultural = Param(model.agricultural)
-model.consumption_coefficient_urban = Param(model.urban)
+model.consumption_coefficient_agricultural = Param(model.agricultural, default=0)
+model.consumption_coefficient_urban = Param(model.urban, default=0)
 
 model.cost_river_section = Param(model.river_section)
-model.inflow_junction = Param(model.junction)
+model.inflow_junction = Param(model.junction, default=0)
 model.flow_multiplier_river_section = Param(model.river_section)
 model.min_flow_river_section = Param(model.river_section)
 model.max_flow_river_section = Param(model.river_section)
@@ -67,14 +68,24 @@ model.Z = Objective(rule=objective_function, sense=minimize)
 def flow_mass_balance(model, nonstorage_nodes):
     
     # inflow
-    term1 = model.inflow_junction[nonstorage_nodes]
+    if nonstorage_nodes in model.junction:
+        term1 = model.inflow_junction[nonstorage_nodes]
+    else:
+        term1=0
     term2 = sum([model.X[node_in,nonstorage_nodes]*model.flow_multiplier_river_section[node_in,nonstorage_nodes]
                   for node_in in model.nodes if (node_in, nonstorage_nodes) in model.river_section])
 
     # outflow
-    term3 = model.consumption_coefficient[nonstorage_nodes] \
+    if nonstorage_nodes in model.agricultural:
+        term3 = model.consumption_coefficient_agricultural[nonstorage_nodes] \
         * sum([model.X[node_in, nonstorage_nodes]*model.flow_multiplier_river_section[node_in, nonstorage_nodes]
                for node_in in model.nodes if (node_in, nonstorage_nodes) in model.river_section])
+    elif  nonstorage_nodes in model.urban:
+        term3 = model.consumption_coefficient_urban[nonstorage_nodes] \
+        * sum([model.X[node_in, nonstorage_nodes]*model.flow_multiplier_river_section[node_in, nonstorage_nodes]
+               for node_in in model.nodes if (node_in, nonstorage_nodes) in model.river_section])
+    else:
+        term3=0
     term4 = sum([model.X[nonstorage_nodes, node_out]
                for node_out in model.nodes if (nonstorage_nodes, node_out) in model.river_section])
     

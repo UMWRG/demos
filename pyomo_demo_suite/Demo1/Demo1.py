@@ -30,15 +30,16 @@ model = AbstractModel()
 
 # Declaring model indexes using sets
 model.nodes = Set()
-model.links = Set(within=model.nodes*model.nodes)
-model.river_section= Set(within=model.nodes*model.nodes)
-model.demand_nodes = Set()
-model.nonstorage_nodes = Set()
-
+model.river_section = Set(within=model.nodes*model.nodes)
+model.agricultural = Set()
+model.discharge = Set()
+model.junction = Set()
+model.urban = Set()
+model.nonstorage_nodes=model.urban|model.junction|model.agricultural
 # Declaring model parameters
-model.consumption_coefficient = Param(model.nodes)
+model.consumption_coefficient = Param(model.nodes, default=0)
 model.cost = Param(model.river_section)
-model.inflow = Param(model.nodes)
+model.inflow = Param(model.nodes, default=0)
 model.flow_multiplier = Param(model.river_section)
 model.min_flow = Param(model.river_section)
 model.max_flow = Param(model.river_section)
@@ -59,12 +60,10 @@ model.Z = Objective(rule=objective_function, sense=minimize)
 # Declaring constraints
 
 def flow_mass_balance(model, nonstorage_nodes):
-    
     # inflow
     term1 = model.inflow[nonstorage_nodes]
     term2 = sum([model.X[node_in,nonstorage_nodes]*model.flow_multiplier[node_in,nonstorage_nodes]
                   for node_in in model.nodes if (node_in, nonstorage_nodes) in model.river_section])
-
     # outflow
     term3 = model.consumption_coefficient[nonstorage_nodes] \
         * sum([model.X[node_in, nonstorage_nodes]*model.flow_multiplier[node_in, nonstorage_nodes]
@@ -90,5 +89,5 @@ def run_model (input_data_file):
     return list, insts
 
 if __name__ == '__main__':
-    run_model("Demo1.dat")
+    run_model("input.dat")
 
