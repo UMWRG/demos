@@ -34,9 +34,9 @@ $        include "dataset.txt";
 ** ----------------------------------------------------------------------
 
 VARIABLES
-Q(i,j) flow in each link in each period
-delivery (i) water delivered to demand node i in each period
-Z objective function
+Q(i,j) flow in each link in each period [1e6 m^3 mon^-1]
+delivery (i) water delivered to demand node i in each period [1e6 m^3 mon^-1]
+Z objective function [-]
 ;
 
 POSITIVE VARIABLES
