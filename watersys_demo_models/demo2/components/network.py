@@ -18,7 +18,7 @@
 
 from watersys import Network
 
-class StanfordDemoNetwork2(Network):
+class DemoNetwork2(Network):
     type = 'network'
     _properties = dict(
         predicted_rainfall={},
