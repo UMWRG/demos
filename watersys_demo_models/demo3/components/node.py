@@ -68,9 +68,9 @@ class DemandNode(Node):
             out of private data dictionaries (private data being any variable
             starting with '_')
         """
-        self.target_demand = self._demand[timestamp]
+        self.target_demand = self._target_demand[timestamp]
         self.cost = self._cost[timestamp]
-        self.inflow=0
+        self.inflow = self._inflow[timestamp]
 
 
 class AgriculturalNode(DemandNode):
@@ -98,9 +98,9 @@ class SurfaceReservoir(Node):
 
     _properties = dict(
         initial_storage=0,
-        inflow = 0,
-        min_storage = 0,
-        max_storage = 0,
+        inflow=0,
+        min_storage=0,
+        max_storage=0,
     )
 
     def setup(self, timestamp):
@@ -111,7 +111,7 @@ class SurfaceReservoir(Node):
         self.min_storage = self._min_storage[timestamp]
         self.max_storage = self._max_storage[timestamp]
         self.inflow = self._inflow[timestamp]
-        #self.initial_storage = self._initial_storage[timestamp]
+        self.initial_storage = self._initial_storage[timestamp]
 
 
 class AquiferStorage(Node):
@@ -123,9 +123,9 @@ class AquiferStorage(Node):
 
     _properties = dict(
         initial_storage=0,
-        inflow = 0,
-        min_storage = 0,
-        max_storage = 0,
+        inflow=0,
+        min_storage=0,
+        max_storage=0,
     )
 
     def setup(self, timestamp):
@@ -136,4 +136,4 @@ class AquiferStorage(Node):
         self.min_storage = self._min_storage[timestamp]
         self.max_storage = self._max_storage[timestamp]
         self.inflow = self._inflow[timestamp]
-        #self.initial_storage = self._initial_storage[timestamp]
+        self.initial_storage = self._initial_storage[timestamp]

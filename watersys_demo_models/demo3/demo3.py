@@ -166,71 +166,71 @@ flow_lower_matrix = {
 # Creating nodes
 
 sr1 = SurfaceReservoir(x=1,  y=2,   name="SR1")
-sr1.inflow = inflow_matrix["sr1"]
-sr1.min_storage = min_storage_matrix["sr1"]
-sr1.max_storage = max_storage_matrix["sr1"]
-sr1.initial_storage = initial_storage_matrix["sr1"]
+sr1._inflow = inflow_matrix["sr1"]
+sr1._min_storage = min_storage_matrix["sr1"]
+sr1._max_storage = max_storage_matrix["sr1"]
+sr1._initial_storage = initial_storage_matrix["sr1"]
 
 sr2 = SurfaceReservoir(x=1,  y=3,   name="SR2")
-sr2.inflow = inflow_matrix["sr2"]
-sr2.min_storage = min_storage_matrix["sr2"]
-sr2.max_storage = max_storage_matrix["sr2"]
-sr2.initial_storage = initial_storage_matrix["sr2"]
+sr2._inflow = inflow_matrix["sr2"]
+sr2._min_storage = min_storage_matrix["sr2"]
+sr2._max_storage = max_storage_matrix["sr2"]
+sr2._initial_storage = initial_storage_matrix["sr2"]
 
 sr3 = SurfaceReservoir(x=1,  y=3,   name="SR3")
-sr3.inflow = inflow_matrix["sr3"]
-sr3.min_storage = min_storage_matrix["sr3"]
-sr3.max_storage = max_storage_matrix["sr3"]
-sr3.initial_storage = initial_storage_matrix["sr3"]
+sr3._inflow = inflow_matrix["sr3"]
+sr3._min_storage = min_storage_matrix["sr3"]
+sr3._max_storage = max_storage_matrix["sr3"]
+sr3._initial_storage = initial_storage_matrix["sr3"]
 
 sr4 = SurfaceReservoir(x=1,  y=4,   name="SR4")
-sr4.inflow = inflow_matrix["sr4"]
-sr4.min_storage = min_storage_matrix["sr4"]
-sr4.max_storage = max_storage_matrix["sr4"]
-sr4.initial_storage = initial_storage_matrix["sr4"]
+sr4._inflow = inflow_matrix["sr4"]
+sr4._min_storage = min_storage_matrix["sr4"]
+sr4._max_storage = max_storage_matrix["sr4"]
+sr4._initial_storage = initial_storage_matrix["sr4"]
 
 desal1 = SurfaceReservoir(x=5,  y=4,   name="Desal1")
-desal1.inflow = inflow_matrix["desal1"]
-desal1.min_storage = min_storage_matrix["desal1"]
-desal1.max_storage = max_storage_matrix["desal1"]
-desal1.initial_storage = initial_storage_matrix["desal1"]
+desal1._inflow = inflow_matrix["desal1"]
+desal1._min_storage = min_storage_matrix["desal1"]
+desal1._max_storage = max_storage_matrix["desal1"]
+desal1._initial_storage = initial_storage_matrix["desal1"]
 
 gw1 = AquiferStorage(x=6,  y=1,   name="GW1")
-gw1.inflow = inflow_matrix["gw1"]
-gw1.min_storage = min_storage_matrix["gw1"]
-gw1.max_storage = max_storage_matrix["gw1"]
-gw1.initial_storage = initial_storage_matrix["gw1"]
+gw1._inflow = inflow_matrix["gw1"]
+gw1._min_storage = min_storage_matrix["gw1"]
+gw1._max_storage = max_storage_matrix["gw1"]
+gw1._initial_storage = initial_storage_matrix["gw1"]
 
 gw2 = AquiferStorage(x=6,  y=3,   name="GW2")
-gw2.inflow = inflow_matrix["gw2"]
-gw2.min_storage = min_storage_matrix["gw2"]
-gw2.max_storage = max_storage_matrix["gw2"]
-gw2.initial_storage = initial_storage_matrix["gw2"]
+gw2._inflow = inflow_matrix["gw2"]
+gw2._min_storage = min_storage_matrix["gw2"]
+gw2._max_storage = max_storage_matrix["gw2"]
+gw2._initial_storage = initial_storage_matrix["gw2"]
 
 ag1 = AgriculturalNode(x=2,   y=2,   name="Ag1")
-ag1.inflow = inflow_matrix["ag1"]
-ag1.cost = cost_matrix["ag1"]
-ag1.target_demand = demand_matrix["ag1"]
+ag1._inflow = inflow_matrix["ag1"]
+ag1._cost = cost_matrix["ag1"]
+ag1._target_demand = demand_matrix["ag1"]
 
 ag2 = AgriculturalNode(x=2,   y=3,   name="Ag2")
-ag2.inflow = inflow_matrix["ag2"]
-ag2.cost = cost_matrix["ag2"]
-ag2.target_demand = demand_matrix["ag2"]
+ag2._inflow = inflow_matrix["ag2"]
+ag2._cost = cost_matrix["ag2"]
+ag2._target_demand = demand_matrix["ag2"]
 
 endpt = AgriculturalNode(x=150, y=450, name="Endpt")
-endpt.inflow = inflow_matrix["endpt"]
-endpt.cost = cost_matrix["endpt"]
-endpt.target_demand = demand_matrix["endpt"]
+endpt._inflow = inflow_matrix["endpt"]
+endpt._cost = cost_matrix["endpt"]
+endpt._target_demand = demand_matrix["endpt"]
 
 urb1 = UrbanNode(x=10,  y=20,  name="Urb1")
-urb1.inflow = inflow_matrix["urb1"]
-urb1.cost = cost_matrix["urb1"]
-urb1.target_demand = demand_matrix["urb1"]
+urb1._inflow = inflow_matrix["urb1"]
+urb1._cost = cost_matrix["urb1"]
+urb1._target_demand = demand_matrix["urb1"]
 
 urb2 = UrbanNode(x=10,  y=30,  name="Urb2")
-urb2.inflow = inflow_matrix["urb2"]
-urb2.cost = cost_matrix["urb2"]
-urb2.target_demand = demand_matrix["urb2"]
+urb2._inflow = inflow_matrix["urb2"]
+urb2._cost = cost_matrix["urb2"]
+urb2._target_demand = demand_matrix["urb2"]
 
 jn1 = Junction(x=100, y=200, name="J1")
 
