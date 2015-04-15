@@ -52,14 +52,13 @@ class HydropowerPlant(Node):
 
 class DemandNode(Node):
     """
-        A demand node is any class with a cost, demand and consumption coefficient.
+        A demand node is any class with a cost, target demand and inflow.
     """
     type = 'demand'
 
     _properties = dict(
         cost=0,
-        target_demand = 0,
-        #consumption_coefficient=0,
+        target_demand=0,
         inflow=0,
     )
     
@@ -71,22 +70,20 @@ class DemandNode(Node):
         """
         self.target_demand = self._demand[timestamp]
         self.cost = self._cost[timestamp]
-        #self.consumption_coefficient=self._consumption_coefficient[timestamp]
         self.inflow=0
 
 
 class AgriculturalNode(DemandNode):
     """
-        An agricultural demand node. Has attributs cost, demand and 
-        consumption coefficient and inflow by virtue
+        An agricultural demand node. Has attributes cost, target demand and inflow by virtue
         of being a subclass of DemandNode
     """
     type = 'agricultural'
 
+
 class UrbanNode(DemandNode):
     """
-        An urban demand node.  Has attributs cost, demand and 
-        consumption coefficient and inflow by virtue
+        An urban demand node.  Has attributes cost, target demand and inflow by virtue
         of being a subclass of DemandNode
 
     """
@@ -94,7 +91,7 @@ class UrbanNode(DemandNode):
 
 class SurfaceReservoir(Node):
     """
-        Surface reservoir node type. Has an initial storage, inflow min storage
+        Surface reservoir node type. Has an initial storage, inflow, min storage
         and max storage.
     """
     type = 'surface reservoir'
@@ -119,7 +116,7 @@ class SurfaceReservoir(Node):
 
 class AquiferStorage(Node):
     """
-        Surface reservoir node type. Has an initial storage, inflow min storage
+        Groundwater reservoir node type. Has an initial storage, inflow, min storage
         and max storage.
     """
     type = 'aquifer storage'

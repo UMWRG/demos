@@ -20,13 +20,15 @@ from watersys import Engine
 from coopr.pyomo import *
 import coopr.environ
 from coopr.opt import SolverFactory
-from PyModel import PyomModel
+from PyModel import OptimisationModel
+
 
 class PyomoAllocation(Engine):
 
-    name   = """A pyomo-based engine which allocates water throughout a whole
+    name = """A pyomo-based engine which allocates water throughout a whole
     network in a single time-step."""
     target = None
+    storage = {}
 
     def run(self):
         """
@@ -34,12 +36,38 @@ class PyomoAllocation(Engine):
         """
         print "==== Timestep ===="
         print "==== %s ===="%self.target.current_timestep
+        allocation = "==========  Allocation       ============="
+        storage = "==========  storage    =============="
+
+        delivery=" ==========  delivery ============="
         for n in self.target.nodes:
             if n.type == 'agricultural' or n.type == 'urban':
                 print n.target_demand
 
         print "======== calling Pyomo =============="
-        pp =PyomModel(self.target)
+        pp =OptimisationModel(self.target)
         result =pp.run()
+        for var in result.active_components(Var):
+            if(var=="S"):
+                s_var = getattr(result, var)
+                for vv in s_var:
+                    name= ''.join(map(str,vv))
+                    print(name, s_var[vv].value)
+                    self.storage[name]=(s_var[vv].value)
+                    storage+='\n'+ name+": "+ str(s_var[vv].value)
+            elif var=="delivery":
+                d_var = getattr(result, var)
+                for vv in d_var:
+                    name= ''.join(map(str,vv))
+                    self.storage[name]=(d_var[vv].value)
+                    delivery+='\n'+ name+": "+ str(d_var[vv].value)
+            elif var=="X":
+                    x_var = getattr(result, var)
+                    for xx in x_var:
+                        name= "(" + ', '.join(map(str,xx)) + ")"
+                        allocation+='\n'+name+": "+str(x_var[xx].value)
 
+        print(allocation)
+        print(storage)
+        print(delivery)
         print result
