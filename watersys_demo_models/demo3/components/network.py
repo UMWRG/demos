@@ -26,6 +26,9 @@ class Demo3Network(Network):
         rainfall=0,
     )
 
+    def objective_function_unit(self):
+        self.z_unit = "-"
+
     def set_initial_storage(self, storage):
         for node in self.nodes:
             if node.type == 'surface reservoir' and node.type == 'aquifer storage':

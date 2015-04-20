@@ -15,9 +15,9 @@
 #    You should have received a copy of the GNU General Public License
 #    along with WaterSys.  If not, see <http://www.gnu.org/licenses/>.
 
-from coopr.pyomo import *
-import coopr.environ
-from coopr.opt import SolverFactory
+
+from pyomo.environ import *
+from pyomo.opt import SolverFactory
 
 
 class OptimisationModel:
@@ -46,11 +46,18 @@ class OptimisationModel:
             self.nodes_names.append(node.name)
             self.inflow[node.name] = node.inflow
             if node.type == 'agricultural' or node.type == 'urban':
-                print node.target_demand
+                #print node.target_demand
                 self.demand_nodes.append(node.name)
                 self.target_demand[node.name] = node.target_demand
                 self.cost[node.name] = node.cost
                 self.inflow[node.name] = node.inflow
+                print "model (ag or urb):"
+                print "demand nodes= %s" %self.demand_nodes[-1]
+                print "target demand= %s" %self.target_demand[node.name]
+                print "cost= %s" %self.cost[node.name]
+                print "inflow= %s" %self.inflow[node.name]
+                print"---------------------"
+
 
 
             if node.type == 'surface reservoir' or node.type == 'aquifer storage':
@@ -60,16 +67,27 @@ class OptimisationModel:
                 self.min_storage[node.name] = node.min_storage
                 self.max_storage[node.name] = node.max_storage
                 self.inflow[node.name] = node.inflow
+                print "model (surf or aquifer):"
+                print "storage nodes= %s" %self.storage_nodes[-1]
+                print "initial storage= %s" %self.initial_storage[node.name]
+                print "min storage= %s" %self.min_storage[node.name]
+                print "max storage= %s" %self.max_storage[node.name]
+                print "inflow= %s" %self.inflow[node.name]
+                print"---------------------"
 
             if node.type != 'surface reservoir' and node.type != 'aquifer storage':
                 self.nonstorage_nodes.append(node.name)
-
+        print"model links:"
         for link in network.links:
-            self.links_comp[(link.start_node.name, link.end_node.name)]=link
-            self.flow_multiplier[(link.start_node.name, link.end_node.name)]=link.flow_multiplier
-            self.upper_flow[(link.start_node.name, link.end_node.name)]=link.upper_flow
-            self.lower_flow[(link.start_node.name, link.end_node.name)]=link.lower_flow
-
+            self.links_comp[(link.start_node.name, link.end_node.name)] = link
+            self.flow_multiplier[(link.start_node.name, link.end_node.name)] = link.flow_multiplier
+            self.upper_flow[(link.start_node.name, link.end_node.name)] = link.upper_flow
+            self.lower_flow[(link.start_node.name, link.end_node.name)] = link.lower_flow
+            print "links= %s" % self.links_comp[(link.start_node.name, link.end_node.name)]
+            print "flow multiplier= %s" % self.flow_multiplier[(link.start_node.name, link.end_node.name)]
+            print "upper flow limit= %s" % self.upper_flow[(link.start_node.name, link.end_node.name)]
+            print "lower flow limit= %s" % self.lower_flow[(link.start_node.name, link.end_node.name)]
+            print "-----------------------"
 
     def run(self):
         is_first_run = 1
@@ -80,13 +98,14 @@ class OptimisationModel:
         model.demand_nodes = Set(initialize=self.demand_nodes)
         model.nonstorage_nodes = Set(initialize=self.nonstorage_nodes)
         model.storage_nodes = Set(initialize=self.storage_nodes)
-        def set_initial_storage(model):
-            for key in self.storage_nodes:
-                model.initial_storage[key] = self.initial_storage[key]
-
-        model.initial_storage = Param(model.storage_nodes, mutable=True, initialize=self.initial_storage)
 
         # Declaring model parameters
+
+        #def set_initial_storage(model):
+        #    for key in self.storage_nodes:
+        #        model.initial_storage[key] = self.initial_storage[key]
+
+        model.initial_storage = Param(model.storage_nodes, mutable=True, initialize=self.initial_storage)
         model.inflow = Param(model.nodes, initialize=self.inflow)
         model.cost = Param(model.demand_nodes, initialize=self.cost)
         model.target_demand = Param(model.demand_nodes, initialize=self.target_demand)
@@ -162,10 +181,11 @@ class OptimisationModel:
                           for node_out in model.nodes if (storage_nodes, node_out) in model.links])
 
             # storage
-            if is_first_run == 1:
-                term4 = model.initial_storage[storage_nodes]
-            else:
-                term4 = model.S[storage_nodes] #value from previous run
+            term4 = model.initial_storage[storage_nodes]
+            #if is_first_run == 1:
+            #    term4 = model.initial_storage[storage_nodes]
+            #else:
+            #    term4 = model.S[storage_nodes] #value from previous run
                 ### something must be done for term 4. It is not correct in its current form.
             term5 = model.S[storage_nodes]
 
@@ -177,6 +197,7 @@ class OptimisationModel:
         # ======================== running the model in a loop for each time step
 
         opt = SolverFactory("glpk")
-        instance=model.create()
-        result=opt.solve(instance)
+        instance = model.create()
+        result = opt.solve(instance)
+        instance.load(result)
         return result
