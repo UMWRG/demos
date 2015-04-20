@@ -10,7 +10,7 @@ timesteps = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
 
 s.set_timesteps(timesteps)
 
-n = Network(name="demo3 network")
+n = Demo3Network(name="demo3 network")
 
 
 
@@ -21,7 +21,7 @@ initial_storage_matrix = {
     "sr4": {"1": 150, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0, "9": 0},
     "desal1": {"1": 10000, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0, "9": 0},
     "gw1": {"1": 600, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0, "9": 0},
-    "gw2": {"1": 600, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0, "9": 0},
+    "gw2": {"1": 600, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0, "9": 0}
 }
 
 inflow_matrix = {
@@ -371,6 +371,10 @@ l25._lower_flow = flow_lower_matrix['l25']
 l25._upper_flow = flow_upper_matrix['l25']
 
 n.add_links(l1, l2, l3, l4, l5, l6, l7, l8, l9, l10, l11, l12, l13, l14, l15, l16, l17, l18, l19, l20, l21, l22, l23, l24, l25)
+
+# co = {}
+# n.path_matrix(co)
+
 s.network = n
 
 allocator = PyomoAllocation(n)
@@ -389,3 +393,6 @@ for n in n.nodes:
         print "%s deficit = %s"%(n.name, n.deficit)
         total_deficit += n.deficit
 print "finshed: ", sr1.initial_storage
+
+
+
