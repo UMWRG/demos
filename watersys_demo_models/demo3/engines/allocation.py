@@ -17,9 +17,7 @@
 
 from watersys import Engine
 from PyModel import OptimisationModel
-
 from pyomo.environ import *
-from pyomo.opt import SolverFactory
 
 
 class PyomoAllocation(Engine):
@@ -33,12 +31,11 @@ class PyomoAllocation(Engine):
         """
             Need to do some stuff here
         """
-        print "==== Timestep ===="
-        print "==== %s ====" % self.target.current_timestep
-        allocation = "==========  Allocation       ============="
+        print "========================= Timestep: %s =======================" % self.target.current_timestep
+        allocation = "==========  Flows       ============="
         storage = "==========  storage    =============="
-
-        delivery = " ==========  delivery ============="
+        #delivery = " ==========  delivery ============="
+        alpha = " ==========  demand satisfaction ratio ============="
         for n in self.target.nodes:
             if n.type == 'agricultural' or n.type == 'urban':
                 print "%s target demand --> %s" % (n.name, n.target_demand)
@@ -48,30 +45,37 @@ class PyomoAllocation(Engine):
         results = optimisation.run()
 
         for var in results.active_components(Var):
-            if(var=="S"):
+            if var == "S":
                 s_var = getattr(results, var)
                 for vv in s_var:
-                    name= ''.join(map(str,vv))
+                    name = ''.join(map(str,vv))
                     print(name, s_var[vv].value)
-                    self.storage[name]=(s_var[vv].value)
-                    storage+='\n'+ name+": "+ str(s_var[vv].value)
+                    self.storage[name] = s_var[vv].value
+                    storage += '\n' + name+": " + str(s_var[vv].value)
 
-            elif var=="delivery":
+            elif var == "alpha":
+                alpha_var = getattr(results, var)
+                for vv in alpha_var:
+                    name = ''.join(map(str,vv))
+                    self.storage[name] = alpha_var[vv].value
+                    alpha += '\n' + name+": " + str(alpha_var[vv].value)
+                    """
+            elif var == "delivery":
                 d_var = getattr(results, var)
                 for vv in d_var:
-                    name= ''.join(map(str,vv))
-                    self.storage[name]=(d_var[vv].value)
-                    delivery+='\n'+ name+": "+ str(d_var[vv].value)
-            elif var=="X":
+                    name = ''.join(map(str,vv))
+                    self.storage[name] = (d_var[vv].value)
+                    delivery += '\n' + name+": " + str(d_var[vv].value)
+                    """
+            elif var == "X":
                     x_var = getattr(results, var)
                     for xx in x_var:
-                        name= "(" + ', '.join(map(str,xx)) + ")"
-                        allocation+='\n'+name+": "+str(x_var[xx].value)
+                        name = "(" + ', '.join(map(str,xx)) + ")"
+                        allocation += '\n'+name+": "+str(x_var[xx].value)
 
-        print(allocation)
+        print allocation
         print storage
-        print(delivery)
-
-
-        print results
+        print alpha
+        #print delivery
+        #print results
         self.target.set_initial_storage(self.storage)

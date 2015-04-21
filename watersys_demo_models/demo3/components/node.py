@@ -111,7 +111,7 @@ class SurfaceReservoir(Node):
         self.min_storage = self._min_storage[timestamp]
         self.max_storage = self._max_storage[timestamp]
         self.inflow = self._inflow[timestamp]
-        self.initial_storage = self._initial_storage[timestamp]
+        #self.initial_storage = self._initial_storage[timestamp]
 
 
 class AquiferStorage(Node):
@@ -136,4 +136,4 @@ class AquiferStorage(Node):
         self.min_storage = self._min_storage[timestamp]
         self.max_storage = self._max_storage[timestamp]
         self.inflow = self._inflow[timestamp]
-        self.initial_storage = self._initial_storage[timestamp]
+        #self.initial_storage = self._initial_storage[timestamp]

@@ -29,7 +29,7 @@ class OptimisationModel:
         self.demand_nodes = []
         self.storage_nodes = []
         self.nonstorage_nodes = []
-        self.initial_storage = {}
+        self.node_initial_storage = {}
         self.links_comp = {}
         self.flow_multiplier = {}
         self.min_storage = {}
@@ -41,35 +41,30 @@ class OptimisationModel:
         self.flow_multiplier = {}
         self.cost = {}
         self.target_demand = {}
-
+        print "\n************* model nodes *************:\n"
         for node in network.nodes:
             self.nodes_names.append(node.name)
             self.inflow[node.name] = node.inflow
+
             if node.type == 'agricultural' or node.type == 'urban':
-                #print node.target_demand
                 self.demand_nodes.append(node.name)
                 self.target_demand[node.name] = node.target_demand
                 self.cost[node.name] = node.cost
                 self.inflow[node.name] = node.inflow
-                print "model (ag or urb):"
                 print "demand nodes= %s" %self.demand_nodes[-1]
                 print "target demand= %s" %self.target_demand[node.name]
                 print "cost= %s" %self.cost[node.name]
                 print "inflow= %s" %self.inflow[node.name]
                 print"---------------------"
 
-
-
             if node.type == 'surface reservoir' or node.type == 'aquifer storage':
-
                 self.storage_nodes.append(node.name)
-                self.initial_storage[node.name] = node.initial_storage
+                self.node_initial_storage[node.name] = node.initial_storage
                 self.min_storage[node.name] = node.min_storage
                 self.max_storage[node.name] = node.max_storage
                 self.inflow[node.name] = node.inflow
-                print "model (surf or aquifer):"
                 print "storage nodes= %s" %self.storage_nodes[-1]
-                print "initial storage= %s" %self.initial_storage[node.name]
+                print "initial storage= %s" %self.node_initial_storage[node.name]
                 print "min storage= %s" %self.min_storage[node.name]
                 print "max storage= %s" %self.max_storage[node.name]
                 print "inflow= %s" %self.inflow[node.name]
@@ -77,7 +72,9 @@ class OptimisationModel:
 
             if node.type != 'surface reservoir' and node.type != 'aquifer storage':
                 self.nonstorage_nodes.append(node.name)
-        print"model links:"
+
+        print"\n|||||||||||||model links||||||||||||||:\n"
+
         for link in network.links:
             self.links_comp[(link.start_node.name, link.end_node.name)] = link
             self.flow_multiplier[(link.start_node.name, link.end_node.name)] = link.flow_multiplier
@@ -90,7 +87,7 @@ class OptimisationModel:
             print "-----------------------"
 
     def run(self):
-        is_first_run = 1
+        # Creating the model
         model = AbstractModel()
         # Declaring model indexes using sets
         model.nodes = Set(initialize=self.nodes_names)
@@ -105,12 +102,12 @@ class OptimisationModel:
         #    for key in self.storage_nodes:
         #        model.initial_storage[key] = self.initial_storage[key]
 
-        model.initial_storage = Param(model.storage_nodes, mutable=True, initialize=self.initial_storage)
+        model.initial_storage = Param(model.storage_nodes, mutable=True, initialize=self.node_initial_storage)
         model.inflow = Param(model.nodes, initialize=self.inflow)
         model.cost = Param(model.demand_nodes, initialize=self.cost)
         model.target_demand = Param(model.demand_nodes, initialize=self.target_demand)
         model.flow_multiplier = Param(model.links, initialize=self.flow_multiplier)
-        model.flow_lower_bound = Param(model.links, initialize= self.lower_flow)
+        model.flow_lower_bound = Param(model.links, initialize=self.lower_flow)
         model.flow_upper_bound = Param(model.links, initialize=self.upper_flow)
         model.storage_lower_bound = Param(model.storage_nodes, initialize=self.min_storage)
         model.storage_upper_bound = Param(model.storage_nodes, initialize=self.max_storage)
@@ -139,6 +136,9 @@ class OptimisationModel:
 
         model.alpha = Var(model.demand_nodes, domain=NonNegativeReals, bounds=(0, 1), initialize=demand_satisfaction_ratio)
 
+        #Declaring delivery
+        #model.delivery = Var(model.demand_nodes, domain=NonNegativeReals)
+
         ##======================================== Declaring the objective function (Z)
 
         def objective_function(model):
@@ -147,7 +147,22 @@ class OptimisationModel:
         model.Z = Objective(rule=objective_function, sense=maximize)
 
         ##======================================== Declaring constraints
-
+        """
+        def set_delivery(instance):
+            for var in instance.active_components(Var):
+                    if(var=="delivery"):
+                        s_var = getattr(instance, var)
+                        for vv in s_var:
+                            #s_var[vv]=-2
+                            sum=0
+                            for var_2 in instance.active_components(Var):
+                                if(var_2=="X"):
+                                    s_var_2 = getattr(instance, var_2)
+                                    for vv2 in s_var_2:
+                                        if(vv in vv2):
+                                            sum=sum+s_var_2[vv2].value
+                            s_var[vv]=sum
+        """
         # Mass balance for non-storage nodes:
         def mass_balance(model, nonstorage_nodes):
 
@@ -200,4 +215,5 @@ class OptimisationModel:
         instance = model.create()
         result = opt.solve(instance)
         instance.load(result)
-        return result
+        #set_delivery(instance)
+        return instance
