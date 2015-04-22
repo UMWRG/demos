@@ -1,7 +1,6 @@
-from components import Junction, WasteWaterTreatmentPlant, HydropowerPlant, UrbanNode, SurfaceReservoir, AgriculturalNode, AquiferStorage, RiverSection, Demo3Network
+from components import Demo3Network, Junction, WasteWaterTreatmentPlant, HydropowerPlant, UrbanNode, SurfaceReservoir, AgriculturalNode, AquiferStorage, RiverSection
 from engines import PyomoAllocation
-
-from watersys import Simulator, Network
+from watersys import Simulator
 
 
 s = Simulator()
@@ -12,26 +11,7 @@ s.set_timesteps(timesteps)
 
 n = Demo3Network(name="demo3 network")
 
-initial_storage_matrix = {
-    "sr1": 150,
-    "sr2": 200,
-    "sr3": 600,
-    "sr4": 150,
-    "desal1": 10000,
-    "gw1": 600,
-    "gw2": 600
-}
-"""
-initial_storage_matrix = {
-    "sr1": {"1": 150, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0, "9": 0},
-    "sr2": {"1": 200, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0, "9": 0},
-    "sr3": {"1": 600, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0, "9": 0},
-    "sr4": {"1": 150, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0, "9": 0},
-    "desal1": {"1": 10000, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0, "9": 0},
-    "gw1": {"1": 600, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0, "9": 0},
-    "gw2": {"1": 600, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0, "9": 0}
-}
-"""
+
 inflow_matrix = {
     "sr1": {"1": 100, "2": 120, "3": 120, "4": 130, "5": 110, "6": 110, "7": 100, "8": 120, "9": 120},
     "sr2": {"1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0, "9": 0},
@@ -143,6 +123,7 @@ flow_upper_matrix = {
     "l24" : {"1":400, "2":400, "3":400, "4":400, "5":400, "6":400, "7":400, "8":400, "9":400},
     "l25" : {"1":400, "2":400, "3":400, "4":400, "5":400, "6":400, "7":400, "8":400, "9":400},
 }
+
 flow_lower_matrix = {
     "l1" : {"1":10, "2":10, "3":10, "4":10, "5":10, "6":10, "7":10, "8":10, "9":10},
     "l2" : {"1":10, "2":10, "3":10, "4":10, "5":10, "6":10, "7":10, "8":10, "9":10},
@@ -151,18 +132,18 @@ flow_lower_matrix = {
     "l5" : {"1":0, "2":0, "3":0, "4":0, "5":0, "6":0, "7":0, "8":0, "9":0},
     "l6" : {"1":0, "2":0, "3":0, "4":0, "5":0, "6":0, "7":0, "8":0, "9":0},
     "l7" : {"1":0, "2":0, "3":0, "4":0, "5":0, "6":0, "7":0, "8":0, "9":0},
-    "l8" : {"1":0, "2":0, "3":0, "4":0, "5":0, "6":0, "7":0, "8":0, "9":0},
-    "l9" : {"1":50, "2":50, "3":50, "4":50, "5":50, "6":50, "7":50, "8":50, "9":50},
-    "l10" : {"1":0, "2":0, "3":0, "4":0, "5":0, "6":0, "7":0, "8":0, "9":0},
+    "l8" : {"1":50, "2":50, "3":50, "4":50, "5":50, "6":50, "7":50, "8":50, "9":50},
+    "l9" : {"1":0, "2":0, "3":0, "4":0, "5":0, "6":0, "7":0, "8":0, "9":0},
+    "l10" : {"1":10, "2":10, "3":10, "4":10, "5":10, "6":10, "7":10, "8":10, "9":10},
     "l11" : {"1":10, "2":10, "3":10, "4":10, "5":10, "6":10, "7":10, "8":10, "9":10},
-    "l12" : {"1":10, "2":10, "3":10, "4":10, "5":10, "6":10, "7":10, "8":10, "9":10},
-    "l13" : {"1":0, "2":0, "3":0, "4":0, "5":0, "6":0, "7":0, "8":0, "9":0},
-    "l14" : {"1":50, "2":50, "3":50, "4":50, "5":50, "6":50, "7":50, "8":50, "9":50},
+    "l12" : {"1":0, "2":0, "3":0, "4":0, "5":0, "6":0, "7":0, "8":0, "9":0},
+    "l13" : {"1":50, "2":50, "3":50, "4":50, "5":50, "6":50, "7":50, "8":50, "9":50},
+    "l14" : {"1":0, "2":0, "3":0, "4":0, "5":0, "6":0, "7":0, "8":0, "9":0},
     "l15" : {"1":0, "2":0, "3":0, "4":0, "5":0, "6":0, "7":0, "8":0, "9":0},
     "l16" : {"1":0, "2":0, "3":0, "4":0, "5":0, "6":0, "7":0, "8":0, "9":0},
     "l17" : {"1":0, "2":0, "3":0, "4":0, "5":0, "6":0, "7":0, "8":0, "9":0},
-    "l18" : {"1":0, "2":0, "3":0, "4":0, "5":0, "6":0, "7":0, "8":0, "9":0},
-    "l19" : {"1":10, "2":10, "3":10, "4":10, "5":10, "6":10, "7":10, "8":10, "9":10},
+    "l18" : {"1":10, "2":10, "3":10, "4":10, "5":10, "6":10, "7":10, "8":10, "9":10},
+    "l19" : {"1":0, "2":0, "3":0, "4":0, "5":0, "6":0, "7":0, "8":0, "9":0},
     "l20" : {"1":0, "2":0, "3":0, "4":0, "5":0, "6":0, "7":0, "8":0, "9":0},
     "l21" : {"1":0, "2":0, "3":0, "4":0, "5":0, "6":0, "7":0, "8":0, "9":0},
     "l22" : {"1":0, "2":0, "3":0, "4":0, "5":0, "6":0, "7":0, "8":0, "9":0},
@@ -177,43 +158,43 @@ sr1 = SurfaceReservoir(x=1,  y=2,   name="SR1")
 sr1._inflow = inflow_matrix["sr1"]
 sr1._min_storage = min_storage_matrix["sr1"]
 sr1._max_storage = max_storage_matrix["sr1"]
-sr1._initial_storage = initial_storage_matrix["sr1"]
+sr1.initial_storage = 150
 
 sr2 = SurfaceReservoir(x=1,  y=3,   name="SR2")
 sr2._inflow = inflow_matrix["sr2"]
 sr2._min_storage = min_storage_matrix["sr2"]
 sr2._max_storage = max_storage_matrix["sr2"]
-sr2._initial_storage = initial_storage_matrix["sr2"]
+sr2.initial_storage = 200
 
 sr3 = SurfaceReservoir(x=1,  y=3,   name="SR3")
 sr3._inflow = inflow_matrix["sr3"]
 sr3._min_storage = min_storage_matrix["sr3"]
 sr3._max_storage = max_storage_matrix["sr3"]
-sr3._initial_storage = initial_storage_matrix["sr3"]
+sr3.initial_storage = 600
 
 sr4 = SurfaceReservoir(x=1,  y=4,   name="SR4")
 sr4._inflow = inflow_matrix["sr4"]
 sr4._min_storage = min_storage_matrix["sr4"]
 sr4._max_storage = max_storage_matrix["sr4"]
-sr4._initial_storage = initial_storage_matrix["sr4"]
+sr4.initial_storage = 150
 
 desal1 = SurfaceReservoir(x=5,  y=4,   name="Desal1")
 desal1._inflow = inflow_matrix["desal1"]
 desal1._min_storage = min_storage_matrix["desal1"]
 desal1._max_storage = max_storage_matrix["desal1"]
-desal1._initial_storage = initial_storage_matrix["desal1"]
+desal1.initial_storage = 10000
 
 gw1 = AquiferStorage(x=6,  y=1,   name="GW1")
 gw1._inflow = inflow_matrix["gw1"]
 gw1._min_storage = min_storage_matrix["gw1"]
 gw1._max_storage = max_storage_matrix["gw1"]
-gw1._initial_storage = initial_storage_matrix["gw1"]
+gw1.initial_storage = 600
 
 gw2 = AquiferStorage(x=6,  y=3,   name="GW2")
 gw2._inflow = inflow_matrix["gw2"]
 gw2._min_storage = min_storage_matrix["gw2"]
 gw2._max_storage = max_storage_matrix["gw2"]
-gw2._initial_storage = initial_storage_matrix["gw2"]
+gw2.initial_storage = 600
 
 ag1 = AgriculturalNode(x=2,   y=2,   name="Ag1")
 ag1._inflow = inflow_matrix["ag1"]
@@ -268,112 +249,112 @@ l3._flow_multiplier = flow_mult_matrix["l3"]
 l3._lower_flow = flow_lower_matrix['l3']
 l3._upper_flow = flow_upper_matrix['l3']
 
-l4 = RiverSection(name="l4", start_node=gw2, end_node=ag2)
+l4 = RiverSection(name="l4", start_node=ag1, end_node=jn2)
 l4._flow_multiplier = flow_mult_matrix["l4"]
 l4._lower_flow = flow_lower_matrix['l4']
 l4._upper_flow = flow_upper_matrix['l4']
 
-l5 = RiverSection(name="l5", start_node=gw2, end_node=ag1)
+l5 = RiverSection(name="l5", start_node=urb1, end_node=jn1)
 l5._flow_multiplier = flow_mult_matrix["l5"]
 l5._lower_flow = flow_lower_matrix['l5']
 l5._upper_flow = flow_upper_matrix['l5']
 
-l6 = RiverSection(name="l6", start_node=ag1, end_node=jn2)
+l6 = RiverSection(name="l6", start_node=ag2, end_node=gw2)
 l6._flow_multiplier = flow_mult_matrix["l6"]
 l6._lower_flow = flow_lower_matrix['l6']
 l6._upper_flow = flow_upper_matrix['l6']
 
-l7 = RiverSection(name="l7", start_node=wwtp1, end_node=jn2)
+l7 = RiverSection(name="l7", start_node=sr4, end_node=ag1)
 l7._flow_multiplier = flow_mult_matrix["l7"]
 l7._lower_flow = flow_lower_matrix['l7']
 l7._upper_flow = flow_upper_matrix['l7']
 
-l8 = RiverSection(name="l8", start_node=urb1, end_node=jn1)
+l8 = RiverSection(name="l8", start_node=hp1, end_node=sr4)
 l8._flow_multiplier = flow_mult_matrix["l8"]
 l8._lower_flow = flow_lower_matrix['l8']
 l8._upper_flow = flow_upper_matrix['l8']
 
-l9 = RiverSection(name="l9", start_node=ag2, end_node=gw2)
+l9 = RiverSection(name="l9", start_node=urb2, end_node=wwtp1)
 l9._flow_multiplier = flow_mult_matrix["l9"]
 l9._lower_flow = flow_lower_matrix['l9']
 l9._upper_flow = flow_upper_matrix['l9']
 
-l10 = RiverSection(name="l10", start_node=desal1, end_node=urb2)
+l10 = RiverSection(name="l10", start_node=jn2, end_node=jn3)
 l10._flow_multiplier = flow_mult_matrix["l10"]
 l10._lower_flow = flow_lower_matrix['l10']
 l10._upper_flow = flow_upper_matrix['l10']
 
-l11 = RiverSection(name="l11", start_node=sr4, end_node=ag1)
+l11 = RiverSection(name="l11", start_node=sr4, end_node=jn2)
 l11._flow_multiplier = flow_mult_matrix["l11"]
 l11._lower_flow = flow_lower_matrix['l11']
 l11._upper_flow = flow_upper_matrix['l11']
 
-l12 = RiverSection(name="l12", start_node=wwtp1, end_node=urb2)
+l12 = RiverSection(name="l12", start_node=ag1, end_node=gw2)
 l12._flow_multiplier = flow_mult_matrix["l12"]
 l12._lower_flow = flow_lower_matrix['l12']
 l12._upper_flow = flow_upper_matrix['l12']
 
-l13 = RiverSection(name="l13", start_node=hp1, end_node=sr4)
+l13 = RiverSection(name="l13", start_node=sr3, end_node=hp1)
 l13._flow_multiplier = flow_mult_matrix["l13"]
 l13._lower_flow = flow_lower_matrix['l13']
 l13._upper_flow = flow_upper_matrix['l13']
 
-l14 = RiverSection(name="l14", start_node=urb2, end_node=wwtp1)
+l14 = RiverSection(name="l14", start_node=jn2, end_node=ag2)
 l14._flow_multiplier = flow_mult_matrix["l14"]
 l14._lower_flow = flow_lower_matrix['l14']
 l14._upper_flow = flow_upper_matrix['l14']
 
-l15 = RiverSection(name="l15", start_node=jn2, end_node=jn3)
+l15 = RiverSection(name="l15", start_node=urb1, end_node=gw1)
 l15._flow_multiplier = flow_mult_matrix["l15"]
 l15._lower_flow = flow_lower_matrix['l15']
 l15._upper_flow = flow_upper_matrix['l15']
 
-l16 = RiverSection(name="l16", start_node=sr4, end_node=jn2)
+l16 = RiverSection(name="l16", start_node=sr4, end_node=urb2)
 l16._flow_multiplier = flow_mult_matrix["l16"]
 l16._lower_flow = flow_lower_matrix['l16']
 l16._upper_flow = flow_upper_matrix['l16']
 
-l17 = RiverSection(name="l17", start_node=ag1, end_node=gw2)
+l17 = RiverSection(name="l17", start_node=ag2, end_node=jn3)
 l17._flow_multiplier = flow_mult_matrix["l17"]
 l17._lower_flow = flow_lower_matrix['l17']
 l17._upper_flow = flow_upper_matrix['l17']
 
-l18 = RiverSection(name="l18", start_node=sr3, end_node=hp1)
+l18 = RiverSection(name="l18", start_node=jn3, end_node=endpt)
 l18._flow_multiplier = flow_mult_matrix["l18"]
 l18._lower_flow = flow_lower_matrix['l18']
 l18._upper_flow = flow_upper_matrix['l18']
 
-l19 = RiverSection(name="l19", start_node=jn2, end_node=ag2)
+l19 = RiverSection(name="l19", start_node=sr1, end_node=urb1)
 l19._flow_multiplier = flow_mult_matrix["l19"]
 l19._lower_flow = flow_lower_matrix['l19']
 l19._upper_flow = flow_upper_matrix['l19']
 
-l20 = RiverSection(name="l20", start_node=urb1, end_node=gw1)
+l20 = RiverSection(name="l20", start_node=gw2, end_node=ag2)
 l20._flow_multiplier = flow_mult_matrix["l20"]
 l20._lower_flow = flow_lower_matrix['l20']
 l20._upper_flow = flow_upper_matrix['l20']
 
-l21 = RiverSection(name="l21", start_node=sr4, end_node=urb2)
+l21 = RiverSection(name="l21", start_node=gw2, end_node=ag1)
 l21._flow_multiplier = flow_mult_matrix["l21"]
 l21._lower_flow = flow_lower_matrix['l21']
 l21._upper_flow = flow_upper_matrix['l21']
 
-l22 = RiverSection(name="l22", start_node=gw1, end_node=urb1)
+l22 = RiverSection(name="l22", start_node=wwtp1, end_node=jn2)
 l22._flow_multiplier = flow_mult_matrix["l22"]
 l22._lower_flow = flow_lower_matrix['l22']
 l22._upper_flow = flow_upper_matrix['l22']
 
-l23 = RiverSection(name="l23", start_node=ag2, end_node=jn3)
+l23 = RiverSection(name="l23", start_node=desal1, end_node=urb2)
 l23._flow_multiplier = flow_mult_matrix["l23"]
 l23._lower_flow = flow_lower_matrix['l23']
 l23._upper_flow = flow_upper_matrix['l23']
 
-l24 = RiverSection(name="l24", start_node=jn3, end_node=endpt)
+l24 = RiverSection(name="l24", start_node=wwtp1, end_node=urb2)
 l24._flow_multiplier = flow_mult_matrix["l24"]
 l24._lower_flow = flow_lower_matrix['l24']
 l24._upper_flow = flow_upper_matrix['l24']
 
-l25 = RiverSection(name="l25", start_node=sr1, end_node=urb1)
+l25 = RiverSection(name="l25", start_node=gw1, end_node=urb1)
 l25._flow_multiplier = flow_mult_matrix["l25"]
 l25._lower_flow = flow_lower_matrix['l25']
 l25._upper_flow = flow_upper_matrix['l25']
@@ -391,13 +372,3 @@ allocator = PyomoAllocation(n)
 s.add_engine(allocator)
 
 s.start()
-
-total_deficit = 0
-
-nodes_names = []
-for n in n.nodes:
-    nodes_names.append(n.name)
-    if n.type == 'irrigation':
-        print "%s deficit = %s"%(n.name, n.deficit)
-        total_deficit += n.deficit
-print "finshed: ", sr1.initial_storage

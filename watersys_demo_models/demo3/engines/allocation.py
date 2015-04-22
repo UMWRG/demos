@@ -29,12 +29,11 @@ class PyomoAllocation(Engine):
 
     def run(self):
         """
-            Need to do some stuff here
+            Calling Pyomo model
         """
         print "========================= Timestep: %s =======================" % self.target.current_timestep
-        allocation = "==========  Flows       ============="
+        allocation = "==========  Flows   ============="
         storage = "==========  storage    =============="
-        #delivery = " ==========  delivery ============="
         alpha = " ==========  demand satisfaction ratio ============="
         for n in self.target.nodes:
             if n.type == 'agricultural' or n.type == 'urban':
@@ -53,29 +52,21 @@ class PyomoAllocation(Engine):
                     self.storage[name] = s_var[vv].value
                     storage += '\n' + name+": " + str(s_var[vv].value)
 
-            elif var == "alpha":
-                alpha_var = getattr(results, var)
-                for vv in alpha_var:
-                    name = ''.join(map(str,vv))
-                    self.storage[name] = alpha_var[vv].value
-                    alpha += '\n' + name+": " + str(alpha_var[vv].value)
-                    """
-            elif var == "delivery":
-                d_var = getattr(results, var)
-                for vv in d_var:
-                    name = ''.join(map(str,vv))
-                    self.storage[name] = (d_var[vv].value)
-                    delivery += '\n' + name+": " + str(d_var[vv].value)
-                    """
             elif var == "X":
                     x_var = getattr(results, var)
                     for xx in x_var:
                         name = "(" + ', '.join(map(str,xx)) + ")"
                         allocation += '\n'+name+": "+str(x_var[xx].value)
 
+            elif var == "alpha":
+                alpha_var = getattr(results, var)
+                for aa in alpha_var:
+                    name = ''.join(map(str,aa))
+                    print(name, alpha_var[aa].value)
+                    alpha += '\n' + name+": " + str(alpha_var[aa].value)
+
         print allocation
         print storage
         print alpha
-        #print delivery
-        #print results
+
         self.target.set_initial_storage(self.storage)

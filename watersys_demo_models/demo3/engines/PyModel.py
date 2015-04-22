@@ -41,7 +41,7 @@ class OptimisationModel:
         self.flow_multiplier = {}
         self.cost = {}
         self.target_demand = {}
-        print "\n************* model nodes *************:\n"
+
         for node in network.nodes:
             self.nodes_names.append(node.name)
             self.inflow[node.name] = node.inflow
@@ -51,11 +51,6 @@ class OptimisationModel:
                 self.target_demand[node.name] = node.target_demand
                 self.cost[node.name] = node.cost
                 self.inflow[node.name] = node.inflow
-                print "demand nodes= %s" %self.demand_nodes[-1]
-                print "target demand= %s" %self.target_demand[node.name]
-                print "cost= %s" %self.cost[node.name]
-                print "inflow= %s" %self.inflow[node.name]
-                print"---------------------"
 
             if node.type == 'surface reservoir' or node.type == 'aquifer storage':
                 self.storage_nodes.append(node.name)
@@ -63,32 +58,20 @@ class OptimisationModel:
                 self.min_storage[node.name] = node.min_storage
                 self.max_storage[node.name] = node.max_storage
                 self.inflow[node.name] = node.inflow
-                print "storage nodes= %s" %self.storage_nodes[-1]
-                print "initial storage= %s" %self.node_initial_storage[node.name]
-                print "min storage= %s" %self.min_storage[node.name]
-                print "max storage= %s" %self.max_storage[node.name]
-                print "inflow= %s" %self.inflow[node.name]
-                print"---------------------"
 
             if node.type != 'surface reservoir' and node.type != 'aquifer storage':
                 self.nonstorage_nodes.append(node.name)
-
-        print"\n|||||||||||||model links||||||||||||||:\n"
 
         for link in network.links:
             self.links_comp[(link.start_node.name, link.end_node.name)] = link
             self.flow_multiplier[(link.start_node.name, link.end_node.name)] = link.flow_multiplier
             self.upper_flow[(link.start_node.name, link.end_node.name)] = link.upper_flow
             self.lower_flow[(link.start_node.name, link.end_node.name)] = link.lower_flow
-            print "links= %s" % self.links_comp[(link.start_node.name, link.end_node.name)]
-            print "flow multiplier= %s" % self.flow_multiplier[(link.start_node.name, link.end_node.name)]
-            print "upper flow limit= %s" % self.upper_flow[(link.start_node.name, link.end_node.name)]
-            print "lower flow limit= %s" % self.lower_flow[(link.start_node.name, link.end_node.name)]
-            print "-----------------------"
 
     def run(self):
         # Creating the model
         model = AbstractModel()
+
         # Declaring model indexes using sets
         model.nodes = Set(initialize=self.nodes_names)
         model.links = Set(within=model.nodes*model.nodes, initialize=self.links_comp.keys())
@@ -97,11 +80,6 @@ class OptimisationModel:
         model.storage_nodes = Set(initialize=self.storage_nodes)
 
         # Declaring model parameters
-
-        #def set_initial_storage(model):
-        #    for key in self.storage_nodes:
-        #        model.initial_storage[key] = self.initial_storage[key]
-
         model.initial_storage = Param(model.storage_nodes, mutable=True, initialize=self.node_initial_storage)
         model.inflow = Param(model.nodes, initialize=self.inflow)
         model.cost = Param(model.demand_nodes, initialize=self.cost)
@@ -112,7 +90,7 @@ class OptimisationModel:
         model.storage_lower_bound = Param(model.storage_nodes, initialize=self.min_storage)
         model.storage_upper_bound = Param(model.storage_nodes, initialize=self.max_storage)
 
-        ##======================================== Declaring Variables (X and S)
+        # ======================================== Declaring Variables (X and S)
 
         # Defining the flow lower and upper bound
         def flow_capacity_constraint(model, node, node2):
@@ -136,42 +114,23 @@ class OptimisationModel:
 
         model.alpha = Var(model.demand_nodes, domain=NonNegativeReals, bounds=(0, 1), initialize=demand_satisfaction_ratio)
 
-        #Declaring delivery
-        #model.delivery = Var(model.demand_nodes, domain=NonNegativeReals)
-
-        ##======================================== Declaring the objective function (Z)
+        # ======================================== Declaring the objective function (Z)
 
         def objective_function(model):
             return summation(model.cost, model.alpha)
 
         model.Z = Objective(rule=objective_function, sense=maximize)
 
-        ##======================================== Declaring constraints
-        """
-        def set_delivery(instance):
-            for var in instance.active_components(Var):
-                    if(var=="delivery"):
-                        s_var = getattr(instance, var)
-                        for vv in s_var:
-                            #s_var[vv]=-2
-                            sum=0
-                            for var_2 in instance.active_components(Var):
-                                if(var_2=="X"):
-                                    s_var_2 = getattr(instance, var_2)
-                                    for vv2 in s_var_2:
-                                        if(vv in vv2):
-                                            sum=sum+s_var_2[vv2].value
-                            s_var[vv]=sum
-        """
+        # ======================================== Declaring constraints
         # Mass balance for non-storage nodes:
         def mass_balance(model, nonstorage_nodes):
 
-            # inflow
+            # inflows
             term1 = model.inflow[nonstorage_nodes]
             term2 = sum([model.X[node_in, nonstorage_nodes]*model.flow_multiplier[node_in, nonstorage_nodes]
                           for node_in in model.nodes if (node_in, nonstorage_nodes) in model.links])
 
-            # outflow
+            # outflows
             if nonstorage_nodes in model.demand_nodes:
                 term3 = model.alpha[nonstorage_nodes]*model.target_demand[nonstorage_nodes]
             else:
@@ -179,32 +138,28 @@ class OptimisationModel:
             term4 = sum([model.X[nonstorage_nodes, node_out]
                           for node_out in model.nodes if (nonstorage_nodes, node_out) in model.links])
 
-            # inflow - outflow = 0:
+            # inflows - outflows = 0:
             return (term1 + term2) - (term3 + term4) == 0
 
         model.mass_balance_const = Constraint(model.nonstorage_nodes, rule=mass_balance)
 
         # Mass balance for storage nodes:
         def storage_mass_balance(model, storage_nodes):
-            # inflow
+            # inflows
             term1 = model.inflow[storage_nodes]
             term2 = sum([model.X[node_in, storage_nodes]*model.flow_multiplier[node_in, storage_nodes]
                           for node_in in model.nodes if (node_in, storage_nodes) in model.links])
 
-            # outflow
+            # outflows
             term3 = sum([model.X[storage_nodes, node_out]
                           for node_out in model.nodes if (storage_nodes, node_out) in model.links])
 
             # storage
             term4 = model.initial_storage[storage_nodes]
-            #if is_first_run == 1:
-            #    term4 = model.initial_storage[storage_nodes]
-            #else:
-            #    term4 = model.S[storage_nodes] #value from previous run
-                ### something must be done for term 4. It is not correct in its current form.
+
             term5 = model.S[storage_nodes]
 
-            # inflow - outflow = 0:
+            # inflows - outflows = 0:
             return (term1 + term2 + term4) - (term3 + term5) == 0
 
         model.storage_mass_balance_const = Constraint(model.storage_nodes, rule=storage_mass_balance)
@@ -213,7 +168,7 @@ class OptimisationModel:
 
         opt = SolverFactory("glpk")
         instance = model.create()
+        instance.pprint()
         result = opt.solve(instance)
         instance.load(result)
-        #set_delivery(instance)
         return instance

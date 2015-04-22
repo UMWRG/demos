@@ -31,7 +31,7 @@ class Demo3Network(Network):
 
     def set_initial_storage(self, storage):
         for node in self.nodes:
-            if node.type == 'surface reservoir' and node.type == 'aquifer storage':
+            if node.type == 'surface reservoir' or node.type == 'aquifer storage':
                     node.initial_storage = storage[node.name]
 
     def path_matrix(self, co):
