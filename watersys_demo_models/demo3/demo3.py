@@ -229,9 +229,10 @@ jn3 = Junction(x=150, y=300, name="J3")
 
 wwtp1 = WasteWaterTreatmentPlant(x=170, y=270, name="WWTP1")
 
-hp1=HydropowerPlant(x=90, y=20, name="HP1")
+hp1 = HydropowerPlant(x=90, y=20, name="HP1")
 
 n.add_nodes(sr1, sr2, sr3, sr4, desal1, gw1, gw2, ag1, ag2, endpt, urb1, urb2, jn1, jn2, jn3, wwtp1, hp1)
+
 # Creating links
 
 l1 = RiverSection(name="l1", start_node=sr2, end_node=sr4)

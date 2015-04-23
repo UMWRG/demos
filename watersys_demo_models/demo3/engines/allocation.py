@@ -32,12 +32,13 @@ class PyomoAllocation(Engine):
             Calling Pyomo model
         """
         print "========================= Timestep: %s =======================" % self.target.current_timestep
-        allocation = "==========  Flows   ============="
-        storage = "==========  storage    =============="
-        alpha = " ==========  demand satisfaction ratio ============="
+        allocation = "_____________  Flows   _____________"
+        storage = "_____________  Storage    _____________"
+        alpha = "_____________  Demand satisfaction ratio _____________"
+
         for n in self.target.nodes:
             if n.type == 'agricultural' or n.type == 'urban':
-                print "%s target demand --> %s" % (n.name, n.target_demand)
+                print "%s target demand is %s" % (n.name, n.target_demand)
 
         print "======== calling Pyomo =============="
         optimisation = OptimisationModel(self.target)
@@ -47,23 +48,21 @@ class PyomoAllocation(Engine):
             if var == "S":
                 s_var = getattr(results, var)
                 for vv in s_var:
-                    name = ''.join(map(str,vv))
-                    print(name, s_var[vv].value)
+                    name = ''.join(map(str, vv))
                     self.storage[name] = s_var[vv].value
-                    storage += '\n' + name+": " + str(s_var[vv].value)
+                    storage += '\n' + name + ": " + str(s_var[vv].value)
 
             elif var == "X":
-                    x_var = getattr(results, var)
-                    for xx in x_var:
-                        name = "(" + ', '.join(map(str,xx)) + ")"
-                        allocation += '\n'+name+": "+str(x_var[xx].value)
+                x_var = getattr(results, var)
+                for xx in x_var:
+                    name = "(" + ', '.join(map(str, xx)) + ")"
+                    allocation += '\n' + name + ": " + str(x_var[xx].value)
 
             elif var == "alpha":
                 alpha_var = getattr(results, var)
                 for aa in alpha_var:
-                    name = ''.join(map(str,aa))
-                    print(name, alpha_var[aa].value)
-                    alpha += '\n' + name+": " + str(alpha_var[aa].value)
+                    name = ''.join(map(str, aa))
+                    alpha += '\n' + name + ": " + str(alpha_var[aa].value)
 
         print allocation
         print storage

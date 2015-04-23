@@ -168,7 +168,6 @@ class OptimisationModel:
 
         opt = SolverFactory("glpk")
         instance = model.create()
-        instance.pprint()
         result = opt.solve(instance)
         instance.load(result)
         return instance

@@ -17,6 +17,7 @@
 
 from watersys import Node
 
+
 class Junction(Node):
     """
         A junction node is simply a connection node and performs no setup. It only
