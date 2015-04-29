@@ -282,6 +282,11 @@
             <dimension>Volume</dimension>
             <is_var>N</is_var>
         </attribute>
+		<attribute>
+            <name>alpha </name>
+            <dimension>Dimensionless</dimension>
+            <is_var>Y</is_var>
+        </attribute>
     </resource>
     <resource>
         <type>NODE</type>
@@ -306,6 +311,11 @@
             <dimension>Volume</dimension>
             <is_var>N</is_var>
         </attribute>
+		<attribute>
+            <name>alpha </name>
+            <dimension>Dimensionless</dimension>
+            <is_var>Y</is_var>
+        </attribute>
     </resource>
     <resource>
         <type>NODE</type>
@@ -329,6 +339,11 @@
             <name>demand</name>
             <dimension>Volume</dimension>
             <is_var>N</is_var>
+        </attribute>
+		<attribute>
+            <name>alpha </name>
+            <dimension>Dimensionless</dimension>
+            <is_var>Y</is_var>
         </attribute>
     </resource>
     <resource>
