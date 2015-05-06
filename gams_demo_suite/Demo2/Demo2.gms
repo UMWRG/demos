@@ -36,8 +36,8 @@ $        include "no_shortage.txt"
 VARIABLES
 Q(i,j,t) flow in each link in each period [1e6 m^3 mon^-1]
 S(i,t) storage volume in storage nodes [1e6 m^3]
-delivery (i) water delivered to demand node i in each period [1e6 m^3 mon^-1]
-delivered_water (i,t) an interim variable for saving the value of the water delivery to each demand node at the end of each time-step [1e6 m^3 mon^-1]
+delivered_water(i) water delivered to demand node i in each period [1e6 m^3 mon^-1]
+delivery(i,t) an interim variable for saving the value of the water delivery to each demand node at the end of each time-step [1e6 m^3 mon^-1]
 Z objective function [-]
 Obj (t) [-];
 ;
@@ -82,7 +82,7 @@ Objective ..
 *    +SUM(j$links(j,i), Q(j,i,t)
 *    * flow_multiplier(j,i,t))
 *    - SUM(j$links(i,j), Q(i,j,t))
-*    - consumption_coefficient(i, "0") * delivery(i))
+*    - consumption_coefficient(i, "0") * delivered_water(i))
 *    =E= 0;
 
 
@@ -92,7 +92,7 @@ MassBalance_urban(urban) ..
     * flow_multiplier(j,urban,t))
     - SUM(j$links(urban,j), Q(urban,j,t))
     - consumption_coefficient(urban,"0")
-    * delivery(urban))
+    * delivered_water(urban))
     =E= 0;
 
 MassBalance_agricultural(agricultural) ..
@@ -101,7 +101,7 @@ MassBalance_agricultural(agricultural) ..
     * flow_multiplier(j,agricultural,t))
     - SUM(j$links(agricultural,j), Q(agricultural,j,t))
     - consumption_coefficient(agricultural,"0")
-    * delivery(agricultural))
+    * delivered_water(agricultural))
     =E= 0;
 
 MassBalance_junction(junction) ..
@@ -153,10 +153,10 @@ loop (tsteps,
             SOLVE Demo2 USING LP MINIMIZING Z;
             storage.fx(i,tsteps)=S.l(i,tsteps) ;
             Obj.l(tsteps)=Z.l;
-            delivered_water.l(urban,tsteps)=delivery.l(urban);
-            delivered_water.l(agricultural,tsteps)=delivery.l(agricultural);
-            delivered_water.l(junction,tsteps)=delivery.l(junction);
-            DISPLAY  Z.l, Obj.l,storage.l,S.l, Q.l,delivery.l;
+            delivery.l(urban,tsteps)=delivered_water.l(urban);
+            delivery.l(agricultural,tsteps)=delivered_water.l(agricultural);
+            delivery.l(junction,tsteps)=delivered_water.l(junction);
+            DISPLAY  Z.l, Obj.l,storage.l,S.l, Q.l,delivered_water.l;
             dv(tsteps)=no;
       );
 
