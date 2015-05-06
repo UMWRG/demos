@@ -37,20 +37,19 @@ $        include "non_shortage.txt";
 VARIABLES
 Q(i,j,t) flow in each link in each period [1e6 m^3 mon^-1]
 S(i,t) storage volume in storage nodes [1e6 m^3]
-delivery (i) water delivered to demand node i in each period [1e6 m^3 mon^-1]
+delivery(i) water delivered to demand node i in each period [1e6 m^3 mon1]
+alpha(i,t) an interim variable for saving the value of the satisfaction ratio at the end of each time-step [-]
 Z objective function [-]
-Obj (t) [-];
+Obj(t) [-];
 ;
 
 POSITIVE VARIABLES
-Q
-S
-alpha(i) target demand satisfaction ratio ;
-
-alpha.up(demand_nodes)=1;
+Q 
+S 
+alpha_coeff(i) target demand satisfaction ratio [-];
+alpha_coeff.up(demand_nodes)=1;
 
 positive variable  storage(storage_nodes,t) an interim variable for saving the value of the storage at the end of each time-step;
-positive variable  a(i,t) an interim variable for saving the value of the satisfaction ratio at the end of each time-step;
 
 EQUATIONS
 MassBalance_storage(storage_nodes)
@@ -71,7 +70,7 @@ set dv(t) / /;
 * Objective function for time step by time step formulation
 
 Objective ..
-    Z =E= sum(t$dv(t),SUM((demand_nodes), alpha(demand_nodes)
+    Z =E= sum(t$dv(t),SUM((demand_nodes), alpha_coeff(demand_nodes)
           * cost(demand_nodes, t)));
 
 * Mass balance constraint for non-storage nodes:
@@ -82,7 +81,7 @@ MassBalance_nonstorage(non_storage_nodes)..
          +SUM(j$links(j,non_storage_nodes), Q(j,non_storage_nodes,t)
          * flow_multiplier(j,non_storage_nodes, t))
          - SUM(j$links(non_storage_nodes,j), Q(non_storage_nodes,j,t))
-         - (alpha(non_storage_nodes)* demand(non_storage_nodes, t)))
+         - (alpha_coeff(non_storage_nodes)* demand(non_storage_nodes, t)))
          =E= 0;
 
 * Mass balance constraint for storage nodes:
@@ -123,7 +122,11 @@ loop (tsteps,
             dv(tsteps)=t(tsteps);
             SOLVE Demo3 USING LP MAXIMIZING Z;
             storage.fx(storage_nodes,tsteps)=S.l(storage_nodes,tsteps) ;
-            a.l(i,tsteps)=alpha.l(i);
+            
+			
+			alpha.l(i,tsteps)=alpha_coeff.l(i);
+
+			
             Obj.l(tsteps)=Z.l;
             DISPLAY  Z.l, Obj.l,storage.l,S.l, Q.l;
             dv(tsteps)=no;
@@ -139,11 +142,11 @@ execute_unload "Results.gdx" ,
     MaxFlow,
     MinStor,
     MaxStor,
-    Z,
-    alpha,
+    Z,    
+	alpha_coeff,
+	alpha,
     Obj,
-    storage,
-    a;
+    storage;
 
 
 
