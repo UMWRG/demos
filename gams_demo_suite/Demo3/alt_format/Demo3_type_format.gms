@@ -37,7 +37,8 @@ $        include "non_shortage.txt";
 VARIABLES
 Q(i,j,t) flow in each link in each period [1e6 m^3 mon^-1]
 S(i,t) storage volume in storage nodes [1e6 m^3]
-delivery (i) water delivered to demand node i in each period [1e6 m^3 mon^-1]
+receive(i) water delivered to every node i in each period [1e6 m^3 mon1]
+release(i) water released from node i in each period [1e6 m^3 mon1]
 Z objective function [-]
 Obj (t) [-];
 ;
@@ -49,8 +50,10 @@ alpha(i) target demand satisfaction ratio ;
 
 alpha.up(demand_nodes)=1;
 
-positive variable  storage(i,t) an interim variable for saving the value of the storage at the end of each time-step;
-positive variable  a(i,t) an interim variable for saving the value of the satisfaction ratio at the end of each time-step;
+positive variable  storage(i,t) an interim variable for saving the value of the storage at the end of each time-step
+                   a(i,t) an interim variable for saving the value of the satisfaction ratio at the end of each time-step
+				   received_water(i,t) an interim variable for saving the amount of water received by every node at the end of each time-step[1e6 m^3 mon1]
+                   released_water(i,t) an interim variable for saving the amount of water released by every node at the end of each time-step[1e6 m^3 mon1];
 
 EQUATIONS
 MassBalance_storage(i)
@@ -59,6 +62,8 @@ MinFlow(i,j,t)
 MaxFlow(i,j,t)
 MaxStor(storage_nodes,t)
 MinStor(storage_nodes,t)
+ReceivingEQ(i)
+ReleasingEQ(i)
 Objective
 ;
 
@@ -134,7 +139,20 @@ MinStor(storage_nodes,t)$dv(t)..
     S(storage_nodes,t) =G= desalination_timeseries_data(t, storage_nodes, "min_storage") +
                             groundwater_timeseries_data(t, storage_nodes, "min_storage") +
                             surface_reservoir_timeseries_data(t, storage_nodes, "min_storage");
+							
 
+*** Water tracking equations
+
+* Equation to calculate the amount of water received by each node
+ReceivingEQ(i)..
+    receive(i) =E= sum(t$dv(t),
+         SUM(j$links(j,i), Q(j,i,t)*river_section_timeseries_data(t,j,i, "flow_multiplier")));
+
+* Equation to calculate the amount of water released from each node
+ReleasingEQ(i)..
+    release(i) =E= SUM(t$dv(t),
+         SUM(j$links(i,j), Q(i,j,t)));
+		 
 ** ----------------------------------------------------------------------
 **  Model declaration and solve statements
 ** ----------------------------------------------------------------------
@@ -147,6 +165,8 @@ loop (tsteps,
             storage.fx(storage_nodes,tsteps)=S.l(storage_nodes,tsteps) ;
             a.l(i,tsteps)=alpha.l(i);
             Obj.l(tsteps)=Z.l;
+			received_water.fx(i,tsteps)=receive.l(i);
+            released_water.fx(i,tsteps)=release.l(i);
             DISPLAY  Z.l, Obj.l,storage.l,S.l, Q.l;
             dv(tsteps)=no;
       );
@@ -165,8 +185,9 @@ execute_unload "Results.gdx" ,
     alpha,
     Obj,
     storage,
-    a;
-
+    a,
+	received_water,
+    released_water;
 
 
 
