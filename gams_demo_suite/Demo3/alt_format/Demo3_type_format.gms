@@ -39,6 +39,7 @@ Q(i,j,t) flow in each link in each period [1e6 m^3 mon^-1]
 S(i,t) storage volume in storage nodes [1e6 m^3]
 receive(i) water delivered to every node i in each period [1e6 m^3 mon1]
 release(i) water released from node i in each period [1e6 m^3 mon1]
+alpha(i,t) an interim variable for saving the value of the satisfaction ratio at the end of each time-step [-]
 Z objective function [-]
 Obj (t) [-];
 ;
@@ -46,13 +47,12 @@ Obj (t) [-];
 POSITIVE VARIABLES
 Q
 S
-alpha(i) target demand satisfaction ratio ;
+alpha_coeff(i) target demand satisfaction ratio [-];
+alpha_coeff.up(demand_nodes)=1;
 
-alpha.up(demand_nodes)=1;
 
 positive variable  storage(i,t) an interim variable for saving the value of the storage at the end of each time-step
-                   a(i,t) an interim variable for saving the value of the satisfaction ratio at the end of each time-step
-				   received_water(i,t) an interim variable for saving the amount of water received by every node at the end of each time-step[1e6 m^3 mon1]
+                   received_water(i,t) an interim variable for saving the amount of water received by every node at the end of each time-step[1e6 m^3 mon1]
                    released_water(i,t) an interim variable for saving the amount of water released by every node at the end of each time-step[1e6 m^3 mon1];
 
 EQUATIONS
@@ -76,21 +76,21 @@ set dv(t) / /;
 * Objective function for time step by time step formulation
 
 *Objective ..
-*    Z =E= sum(t$dv(t),SUM((demand_nodes), alpha(demand_nodes)
+*    Z =E= sum(t$dv(t),SUM((demand_nodes), alpha_coeff(demand_nodes)
 *    * non_storage_timeseries_data(t, demand_nodes, "cost")));
 
 Objective ..
-    Z =E= sum(t$dv(t),SUM((demand_nodes), 
-          alpha(demand_nodes) * agricultural_timeseries_data(t, demand_nodes, "cost")
-          + alpha(demand_nodes) * urban_timeseries_data(t, demand_nodes, "cost")
-          + alpha(demand_nodes) * discharge_timeseries_data(t, demand_nodes, "cost")));
+    Z =E= sum(t$dv(t),SUM((demand_nodes),
+          alpha_coeff(demand_nodes) * agricultural_timeseries_data(t, demand_nodes, "cost")
+          + alpha_coeff(demand_nodes) * urban_timeseries_data(t, demand_nodes, "cost")
+          + alpha_coeff(demand_nodes) * discharge_timeseries_data(t, demand_nodes, "cost")));
 
 * Mass balance constraint for non-storage nodes:
 *MassBalance_nonstorage(non_storage_nodes)..
 *    SUM(t$dv(t),SUM(j$links(j,non_storage_nodes), Q(j,non_storage_nodes,t)
 *    * link_timeseries_data(t, j,non_storage_nodes, "flow_multiplier"))
 *    - SUM(j$links(non_storage_nodes,j), Q(non_storage_nodes,j,t))
-*    - (alpha(non_storage_nodes)* non_storage_timeseries_data(t, non_storage_nodes, "demand")))
+*    - (alpha_coeff(non_storage_nodes)* non_storage_timeseries_data(t, non_storage_nodes, "demand")))
 *    =E= 0;
 
 
@@ -99,9 +99,9 @@ MassBalance_nonstorage(i) $ (non_storage_nodes(i)) ..
          SUM(t$dv(t),SUM(j$links(j,i), Q(j,i,t)
          * river_section_timeseries_data(t, j,i, "flow_multiplier"))
          - SUM(j$links(i,j), Q(i,j,t))
-         - alpha(i) * agricultural_timeseries_data(t, i, "demand") 
-         - alpha(i) * urban_timeseries_data(t, i, "demand")
-         - alpha(i) * discharge_timeseries_data(t, i, "demand"))
+         - alpha_coeff(i) * agricultural_timeseries_data(t, i, "demand")
+         - alpha_coeff(i) * urban_timeseries_data(t, i, "demand")
+         - alpha_coeff(i) * discharge_timeseries_data(t, i, "demand"))
          =E= 0;
 *
 ** Mass balance constraint for storage nodes:
@@ -131,7 +131,7 @@ MaxFlow(i,j,t)$(links(i,j)  and dv(t))..
 
 * Lower and upper bound of Storage volume at storage nodes
 MaxStor(storage_nodes,t)$dv(t)..
-    S(storage_nodes,t) =L= desalination_timeseries_data(t, storage_nodes, "max_storage") + 
+    S(storage_nodes,t) =L= desalination_timeseries_data(t, storage_nodes, "max_storage") +
                            groundwater_timeseries_data(t, storage_nodes, "max_storage") +
                            surface_reservoir_timeseries_data(t, storage_nodes, "max_storage");
 
@@ -139,7 +139,7 @@ MinStor(storage_nodes,t)$dv(t)..
     S(storage_nodes,t) =G= desalination_timeseries_data(t, storage_nodes, "min_storage") +
                             groundwater_timeseries_data(t, storage_nodes, "min_storage") +
                             surface_reservoir_timeseries_data(t, storage_nodes, "min_storage");
-							
+
 
 *** Water tracking equations
 
@@ -152,7 +152,7 @@ ReceivingEQ(i)..
 ReleasingEQ(i)..
     release(i) =E= SUM(t$dv(t),
          SUM(j$links(i,j), Q(i,j,t)));
-		 
+
 ** ----------------------------------------------------------------------
 **  Model declaration and solve statements
 ** ----------------------------------------------------------------------
@@ -163,9 +163,9 @@ loop (tsteps,
             dv(tsteps)=t(tsteps);
             SOLVE Demo3 USING LP MAXIMIZING Z;
             storage.fx(storage_nodes,tsteps)=S.l(storage_nodes,tsteps) ;
-            a.l(i,tsteps)=alpha.l(i);
+            alpha.l(i,tsteps)=alpha_coeff.l(i);
             Obj.l(tsteps)=Z.l;
-			received_water.fx(i,tsteps)=receive.l(i);
+            received_water.fx(i,tsteps)=receive.l(i);
             released_water.fx(i,tsteps)=release.l(i);
             DISPLAY  Z.l, Obj.l,storage.l,S.l, Q.l;
             dv(tsteps)=no;
@@ -182,11 +182,11 @@ execute_unload "Results.gdx" ,
     MinStor,
     MaxStor,
     Z,
-    alpha,
+    alpha_coeff,
     Obj,
     storage,
-    a,
-	received_water,
+    alpha,
+    received_water,
     released_water;
 
 

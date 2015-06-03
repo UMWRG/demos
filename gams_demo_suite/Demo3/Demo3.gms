@@ -46,14 +46,13 @@ Obj(t) [-];
 ;
 
 POSITIVE VARIABLES
-Q 
-S 
+Q
+S
 alpha_coeff(i) target demand satisfaction ratio [-];
 alpha_coeff.up(demand_nodes)=1;
 
 positive variable  storage(storage_nodes,t) an interim variable for saving the value of the storage at the end of each time-step
-                   a(i,t) an interim variable for saving the value of the satisfaction ratio at the end of each time-step
-				   received_water(i,t) an interim variable for saving the amount of water received by every node at the end of each time-step[1e6 m^3 mon1]
+                   received_water(i,t) an interim variable for saving the amount of water received by every node at the end of each time-step[1e6 m^3 mon1]
                    released_water(i,t) an interim variable for saving the amount of water released by every node at the end of each time-step[1e6 m^3 mon1];
 
 positive variable  storage(storage_nodes,t) an interim variable for saving the value of the storage at the end of each time-step;
@@ -134,7 +133,7 @@ ReceivingEQ(i)..
 ReleasingEQ(i)..
     release(i) =E= SUM(t$dv(t),
          SUM(j$links(i,j), Q(i,j,t)));
-		 
+
 ** ----------------------------------------------------------------------
 **  Model declaration and solve statements
 ** ----------------------------------------------------------------------
@@ -145,10 +144,9 @@ loop (tsteps,
             dv(tsteps)=t(tsteps);
             SOLVE Demo3 USING LP MAXIMIZING Z;
             storage.fx(storage_nodes,tsteps)=S.l(storage_nodes,tsteps) ;
-            a.l(i,tsteps)=alpha.l(i);
-			received_water.fx(i,tsteps)=receive.l(i);
+            received_water.fx(i,tsteps)=receive.l(i);
             released_water.fx(i,tsteps)=release.l(i);
-			alpha.l(i,tsteps)=alpha_coeff.l(i);
+            alpha.l(i,tsteps)=alpha_coeff.l(i);
             Obj.l(tsteps)=Z.l;
             DISPLAY  Z.l, Obj.l,storage.l,S.l, Q.l;
             dv(tsteps)=no;
@@ -164,13 +162,12 @@ execute_unload "Results.gdx" ,
     MaxFlow,
     MinStor,
     MaxStor,
-    Z,    
-	alpha_coeff,
-	alpha,
+    Z,
+    alpha_coeff,
+    alpha,
     Obj,
     storage,
-    a,
-	received_water,
+    received_water,
     released_water,
     storage;
 
