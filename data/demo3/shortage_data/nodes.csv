@@ -1,4 +1,3 @@
-<<<<<<< HEAD,,,,,,,,,,,,,
 Name    , X                , Y                , Type              ,min_storage,max_storage, initial_storage , S       ,receive,release,cost        ,demand,inflow, Description
 Units   ,                  ,                  ,                   , 1e6 m^3         , 1e6 m^3         , 1e6 m^3   , 1e6 m^3 , 1e6 m^3 mon^-1, 1e6 m^3 mon^-1,GBP, 1e6 m^3         ,-,
 Desal1,507143.6868,164415.5771,desalination, TS/min_stor.csv , TS/max_stor.csv ,10000, NULL           , NULL           , NULL           ,,,TS/inflow.csv,
