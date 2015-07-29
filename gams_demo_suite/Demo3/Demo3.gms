@@ -35,11 +35,11 @@ $        include "non_shortage.txt";
 ** ----------------------------------------------------------------------
 
 VARIABLES
-Q(i,j,t) flow in each link in each period [1e6 m^3 mon^-1]
-S(i,t) storage volume in storage nodes [1e6 m^3]
-receive(i) water delivered to every node i in each period [1e6 m^3 mon1]
-release(i) water released from node i in each period [1e6 m^3 mon1]
-delivery(i) water delivered to demand node i in each period [1e6 m^3 mon1]
+Q(i,j,t) flow in each link in each period [-]
+S(i,t) storage volume in storage nodes [-]
+receive(i) water delivered to every node i in each period [-]
+release(i) water released from node i in each period [-]
+delivery(i) water delivered to demand node i in each period [-]
 alpha(i,t) an interim variable for saving the value of the satisfaction ratio at the end of each time-step [-]
 Z objective function [-]
 Obj(t) [-];
@@ -51,11 +51,12 @@ S
 alpha_coeff(i) target demand satisfaction ratio [-];
 alpha_coeff.up(demand_nodes)=1;
 
-positive variable  storage(storage_nodes,t) an interim variable for saving the value of the storage at the end of each time-step
-                   received_water(i,t) an interim variable for saving the amount of water received by every node at the end of each time-step[1e6 m^3 mon1]
-                   released_water(i,t) an interim variable for saving the amount of water released by every node at the end of each time-step[1e6 m^3 mon1];
+positive variable  
+storage(storage_nodes,t) an interim variable for saving the value of the storage at the end of each time-step
+received_water(i,t) an interim variable for saving the amount of water received by every node at the end of each time-step[-]
+released_water(i,t) an interim variable for saving the amount of water released by every node at the end of each time-step[-];
 
-positive variable  storage(storage_nodes,t) an interim variable for saving the value of the storage at the end of each time-step;
+
 
 
 EQUATIONS
