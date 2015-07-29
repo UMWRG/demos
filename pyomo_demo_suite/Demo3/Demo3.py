@@ -84,7 +84,7 @@ def get_current_cost(model):
 def objective_function(model):
     return summation(get_current_cost(model), model.alpha)
 
-model.Z = Objective(rule=objective_function, sense=maximize) #*Z_Unit
+model.Z = Objective(rule=objective_function, sense=maximize)
 
 ##======================================== Declaring constraints
 # Mass balance for non-storage nodes:
