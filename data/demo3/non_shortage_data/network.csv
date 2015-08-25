@@ -1,3 +1,3 @@
-ID      , Name              , Type           , Z    , Description
-Units   ,                   ,                ,-,
-        ,Demo 3 network with no shortage,tutorial_network, NULL ,
+ID      , Name              , Type           ,Projection,nodes,links,groups, Description
+Units   ,                   ,                ,,,,,
+        ,Demo 3 network with no shortage,tutorial_network,EPSG:4326,nodes.csv,links.csv,groups.csv,

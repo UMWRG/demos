@@ -1,5 +1,5 @@
-Name       , Type , Description
-Units      ,      ,
-storage_nodes, group, Nodes that feature a storage
-non_storage_nodes, group, Nodes that don't feature a storage
-demand_nodes, group, Nodes that feature a demand
+Name       , Type ,Members, Description
+Units      ,      ,,
+storage_nodes, group,group_members.csv, Nodes that feature a storage
+non_storage_nodes, group,group_members.csv, Nodes that don't feature a storage
+demand_nodes, group,group_members.csv, Nodes that feature a demand
