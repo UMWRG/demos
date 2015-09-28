@@ -623,6 +623,10 @@
                     <type>GREATERTHAN</type>
                     <value>0</value>
                 </restriction>
+                <restriction>
+                    <type>NUMPLACES</type>
+                    <value>0</value>
+                </restriction>
 			</restrictions>
         </attribute>
         <attribute>
@@ -669,6 +673,12 @@
             <dimension>Monetary value</dimension>
             <is_var>N</is_var>
             <data_type>timeseries</data_type>
+            <restrictions>
+                <restriction>
+                    <type>GREATERTHAN</type>
+                    <value>0</value>
+                </restriction>
+            </restrictions>
             </attribute>
         <attribute>
             <name>demand</name>

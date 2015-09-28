@@ -1,4 +1,4 @@
-Name    , X                , Y                , Type              ,min_storage,max_storage, initial_storage , S       ,received_water,released_water,cost        ,demand,inflow, Description
+Name    , X                , Y                , Type              ,min_storage,max_storage, initial_storage , storage       ,received_water,released_water,cost        ,demand,inflow, Description
 Units   ,                  ,                  ,                   , 1e6 m^3         , 1e6 m^3         , 1e6 m^3   , 1e6 m^3 , 1e6 m^3 mon^-1 , 1e6 m^3 mon^-1 ,GBP, 1e6 m^3         ,-,
 Ag1,491823.4480000000,162601.3260000000,agricultural,,,,, NULL           , NULL           , TS/cost.csv , TS/demand.csv ,,
 Ag2,491592.1840000000,157482.2240000000,agricultural,,,,, NULL           , NULL           , TS/cost.csv , TS/demand.csv ,,
