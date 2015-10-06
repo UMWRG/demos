@@ -71,7 +71,7 @@
 								<name>river_section</name>
 								<description>River Section</description>
 								<displayname>River Section</displayname>		
-								<image>images\red_line.png</image>
+								<image>images\GreySolidLine16.png</image>
 							</group>
 						</groups>
 				    </category>	
@@ -86,8 +86,9 @@
         <name>tutorial_network</name>
         <attribute>
             <name>Z</name>
-            <dimension>Dimensionless</dimension>
+            <dimension></dimension>
             <is_var>Y</is_var>
+	    <data_type>scalar</data_type>
         </attribute>
     </resource>
   
@@ -104,6 +105,19 @@
                 <value>desalination</value>
             </item>
         </layout>
+
+        <attribute>
+            <name>receive</name>
+            <dimension>Volumetric flow rate</dimension>
+            <is_var>Y</is_var>
+            <data_type>timeseries</data_type>
+        </attribute>
+        <attribute>
+            <name>release</name>
+            <dimension>Volumetric flow rate</dimension>
+            <is_var>Y</is_var>
+            <data_type>timeseries</data_type>
+        </attribute>
         <attribute>
             <name>inflow</name>
             <dimension>Dimensionless</dimension>
@@ -114,21 +128,25 @@
             <name>min_storage</name>
             <dimension>Volume</dimension>
             <is_var>N</is_var>
+            <data_type>timeseries</data_type>
         </attribute>
         <attribute>
             <name>max_storage</name>
             <dimension>Volume</dimension>
             <is_var>N</is_var>
+            <data_type>timeseries</data_type>
         </attribute>
         <attribute>
             <name>initial_storage</name>
             <dimension>Volume</dimension>
             <is_var>N</is_var>
+	    <data_type>scalar</data_type>
         </attribute>
         <attribute>
             <name>S</name>
             <dimension>Volume</dimension>
             <is_var>Y</is_var>
+	    <data_type>timeseries</data_type>
         </attribute>
     </resource>
     <resource>
@@ -144,6 +162,19 @@
                 <value>surface_reservoir</value>
             </item>
         </layout>
+
+        <attribute>
+            <name>receive</name>
+            <dimension>Volumetric flow rate</dimension>
+            <is_var>Y</is_var>
+            <data_type>timeseries</data_type>
+        </attribute>
+        <attribute>
+            <name>release</name>
+            <dimension>Volumetric flow rate</dimension>
+            <is_var>Y</is_var>
+            <data_type>timeseries</data_type>
+        </attribute>
         <attribute>
             <name>inflow</name>
             <dimension>Dimensionless</dimension>
@@ -154,21 +185,25 @@
             <name>min_storage</name>
             <dimension>Volume</dimension>
             <is_var>N</is_var>
+	    <data_type>timeseries</data_type>
         </attribute>
         <attribute>
             <name>max_storage</name>
             <dimension>Volume</dimension>
             <is_var>N</is_var>
+	    <data_type>timeseries</data_type>
         </attribute>
         <attribute>
             <name>initial_storage</name>
             <dimension>Volume</dimension>
             <is_var>N</is_var>
+	    <data_type>scalar</data_type>
         </attribute>
         <attribute>
             <name>S</name>
             <dimension>Volume</dimension>
             <is_var>Y</is_var>
+	    <data_type>timeseries</data_type>
         </attribute>
     </resource>
     <resource>
@@ -184,6 +219,19 @@
                 <value>groundwater</value>
             </item>
         </layout>
+
+        <attribute>
+            <name>receive</name>
+            <dimension>Volumetric flow rate</dimension>
+            <is_var>Y</is_var>
+            <data_type>timeseries</data_type>
+        </attribute>
+        <attribute>
+            <name>release</name>
+            <dimension>Volumetric flow rate</dimension>
+            <is_var>Y</is_var>
+            <data_type>timeseries</data_type>
+        </attribute>
         <attribute>
             <name>inflow</name>
             <dimension>Dimensionless</dimension>
@@ -194,21 +242,25 @@
             <name>min_storage</name>
             <dimension>Volume</dimension>
             <is_var>N</is_var>
+            <data_type>timeseries</data_type>
         </attribute>
         <attribute>
             <name>max_storage</name>
             <dimension>Volume</dimension>
             <is_var>N</is_var>
+            <data_type>timeseries</data_type>
         </attribute>
         <attribute>
             <name>initial_storage</name>
             <dimension>Volume</dimension>
             <is_var>N</is_var>
+	    <data_type>scalar</data_type>
         </attribute>
         <attribute>
             <name>S</name>
             <dimension>Volume</dimension>
             <is_var>Y</is_var>
+            <data_type>timeseries</data_type>
         </attribute>
     </resource>
     <resource>
@@ -224,15 +276,30 @@
                 <value>wastewater</value>
             </item>
         </layout>
+
+        <attribute>
+            <name>receive</name>
+            <dimension>Volumetric flow rate</dimension>
+            <is_var>Y</is_var>
+            <data_type>timeseries</data_type>
+        </attribute>
+        <attribute>
+            <name>release</name>
+            <dimension>Volumetric flow rate</dimension>
+            <is_var>Y</is_var>
+            <data_type>timeseries</data_type>
+        </attribute>
         <attribute>
             <name>cost</name>
             <dimension>Monetary value</dimension>
             <is_var>N</is_var>
+            <data_type>timeseries</data_type>
             </attribute>
         <attribute>
             <name>demand</name>
             <dimension>Volume</dimension>
             <is_var>N</is_var>
+            <data_type>timeseries</data_type>
         </attribute>
     </resource>
     <resource>
@@ -248,15 +315,30 @@
                 <value>hydropower</value>
             </item>
         </layout>
+
+        <attribute>
+            <name>receive</name>
+            <dimension>Volumetric flow rate</dimension>
+            <is_var>Y</is_var>
+            <data_type>timeseries</data_type>
+        </attribute>
+        <attribute>
+            <name>release</name>
+            <dimension>Volumetric flow rate</dimension>
+            <is_var>Y</is_var>
+            <data_type>timeseries</data_type>
+        </attribute>
         <attribute>
             <name>cost</name>
             <dimension>Monetary value</dimension>
             <is_var>N</is_var>
+            <data_type>timeseries</data_type>
             </attribute>
         <attribute>
             <name>demand</name>
             <dimension>Volume</dimension>
             <is_var>N</is_var>
+            <data_type>timeseries</data_type>
         </attribute>
     </resource>
     <resource>
@@ -272,20 +354,36 @@
                 <value>junction</value>
             </item>
         </layout>
+
+        <attribute>
+            <name>receive</name>
+            <dimension>Volumetric flow rate</dimension>
+            <is_var>Y</is_var>
+            <data_type>timeseries</data_type>
+        </attribute>
+        <attribute>
+            <name>release</name>
+            <dimension>Volumetric flow rate</dimension>
+            <is_var>Y</is_var>
+            <data_type>timeseries</data_type>
+        </attribute>
         <attribute>
             <name>cost</name>
             <dimension>Monetary value</dimension>
             <is_var>N</is_var>
+            <data_type>timeseries</data_type>
             </attribute>
         <attribute>
             <name>demand</name>
             <dimension>Volume</dimension>
             <is_var>N</is_var>
+            <data_type>timeseries</data_type>
         </attribute>
 		<attribute>
             <name>alpha</name>
             <dimension>Dimensionless</dimension>
             <is_var>Y</is_var>
+            <data_type>timeseries</data_type>
         </attribute>
     </resource>
     <resource>
@@ -301,20 +399,36 @@
                 <value>discharge</value>
             </item>
         </layout>
+
+        <attribute>
+            <name>receive</name>
+            <dimension>Volumetric flow rate</dimension>
+            <is_var>Y</is_var>
+            <data_type>timeseries</data_type>
+        </attribute>
+        <attribute>
+            <name>release</name>
+            <dimension>Volumetric flow rate</dimension>
+            <is_var>Y</is_var>
+            <data_type>timeseries</data_type>
+        </attribute>
         <attribute>
             <name>cost</name>
             <dimension>Monetary value</dimension>
             <is_var>N</is_var>
-            </attribute>
+            <data_type>timeseries</data_type>
+        </attribute>
         <attribute>
             <name>demand</name>
             <dimension>Volume</dimension>
             <is_var>N</is_var>
+            <data_type>timeseries</data_type>
         </attribute>
 		<attribute>
             <name>alpha</name>
             <dimension>Dimensionless</dimension>
             <is_var>Y</is_var>
+            <data_type>timeseries</data_type>
         </attribute>
     </resource>
     <resource>
@@ -330,20 +444,36 @@
                 <value>urban</value>
             </item>
         </layout>
+
+        <attribute>
+            <name>receive</name>
+            <dimension>Volumetric flow rate</dimension>
+            <is_var>Y</is_var>
+            <data_type>timeseries</data_type>
+        </attribute>
+        <attribute>
+            <name>release</name>
+            <dimension>Volumetric flow rate</dimension>
+            <is_var>Y</is_var>
+            <data_type>timeseries</data_type>
+        </attribute>
         <attribute>
             <name>cost</name>
             <dimension>Monetary value</dimension>
             <is_var>N</is_var>
+            <data_type>timeseries</data_type>
             </attribute>
         <attribute>
             <name>demand</name>
             <dimension>Volume</dimension>
             <is_var>N</is_var>
+            <data_type>timeseries</data_type>
         </attribute>
 		<attribute>
             <name>alpha</name>
             <dimension>Dimensionless</dimension>
             <is_var>Y</is_var>
+            <data_type>timeseries</data_type>
         </attribute>
     </resource>
     <resource>
@@ -359,20 +489,36 @@
                 <value>agricultural</value>
             </item>
         </layout>
+
+        <attribute>
+            <name>receive</name>
+            <dimension>Volumetric flow rate</dimension>
+            <is_var>Y</is_var>
+            <data_type>timeseries</data_type>
+        </attribute>
+        <attribute>
+            <name>release</name>
+            <dimension>Volumetric flow rate</dimension>
+            <is_var>Y</is_var>
+            <data_type>timeseries</data_type>
+        </attribute>
         <attribute>
             <name>cost</name>
             <dimension>Monetary value</dimension>
             <is_var>N</is_var>
+            <data_type>timeseries</data_type>
             </attribute>
         <attribute>
             <name>demand</name>
             <dimension>Volume</dimension>
             <is_var>N</is_var>
+            <data_type>timeseries</data_type>
         </attribute>
 		<attribute>
             <name>alpha</name>
             <dimension>Dimensionless</dimension>
             <is_var>Y</is_var>
+            <data_type>timeseries</data_type>
         </attribute>
     </resource>
     <resource>
@@ -381,8 +527,20 @@
         <layout>
             <item>
                 <name>image</name>
-                <value>images\red_line.png</value>
+                <value>images\GreySolidLine16.png</value>
             </item>
+			<item>
+					<name>symbol</name>
+					<value>solid</value>
+				</item>
+				<item>
+					<name>colour</name>
+					<value>grey</value>
+				</item>
+				<item>
+					<name>line_weight</name>
+					<value>1</value>
+				</item>
             <item>
                 <name>group</name>
                 <value>river_section</value>
@@ -392,26 +550,31 @@
             <name>Q</name>
             <dimension>Volumetric flow rate</dimension>
             <is_var>Y</is_var>
+            <data_type>timeseries</data_type>
         </attribute>
         <attribute>
             <name>cost</name>
             <dimension>Monetary value</dimension>
             <is_var>N</is_var>
+            <data_type>timeseries</data_type>
         </attribute>
         <attribute>
             <name>flow_multiplier</name>
             <dimension>Dimensionless</dimension>
             <is_var>N</is_var>
+            <data_type>timeseries</data_type>
         </attribute>
         <attribute>
             <name>min_flow</name>
             <dimension>Volumetric flow rate</dimension>
             <is_var>N</is_var>
+            <data_type>timeseries</data_type>
         </attribute>
         <attribute>
             <name>max_flow</name>
             <dimension>Volumetric flow rate</dimension>
             <is_var>N</is_var>
+            <data_type>timeseries</data_type>
         </attribute>
     </resource>
     <resource>

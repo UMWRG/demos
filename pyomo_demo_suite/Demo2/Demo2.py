@@ -48,12 +48,12 @@ class PyMode():
         model.max_flow = Param(model.river_section, model.time_step)
         model.storagelower= Param(model.surface_reservoir, model.time_step)
         model.storageupper = Param(model.surface_reservoir, model.time_step)
-        model.Q = Var(model.river_section, domain=NonNegativeReals, bounds=flow_capacity_constraint) #* [ 1e6 m^3 mon^-1]
-        model.Z = Objective(rule=objective_function, sense=minimize) #*[1e6 m^3 mon^-1]
+        model.Q = Var(model.river_section, domain=NonNegativeReals, bounds=flow_capacity_constraint) #1e6 m^3 mon^-1
+        model.Z = Objective(rule=objective_function, sense=minimize) #1e6 m^3 mon^-1
     #Declaring delivery
-        model.delivery=Var(model.nodes, domain=NonNegativeReals)  #*[1e6 m^3 mon^-1]
+        model.delivery=Var(model.nodes, domain=NonNegativeReals)  #1e6 m^3 mon^-1
     # Declaring state variable S
-        model.S = Var(model.surface_reservoir, domain=NonNegativeReals, bounds=storage_capacity_constraint) #*[1e6 m^3 mon^-1]
+        model.S = Var(model.surface_reservoir, domain=NonNegativeReals, bounds=storage_capacity_constraint) #1e6 m^3 mon^-1
         model.mass_balance_const_agr = Constraint(model.agricultural, rule=mass_balance_agricultural)
         model.mass_balance_const_ur = Constraint(model.urban, rule=mass_balance_urban)
         model.mass_balance_const_jun = Constraint(model.junction, rule=mass_balance_junction)
