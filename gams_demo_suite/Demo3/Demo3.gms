@@ -34,13 +34,13 @@ $        include "non_shortage.txt";
 **  Model variables and equations
 ** ----------------------------------------------------------------------
 
-<<<<<<< HEAD
+
 * Optimisation model variables
 
 Variables
 Objective_function objective function [-]
 Obj(t) an interim variable for saving the value of the objective function at the end of each time step[-];
-=======
+
 VARIABLES
 Q(i,j,t) flow in each link in each period [-]
 S(i,t) storage volume in storage nodes [-]
@@ -51,7 +51,7 @@ alpha(i,t) an interim variable for saving the value of the satisfaction ratio at
 Z objective function [-]
 Obj(t) [-];
 ;
->>>>>>> origin/master
+
 
 POSITIVE VARIABLES
 Flow(i,j,t) flow in each link in each period [-]
@@ -59,7 +59,7 @@ Storage_level(i,t) storage volume in storage nodes [-]
 percent_demand_met_ratio(i) target demand satisfaction ratio [-];
 percent_demand_met_ratio.up(demand_nodes)=1;
 
-<<<<<<< HEAD
+
 POSITIVE VARIABLES
 storage(storage_nodes,t) an interim variable for saving the value of the storage at the end of each time step
 percent_demand_met(i,t) an interim variable for saving the value of the satisfaction ratio at the end of each time step [-]
@@ -72,14 +72,12 @@ received_water(i,t) a variable for saving the amount of water received by every 
 released_water(i,t) a variable for saving the amount of water released by every node at the end of each time step[-]
 demand_met (i,t) a variable for saving the amount of demand met in each node at the end of each time step [-]
 Revenue(i,t) a variable for saving the value of revenue calculated for each hydropower node at the end of each time step [-];
-=======
+
 positive variable  
 storage(storage_nodes,t) an interim variable for saving the value of the storage at the end of each time-step
 received_water(i,t) an interim variable for saving the amount of water received by every node at the end of each time-step[-]
 released_water(i,t) an interim variable for saving the amount of water released by every node at the end of each time-step[-];
 
-
->>>>>>> origin/master
 
 
 EQUATIONS
