@@ -211,13 +211,7 @@
 				<name>group</name>
 				<value>dem</value>
 			</item>
-		</layout>
-		<attribute>
-		  <name>S</name>
-		  <dimension>Dimensionless</dimension>
-		  <is_var>N</is_var>
-		  <data_type>timeseries</data_type>
-		</attribute>
+		</layout>		
 		<attribute>
 		  <name>demand</name>
 		  <dimension>Volume</dimension>
