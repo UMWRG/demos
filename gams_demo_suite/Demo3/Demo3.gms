@@ -37,11 +37,9 @@ $        include "non_shortage.txt";
 
 * Optimisation model variables
 
-Variables
-Objective_function objective function [-]
-Obj(t) an interim variable for saving the value of the objective function at the end of each time step[-];
-
 VARIABLES
+Objective_function objective function [-]
+Obj(t) an interim variable for saving the value of the objective function at the end of each time step[-]
 Q(i,j,t) flow in each link in each period [-]
 S(i,t) storage volume in storage nodes [-]
 receive(i) water delivered to every node i in each period [-]
@@ -49,35 +47,20 @@ release(i) water released from node i in each period [-]
 delivery(i) water delivered to demand node i in each period [-]
 alpha(i,t) an interim variable for saving the value of the satisfaction ratio at the end of each time-step [-]
 Z objective function [-]
-Obj(t) [-];
 ;
-
 
 POSITIVE VARIABLES
 Flow(i,j,t) flow in each link in each period [-]
 Storage_level(i,t) storage volume in storage nodes [-]
-percent_demand_met_ratio(i) target demand satisfaction ratio [-];
-percent_demand_met_ratio.up(demand_nodes)=1;
-
-
-POSITIVE VARIABLES
+percent_demand_met_ratio(i) target demand satisfaction ratio [-]
 storage(storage_nodes,t) an interim variable for saving the value of the storage at the end of each time step
 percent_demand_met(i,t) an interim variable for saving the value of the satisfaction ratio at the end of each time step [-]
-
-
-* Post-process variables
-
-POSITIVE VARIABLES
 received_water(i,t) a variable for saving the amount of water received by every node at the end of each time step[-]
 released_water(i,t) a variable for saving the amount of water released by every node at the end of each time step[-]
-demand_met (i,t) a variable for saving the amount of demand met in each node at the end of each time step [-]
+demand_met(i,t) a variable for saving the amount of demand met in each node at the end of each time step [-]
 Revenue(i,t) a variable for saving the value of revenue calculated for each hydropower node at the end of each time step [-];
 
-positive variable  
-storage(storage_nodes,t) an interim variable for saving the value of the storage at the end of each time-step
-received_water(i,t) an interim variable for saving the amount of water received by every node at the end of each time-step[-]
-released_water(i,t) an interim variable for saving the amount of water released by every node at the end of each time-step[-];
-
+percent_demand_met_ratio.up(demand_nodes)=1;
 
 
 EQUATIONS
@@ -108,7 +91,7 @@ Objective ..
 MassBalance_nonstorage(non_storage_nodes)..
 
          SUM(t$dv(t),inflow(non_storage_nodes, t)
-         +(1-percent_efficiency(non_storage_nodes,t))*SUM(j$links(j,non_storage_nodes), Flow(j,non_storage_nodes,t)
+         +(1-percent_efficiency(non_storage_nodes, t))*SUM(j$links(j,non_storage_nodes), Flow(j,non_storage_nodes,t)
          * flow_multiplier(j,non_storage_nodes, t))
          - SUM(j$links(non_storage_nodes,j), Flow(non_storage_nodes,j,t))
          - (percent_demand_met_ratio(non_storage_nodes)* demand(non_storage_nodes, t)))
@@ -119,12 +102,12 @@ MassBalance_nonstorage(non_storage_nodes)..
 MassBalance_storage(storage_nodes)..
 
          SUM(t$dv(t),inflow(storage_nodes, t)
-         + (1-percent_efficiency(storage_nodes,t))*SUM(j$links(j,storage_nodes), Flow(j,storage_nodes,t)
+         + (1-percent_efficiency(storage_nodes, t))*SUM(j$links(j,storage_nodes), Flow(j,storage_nodes,t)
          * flow_multiplier(j, storage_nodes, t))
          - SUM(j$links(storage_nodes,j), Flow(storage_nodes,j,t))
          - Storage_level(storage_nodes,t)
          + storage(storage_nodes,t-1)$(ord(t) GT 1)
-         + initial_storage(storage_nodes, t)$(ord(t) EQ 1))
+         + initial_storage(storage_nodes)$(ord(t) EQ 1))
          =E= 0;
 
 * Lower and upper bound of possible flow in links
@@ -155,7 +138,7 @@ MaxStorForTratment(treatment_hydro_nodes,t)$dv(t)..
 ** ----------------------------------------------------------------------
 
 alias(t, tsteps)
-MODEL Demo3 /MassBalance_storage,MassBalance_nonstorage,MinFlow,MaxFlow,MinStor,MaxStor,MaxStorForTratment,Objective/;
+MODEL Demo3 /MassBalance_storage, MassBalance_nonstorage,MinFlow,MaxFlow,MinStor,MaxStor,MaxStorForTratment,Objective/;
 
 loop (tsteps,
             dv(tsteps)=t(tsteps);
@@ -199,10 +182,8 @@ loop (tsteps,
     Revenue.l(hydropower,tsteps)= (1-percent_efficiency(hydropower,tsteps))
          * SUM(j$links(hydropower,j), Flow.l(hydropower,j,tsteps))
          * 9.81
-         * net_head
+         * net_head(hydropower)
          * unit_price;
-
-
 
             dv(tsteps)=no;
       );
@@ -218,7 +199,6 @@ execute_unload "Results.gdx" ,
     received_water,
     released_water,
     Revenue;
-
 
 
 
