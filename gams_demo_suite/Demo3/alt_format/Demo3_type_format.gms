@@ -90,8 +90,8 @@ MassBalance_nonstorage(non_storage_nodes)..
 
 
          SUM(t$dv(t),(1-(
-          hydropower_timeseries_data(t,non_storage_nodes,"percent_efficiency")+
-          watertreatment_timeseries_data(t,non_storage_nodes,"percent_efficiency")
+          hydropower_timeseries_data(t,non_storage_nodes,"percent_loss")+
+          watertreatment_timeseries_data(t,non_storage_nodes,"percent_loss")
           ))
          * SUM(j$links(j,non_storage_nodes), Flow(t,j,non_storage_nodes)
          * river_section_timeseries_data(t, j,non_storage_nodes, "flow_multiplier"))
@@ -109,8 +109,8 @@ MassBalance_storage(storage_nodes)..
          surface_reservoir_timeseries_data(t, storage_nodes, "inflow")
          + desalination_timeseries_data(t, storage_nodes, "inflow")
          + (1-(
-          hydropower_timeseries_data(t,storage_nodes,"percent_efficiency")+
-          watertreatment_timeseries_data(t,storage_nodes,"percent_efficiency")
+          hydropower_timeseries_data(t,storage_nodes,"percent_loss")+
+          watertreatment_timeseries_data(t,storage_nodes,"percent_loss")
           ))
          * SUM(j$links(j,storage_nodes), Flow(t,j,storage_nodes)
          * river_section_timeseries_data(t, j, storage_nodes, "flow_multiplier"))
@@ -198,11 +198,13 @@ released_water.l(tsteps,i) =
 *         Revenue=power*unit price
 *         Power=Flow*g*efficiency*Net head
 
-Revenue.l(tsteps,hydropower)= (1-hydropower_timeseries_data(tsteps,hydropower,"percent_efficiency"))
+Revenue.l(tsteps,hydropower)= (1-hydropower_timeseries_data(tsteps,hydropower,"percent_loss"))
          * SUM(j$links(hydropower,j), Flow.l(tsteps,hydropower,j))
          * 9.81
          * hydropower_scalar_data(hydropower,"net_head")
-         * hydropower_scalar_data(hydropower,"unit_price");
+         * hydropower_scalar_data(hydropower,"unit_price")
+		 *0.3858
+		 *24;
 
 
             dv(tsteps)=no;

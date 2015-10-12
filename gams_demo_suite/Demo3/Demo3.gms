@@ -108,7 +108,7 @@ Objective ..
 MassBalance_nonstorage(non_storage_nodes)..
 
          SUM(t$dv(t),inflow(non_storage_nodes, t)
-         +(1-percent_efficiency(non_storage_nodes,t))*SUM(j$links(j,non_storage_nodes), Flow(j,non_storage_nodes,t)
+         +(1-percent_loss(non_storage_nodes,t))*SUM(j$links(j,non_storage_nodes), Flow(j,non_storage_nodes,t)
          * flow_multiplier(j,non_storage_nodes, t))
          - SUM(j$links(non_storage_nodes,j), Flow(non_storage_nodes,j,t))
          - (percent_demand_met_ratio(non_storage_nodes)* demand(non_storage_nodes, t)))
@@ -119,7 +119,7 @@ MassBalance_nonstorage(non_storage_nodes)..
 MassBalance_storage(storage_nodes)..
 
          SUM(t$dv(t),inflow(storage_nodes, t)
-         + (1-percent_efficiency(storage_nodes,t))*SUM(j$links(j,storage_nodes), Flow(j,storage_nodes,t)
+         + (1-percent_loss(storage_nodes,t))*SUM(j$links(j,storage_nodes), Flow(j,storage_nodes,t)
          * flow_multiplier(j, storage_nodes, t))
          - SUM(j$links(storage_nodes,j), Flow(storage_nodes,j,t))
          - Storage_level(storage_nodes,t)
@@ -195,12 +195,19 @@ loop (tsteps,
 
 *         Revenue=power*unit price
 *         Power=Flow*g*efficiency*Net head
+*		  Assume flow is in cubic metres per day and Net head is in metres and unit price is in GBP
+*		  Conversion factor of 0.0003858 is used to convert cubic metres per day to litres per second
+*		  i.e. times by 1000 litres per m3 and divide by 
+*		  (60{seconds/minute}*60{minutes/hour}*24{hours/day}*30{days/month})
+*		  An additional multiplication by 24 used to convert kW to kWh
 
-    Revenue.l(hydropower,tsteps)= (1-percent_efficiency(hydropower,tsteps))
+    Revenue.l(hydropower,tsteps)= (1-percent_loss(hydropower,tsteps))
          * SUM(j$links(hydropower,j), Flow.l(hydropower,j,tsteps))
          * 9.81
          * net_head
-         * unit_price;
+         * unit_price
+		 * 0.3858
+		 * 24;
 
 
 

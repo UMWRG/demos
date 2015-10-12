@@ -424,7 +424,7 @@ Urb1.J1     400.000000     400.000000     400.000000     400.000000     400.0000
 
 
 * efficiency of treatment works and hydropower plant-indicated as losses occur in nodes
-Table percent_efficiency (i,t)
+Table percent_loss (i,t)
 
          0              1              2              3              4              5              6              7              8
 Hp1      0.250000       0.250000       0.250000       0.250000       0.250000       0.250000       0.250000       0.250000       0.250000
