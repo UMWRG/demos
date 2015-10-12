@@ -44,10 +44,16 @@
 								<image>images\discharge.png</image>
                             </group>
                             <group>
-								<name>wastewater</name>
+								<name>wastewater_treatment</name>
 								<description>Waste Water Treatement Plant</description>
 								<displayname>Waste Water TP</displayname>
-								<image>images\wastewater.png</image>
+								<image>images\wastewater_treatment.png</image>
+                            </group>
+							<group>
+								<name>water_treatment</name>
+								<description>Water Treatement Plant</description>
+								<displayname>Water TP</displayname>
+								<image>images\water_treatment.png</image>
                             </group>
                             <group>
 								<name>hydropower</name>
@@ -68,9 +74,9 @@
 								<image>images\desalination.png</image>
                             </group>
                             <group>
-								<name>river_section</name>
-								<description>River Section</description>
-								<displayname>River Section</displayname>		
+								<name>conduit</name>
+								<description>River or pipe</description>
+								<displayname>River or pipe</displayname>		
 								<image>images\GreySolidLine16.png</image>
 							</group>
 						</groups>
@@ -85,9 +91,15 @@
         <type>NETWORK</type>
         <name>tutorial_network</name>
         <attribute>
-            <name>Z</name>
-            <dimension></dimension>
+            <name>objective_function</name>
+            <dimension>dimensionless</dimension>
             <is_var>Y</is_var>
+	    <data_type>scalar</data_type>
+        </attribute>
+		<attribute>
+            <name>unit_price</name>
+            <dimension>dimensionless</dimension>
+            <is_var>N</is_var>
 	    <data_type>scalar</data_type>
         </attribute>
     </resource>
@@ -107,20 +119,20 @@
         </layout>
 
         <attribute>
-            <name>receive</name>
+            <name>received_water</name>
             <dimension>Volumetric flow rate</dimension>
             <is_var>Y</is_var>
             <data_type>timeseries</data_type>
         </attribute>
         <attribute>
-            <name>release</name>
+            <name>released_water</name>
             <dimension>Volumetric flow rate</dimension>
             <is_var>Y</is_var>
             <data_type>timeseries</data_type>
         </attribute>
         <attribute>
             <name>inflow</name>
-            <dimension>Dimensionless</dimension>
+            <dimension>Volumetric flow rate</dimension>
             <is_var>N</is_var>
             <data_type>timeseries</data_type>
         </attribute>
@@ -143,7 +155,7 @@
 	    <data_type>scalar</data_type>
         </attribute>
         <attribute>
-            <name>S</name>
+            <name>storage_level</name>
             <dimension>Volume</dimension>
             <is_var>Y</is_var>
 	    <data_type>timeseries</data_type>
@@ -164,20 +176,20 @@
         </layout>
 
         <attribute>
-            <name>receive</name>
+            <name>received_water</name>
             <dimension>Volumetric flow rate</dimension>
             <is_var>Y</is_var>
             <data_type>timeseries</data_type>
         </attribute>
         <attribute>
-            <name>release</name>
+            <name>released_water</name>
             <dimension>Volumetric flow rate</dimension>
             <is_var>Y</is_var>
             <data_type>timeseries</data_type>
         </attribute>
         <attribute>
             <name>inflow</name>
-            <dimension>Dimensionless</dimension>
+            <dimension>Volumetric flow rate</dimension>
             <is_var>N</is_var>
             <data_type>timeseries</data_type>
         </attribute>
@@ -200,7 +212,7 @@
 	    <data_type>scalar</data_type>
         </attribute>
         <attribute>
-            <name>S</name>
+            <name>storage_level</name>
             <dimension>Volume</dimension>
             <is_var>Y</is_var>
 	    <data_type>timeseries</data_type>
@@ -221,20 +233,20 @@
         </layout>
 
         <attribute>
-            <name>receive</name>
+            <name>received_water</name>
             <dimension>Volumetric flow rate</dimension>
             <is_var>Y</is_var>
             <data_type>timeseries</data_type>
         </attribute>
         <attribute>
-            <name>release</name>
+            <name>released_water</name>
             <dimension>Volumetric flow rate</dimension>
             <is_var>Y</is_var>
             <data_type>timeseries</data_type>
         </attribute>
         <attribute>
             <name>inflow</name>
-            <dimension>Dimensionless</dimension>
+            <dimension>Volumetric flow rate</dimension>
             <is_var>N</is_var>
             <data_type>timeseries</data_type>
         </attribute>
@@ -257,7 +269,7 @@
 	    <data_type>scalar</data_type>
         </attribute>
         <attribute>
-            <name>S</name>
+            <name>storage_level</name>
             <dimension>Volume</dimension>
             <is_var>Y</is_var>
             <data_type>timeseries</data_type>
@@ -265,38 +277,87 @@
     </resource>
     <resource>
         <type>NODE</type>
-        <name>wastewater</name>
+        <name>wastewater_treatment</name>
         <layout>
             <item>
                 <name>image</name>
-                <value>images\wastewater.png</value>
+                <value>images\wastewater_treatment.png</value>
             </item>
             <item>
                 <name>group</name>
-                <value>wastewater</value>
+                <value>wastewater_treatment</value>
             </item>
         </layout>
-
-        <attribute>
-            <name>receive</name>
-            <dimension>Volumetric flow rate</dimension>
-            <is_var>Y</is_var>
-            <data_type>timeseries</data_type>
-        </attribute>
-        <attribute>
-            <name>release</name>
-            <dimension>Volumetric flow rate</dimension>
-            <is_var>Y</is_var>
-            <data_type>timeseries</data_type>
-        </attribute>
-        <attribute>
-            <name>cost</name>
-            <dimension>Monetary value</dimension>
+		<attribute>
+            <name>percent_efficiency</name>
+            <dimension>dimensionless</dimension>
             <is_var>N</is_var>
             <data_type>timeseries</data_type>
-            </attribute>
+        </attribute>
+		<attribute>
+            <name>capacity</name>
+            <dimension>Volume</dimension>
+            <is_var>N</is_var>
+            <data_type>scalar</data_type>
+        </attribute>
         <attribute>
-            <name>demand</name>
+            <name>received_water</name>
+            <dimension>Volumetric flow rate</dimension>
+            <is_var>Y</is_var>
+            <data_type>timeseries</data_type>
+        </attribute>
+        <attribute>
+            <name>released_water</name>
+            <dimension>Volumetric flow rate</dimension>
+            <is_var>Y</is_var>
+            <data_type>timeseries</data_type>
+        </attribute>		
+    </resource>
+	<resource>
+        <type>NODE</type>
+        <name>water_treatment</name>
+        <layout>
+            <item>
+                <name>image</name>
+                <value>images\water_treatment.png</value>
+            </item>
+            <item>
+                <name>group</name>
+                <value>water_treatment</value>
+            </item>
+        </layout>
+		<attribute>
+            <name>percent_efficiency</name>
+            <dimension>dimensionless</dimension>
+            <is_var>N</is_var>
+            <data_type>scalar</data_type>
+        </attribute>
+		<attribute>
+            <name>capacity</name>
+            <dimension>Volume</dimension>
+            <is_var>N</is_var>
+            <data_type>scalar</data_type>
+        </attribute>
+        <attribute>
+            <name>received_water</name>
+            <dimension>Volumetric flow rate</dimension>
+            <is_var>Y</is_var>
+            <data_type>timeseries</data_type>
+        </attribute>
+        <attribute>
+            <name>released_water</name>
+            <dimension>Volumetric flow rate</dimension>
+            <is_var>Y</is_var>
+            <data_type>timeseries</data_type>
+        </attribute>
+		<attribute>
+            <name>min_storage</name>
+            <dimension>Volume</dimension>
+            <is_var>N</is_var>
+            <data_type>timeseries</data_type>
+        </attribute>
+        <attribute>
+            <name>max_storage</name>
             <dimension>Volume</dimension>
             <is_var>N</is_var>
             <data_type>timeseries</data_type>
@@ -315,29 +376,52 @@
                 <value>hydropower</value>
             </item>
         </layout>
-
-        <attribute>
-            <name>receive</name>
-            <dimension>Volumetric flow rate</dimension>
-            <is_var>Y</is_var>
-            <data_type>timeseries</data_type>
-        </attribute>
-        <attribute>
-            <name>release</name>
-            <dimension>Volumetric flow rate</dimension>
-            <is_var>Y</is_var>
-            <data_type>timeseries</data_type>
-        </attribute>
-        <attribute>
-            <name>cost</name>
-            <dimension>Monetary value</dimension>
+		<attribute>
+            <name>percent_efficiency</name>
+            <dimension>dimensionless</dimension>
             <is_var>N</is_var>
-            <data_type>timeseries</data_type>
-            </attribute>
-        <attribute>
-            <name>demand</name>
+            <data_type>scalar</data_type>
+        </attribute>
+		<attribute>
+            <name>capacity</name>
             <dimension>Volume</dimension>
             <is_var>N</is_var>
+            <data_type>scalar</data_type>
+        </attribute>
+        <attribute>
+            <name>received_water</name>
+            <dimension>Volumetric flow rate</dimension>
+            <is_var>Y</is_var>
+            <data_type>timeseries</data_type>
+        </attribute>
+        <attribute>
+            <name>released_water</name>
+            <dimension>Volumetric flow rate</dimension>
+            <is_var>Y</is_var>
+            <data_type>timeseries</data_type>
+        </attribute>
+		<attribute>
+            <name>net_head</name>
+            <dimension>Length</dimension>
+            <is_var>N</is_var>
+            <data_type>scalar</data_type>
+        </attribute>
+		<attribute>
+            <name>min_storage</name>
+            <dimension>Volume</dimension>
+            <is_var>N</is_var>
+            <data_type>timeseries</data_type>
+        </attribute>
+        <attribute>
+            <name>max_storage</name>
+            <dimension>Volume</dimension>
+            <is_var>N</is_var>
+            <data_type>timeseries</data_type>
+        </attribute>
+		 <attribute>
+            <name>Revenue</name>
+            <dimension>Dimensionless</dimension>
+            <is_var>Y</is_var>
             <data_type>timeseries</data_type>
         </attribute>
     </resource>
@@ -356,32 +440,14 @@
         </layout>
 
         <attribute>
-            <name>receive</name>
+            <name>received_water</name>
             <dimension>Volumetric flow rate</dimension>
             <is_var>Y</is_var>
             <data_type>timeseries</data_type>
         </attribute>
         <attribute>
-            <name>release</name>
+            <name>released_water</name>
             <dimension>Volumetric flow rate</dimension>
-            <is_var>Y</is_var>
-            <data_type>timeseries</data_type>
-        </attribute>
-        <attribute>
-            <name>cost</name>
-            <dimension>Monetary value</dimension>
-            <is_var>N</is_var>
-            <data_type>timeseries</data_type>
-            </attribute>
-        <attribute>
-            <name>demand</name>
-            <dimension>Volume</dimension>
-            <is_var>N</is_var>
-            <data_type>timeseries</data_type>
-        </attribute>
-		<attribute>
-            <name>alpha</name>
-            <dimension>Dimensionless</dimension>
             <is_var>Y</is_var>
             <data_type>timeseries</data_type>
         </attribute>
@@ -401,20 +467,20 @@
         </layout>
 
         <attribute>
-            <name>receive</name>
+            <name>received_water</name>
             <dimension>Volumetric flow rate</dimension>
             <is_var>Y</is_var>
             <data_type>timeseries</data_type>
         </attribute>
         <attribute>
-            <name>release</name>
+            <name>released_water</name>
             <dimension>Volumetric flow rate</dimension>
             <is_var>Y</is_var>
             <data_type>timeseries</data_type>
         </attribute>
         <attribute>
-            <name>cost</name>
-            <dimension>Monetary value</dimension>
+            <name>priority</name>
+            <dimension>dimensionless</dimension>
             <is_var>N</is_var>
             <data_type>timeseries</data_type>
         </attribute>
@@ -425,8 +491,14 @@
             <data_type>timeseries</data_type>
         </attribute>
 		<attribute>
-            <name>alpha</name>
+            <name>percent_demand_met</name>
             <dimension>Dimensionless</dimension>
+            <is_var>Y</is_var>
+            <data_type>timeseries</data_type>
+        </attribute>
+		<attribute>
+            <name>demand_met</name>
+            <dimension>Volume</dimension>
             <is_var>Y</is_var>
             <data_type>timeseries</data_type>
         </attribute>
@@ -446,20 +518,20 @@
         </layout>
 
         <attribute>
-            <name>receive</name>
+            <name>received_water</name>
             <dimension>Volumetric flow rate</dimension>
             <is_var>Y</is_var>
             <data_type>timeseries</data_type>
         </attribute>
         <attribute>
-            <name>release</name>
+            <name>released_water</name>
             <dimension>Volumetric flow rate</dimension>
             <is_var>Y</is_var>
             <data_type>timeseries</data_type>
         </attribute>
         <attribute>
-            <name>cost</name>
-            <dimension>Monetary value</dimension>
+            <name>priority</name>
+            <dimension>dimensionless</dimension>
             <is_var>N</is_var>
             <data_type>timeseries</data_type>
             </attribute>
@@ -470,8 +542,14 @@
             <data_type>timeseries</data_type>
         </attribute>
 		<attribute>
-            <name>alpha</name>
+            <name>percent_demand_met</name>
             <dimension>Dimensionless</dimension>
+            <is_var>Y</is_var>
+            <data_type>timeseries</data_type>
+        </attribute>
+		<attribute>
+            <name>demand_met</name>
+            <dimension>Volume</dimension>
             <is_var>Y</is_var>
             <data_type>timeseries</data_type>
         </attribute>
@@ -491,20 +569,20 @@
         </layout>
 
         <attribute>
-            <name>receive</name>
+            <name>received_water</name>
             <dimension>Volumetric flow rate</dimension>
             <is_var>Y</is_var>
             <data_type>timeseries</data_type>
         </attribute>
         <attribute>
-            <name>release</name>
+            <name>released_water</name>
             <dimension>Volumetric flow rate</dimension>
             <is_var>Y</is_var>
             <data_type>timeseries</data_type>
         </attribute>
         <attribute>
-            <name>cost</name>
-            <dimension>Monetary value</dimension>
+            <name>priority</name>
+            <dimension>dimensionless</dimension>
             <is_var>N</is_var>
             <data_type>timeseries</data_type>
             </attribute>
@@ -515,15 +593,21 @@
             <data_type>timeseries</data_type>
         </attribute>
 		<attribute>
-            <name>alpha</name>
+            <name>percent_demand_met</name>
             <dimension>Dimensionless</dimension>
+            <is_var>Y</is_var>
+            <data_type>timeseries</data_type>
+        </attribute>
+		<attribute>
+            <name>demand_met</name>
+            <dimension>Volume</dimension>
             <is_var>Y</is_var>
             <data_type>timeseries</data_type>
         </attribute>
     </resource>
     <resource>
         <type>LINK</type>
-        <name>river_section</name>
+        <name>conduit</name>
         <layout>
             <item>
                 <name>image</name>
@@ -543,19 +627,13 @@
 				</item>
             <item>
                 <name>group</name>
-                <value>river_section</value>
+                <value>conduit</value>
             </item>
         </layout>
         <attribute>
-            <name>Q</name>
+            <name>flow</name>
             <dimension>Volumetric flow rate</dimension>
             <is_var>Y</is_var>
-            <data_type>timeseries</data_type>
-        </attribute>
-        <attribute>
-            <name>cost</name>
-            <dimension>Monetary value</dimension>
-            <is_var>N</is_var>
             <data_type>timeseries</data_type>
         </attribute>
         <attribute>
@@ -579,7 +657,43 @@
     </resource>
     <resource>
         <type>GROUP</type>
-        <name>group</name>
+        <name>storage group</name>
+		<layout>
+            <item>
+                <name>image</name>
+                <value>images\storage group.png</value>
+            </item>
+        </layout>
+    </resource>
+	<resource>
+        <type>GROUP</type>
+        <name>non-storage group</name>
+		<layout>
+            <item>
+                <name>image</name>
+                <value>images\non-storage group.png</value>
+            </item>
+        </layout>
+    </resource>
+	<resource>
+        <type>GROUP</type>
+        <name>demand group</name>
+		<layout>
+            <item>
+                <name>image</name>
+                <value>images\demand group.png</value>
+            </item>
+        </layout>
+    </resource>
+	<resource>
+        <type>GROUP</type>
+        <name>treatment_hydro_nodes group</name>
+		<layout>
+            <item>
+                <name>image</name>
+                <value>images\treatment_hydro_nodes group.png</value>
+            </item>
+        </layout>
     </resource>
 </resources>
 </template_definition>
