@@ -91,11 +91,8 @@ Objective ..
 MassBalance_nonstorage(non_storage_nodes)..
 
          SUM(t$dv(t),inflow(non_storage_nodes, t)
-<<<<<<< HEAD
          +(1-percent_loss(non_storage_nodes,t))*SUM(j$links(j,non_storage_nodes), Flow(j,non_storage_nodes,t)
-=======
          +(1-percent_efficiency(non_storage_nodes, t))*SUM(j$links(j,non_storage_nodes), Flow(j,non_storage_nodes,t)
->>>>>>> origin/master
          * flow_multiplier(j,non_storage_nodes, t))
          - SUM(j$links(non_storage_nodes,j), Flow(non_storage_nodes,j,t))
          - (percent_demand_met_ratio(non_storage_nodes)* demand(non_storage_nodes, t)))
@@ -106,11 +103,8 @@ MassBalance_nonstorage(non_storage_nodes)..
 MassBalance_storage(storage_nodes)..
 
          SUM(t$dv(t),inflow(storage_nodes, t)
-<<<<<<< HEAD
          + (1-percent_loss(storage_nodes,t))*SUM(j$links(j,storage_nodes), Flow(j,storage_nodes,t)
-=======
          + (1-percent_efficiency(storage_nodes, t))*SUM(j$links(j,storage_nodes), Flow(j,storage_nodes,t)
->>>>>>> origin/master
          * flow_multiplier(j, storage_nodes, t))
          - SUM(j$links(storage_nodes,j), Flow(storage_nodes,j,t))
          - Storage_level(storage_nodes,t)
@@ -195,15 +189,10 @@ loop (tsteps,
     Revenue.l(hydropower,tsteps)= (1-percent_loss(hydropower,tsteps))
          * SUM(j$links(hydropower,j), Flow.l(hydropower,j,tsteps))
          * 9.81
-<<<<<<< HEAD
-         * net_head
+         * net_head(hydropower)
          * unit_price
 		 * 0.3858
 		 * 24;
-=======
-         * net_head(hydropower)
-         * unit_price;
->>>>>>> origin/master
 
             dv(tsteps)=no;
       );
