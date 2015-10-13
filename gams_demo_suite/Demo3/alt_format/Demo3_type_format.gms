@@ -27,8 +27,8 @@ $TITLE    Demo3.gms
 **  Loading Data: sets, parameters and tables
 ** ----------------------------------------------------------------------
 
-$        include "shortage.txt";
-*$        include "non_shortage.txt";
+*$        include "shortage.txt";
+$        include "non_shortage.txt";
 
 ** ----------------------------------------------------------------------
 **  Model variables and equations
@@ -197,16 +197,21 @@ released_water.l(tsteps,i) =
 
 *         Revenue=power*unit price
 *         Power=Flow*g*efficiency*Net head
+*                  Assume flow is in cubic metres per day and Net head is in metres and unit price is in GBP
+*                  Conversion factor of 0.3858 is used to convert cubic metres per day to litres per second
+*                  i.e. times by 1000 litres per m3 and divide by
+*                  (60{seconds/minute}*60{minutes/hour}*24{hours/day}*30{days/month})
+*                  An additional multiplication by 24 used to convert kW to kWh
+
 
 Revenue.l(tsteps,hydropower)= (1-hydropower_timeseries_data(tsteps,hydropower,"percent_loss"))
          * SUM(j$links(hydropower,j), Flow.l(tsteps,hydropower,j))
          * 9.81
          * hydropower_scalar_data(hydropower,"net_head")
          * hydropower_scalar_data(hydropower,"unit_price")
-		 *0.3858
-		 *24;
-
-
+         * 0.3858
+         * 24
+         ;
             dv(tsteps)=no;
       );
 
