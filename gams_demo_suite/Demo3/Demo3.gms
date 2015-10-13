@@ -30,35 +30,33 @@ $TITLE    Demo3.gms
 *$        include "shortage.txt";
 $        include "non_shortage.txt";
 
+
 ** ----------------------------------------------------------------------
 **  Model variables and equations
 ** ----------------------------------------------------------------------
 
 * Optimisation model variables
 
-Variables
+VARIABLES
+
 Objective_function objective function [-]
-Obj(t) an interim variable for saving the value of the objective function at the end of each time step[-];
+Obj(t) an interim variable for saving the value of the objective function at the end of each time step[-]
+;
 
 POSITIVE VARIABLES
 Flow(i,j,t) flow in each link in each period [-]
 Storage_level(i,t) storage volume in storage nodes [-]
-percent_demand_met_ratio(i) target demand satisfaction ratio [-];
-percent_demand_met_ratio.up(demand_nodes)=1;
-
-POSITIVE VARIABLES
+percent_demand_met_ratio(i) target demand satisfaction ratio [-]
 storage(storage_nodes,t) an interim variable for saving the value of the storage at the end of each time step
 percent_demand_met(i,t) an interim variable for saving the value of the satisfaction ratio at the end of each time step [-]
-
-
-* Post-process variables
-
-POSITIVE VARIABLES
 received_water(i,t) a variable for saving the amount of water received by every node at the end of each time step[-]
 released_water(i,t) a variable for saving the amount of water released by every node at the end of each time step[-]
-demand_met (i,t) a variable for saving the amount of demand met in each node at the end of each time step [-]
+demand_met(i,t) a variable for saving the amount of demand met in each node at the end of each time step [-]
 Revenue(i,t) a variable for saving the value of revenue calculated for each hydropower node at the end of each time step [-];
 
+
+
+percent_demand_met_ratio.up(demand_nodes)=1;
 
 EQUATIONS
 MassBalance_storage(storage_nodes)
@@ -88,7 +86,7 @@ Objective ..
 MassBalance_nonstorage(non_storage_nodes)..
 
          SUM(t$dv(t),inflow(non_storage_nodes, t)
-         +(1-percent_loss(non_storage_nodes,t))*SUM(j$links(j,non_storage_nodes), Flow(j,non_storage_nodes,t)
+         +(1-percent_loss(non_storage_nodes))*SUM(j$links(j,non_storage_nodes), Flow(j,non_storage_nodes,t)
          * flow_multiplier(j,non_storage_nodes, t))
          - SUM(j$links(non_storage_nodes,j), Flow(non_storage_nodes,j,t))
          - (percent_demand_met_ratio(non_storage_nodes)* demand(non_storage_nodes, t)))
@@ -99,12 +97,12 @@ MassBalance_nonstorage(non_storage_nodes)..
 MassBalance_storage(storage_nodes)..
 
          SUM(t$dv(t),inflow(storage_nodes, t)
-         + (1-percent_loss(storage_nodes,t))*SUM(j$links(j,storage_nodes), Flow(j,storage_nodes,t)
+         + (1-percent_loss(storage_nodes))*SUM(j$links(j,storage_nodes), Flow(j,storage_nodes,t)
          * flow_multiplier(j, storage_nodes, t))
          - SUM(j$links(storage_nodes,j), Flow(storage_nodes,j,t))
          - Storage_level(storage_nodes,t)
          + storage(storage_nodes,t-1)$(ord(t) GT 1)
-         + initial_storage(storage_nodes, t)$(ord(t) EQ 1))
+         + initial_storage(storage_nodes)$(ord(t) EQ 1))
          =E= 0;
 
 * Lower and upper bound of possible flow in links
@@ -182,17 +180,17 @@ loop (tsteps,
 *                  An additional multiplication by 24 used to convert kW to kWh
 
 
-    Revenue.l(hydropower,tsteps)= (1-percent_loss(hydropower,tsteps))
+    Revenue.l(hydropower,tsteps)= (1-percent_loss(hydropower))
          * SUM(j$links(hydropower,j), Flow.l(hydropower,j,tsteps))
          * 9.81
-         * net_head
+         * net_head(hydropower)
          * unit_price
          * 0.3858
          * 24;
 
 
 
-            dv(tsteps)=no;
+    dv(tsteps)=no;
       );
 
 *Generating results output

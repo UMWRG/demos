@@ -287,13 +287,7 @@
                 <name>group</name>
                 <value>wastewater_treatment</value>
             </item>
-        </layout>
-		<attribute>
-            <name>percent_efficiency</name>
-            <dimension>dimensionless</dimension>
-            <is_var>N</is_var>
-            <data_type>timeseries</data_type>
-        </attribute>
+        </layout>		
 		<attribute>
             <name>capacity</name>
             <dimension>Volume</dimension>
@@ -327,7 +321,7 @@
             </item>
         </layout>
 		<attribute>
-            <name>percent_efficiency</name>
+            <name>percent_loss</name>
             <dimension>dimensionless</dimension>
             <is_var>N</is_var>
             <data_type>scalar</data_type>
@@ -377,7 +371,7 @@
             </item>
         </layout>
 		<attribute>
-            <name>percent_efficiency</name>
+            <name>percent_loss</name>
             <dimension>dimensionless</dimension>
             <is_var>N</is_var>
             <data_type>scalar</data_type>
