@@ -14,10 +14,16 @@
 						<displayname>Network resources</displayname>
 						<groups>
 							<group>
-								<name>surface_reservoir</name>
-								<description>Surface Reservoir</description>
-								<displayname>Surface Reservoir</displayname>
+								<name>river_reservoir</name>
+								<description>River Reservoir</description>
+								<displayname>River Reservoir</displayname>
 								<image>images\reservoir.png</image>
+							</group>
+							<group>
+								<name>service_reservoir</name>
+								<description>Service Reservoir</description>
+								<displayname>Service Reservoir</displayname>
+								<image>images\service_reservoir.png</image>
 							</group>
                             <group>
 								<name>urban</name>
@@ -43,15 +49,9 @@
 								<displayname>discharge</displayname>
 								<image>images\discharge.png</image>
                             </group>
-                            <group>
-								<name>wastewater_treatment</name>
-								<description>Waste Water Treatement Plant</description>
-								<displayname>Waste Water TP</displayname>
-								<image>images\wastewater_treatment.png</image>
-                            </group>
 							<group>
 								<name>water_treatment</name>
-								<description>Water Treatement Plant</description>
+								<description>Water Treatment Plant</description>
 								<displayname>Water TP</displayname>
 								<image>images\water_treatment.png</image>
                             </group>
@@ -85,22 +85,22 @@
             </value>
         </item>
     </layout>
+	
 <resources>
-    
     <resource>
         <type>NETWORK</type>
         <name>tutorial_network</name>
         <attribute>
             <name>objective_function</name>
-            <dimension>dimensionless</dimension>
+            <dimension></dimension>
             <is_var>Y</is_var>
-	    <data_type>scalar</data_type>
+			<data_type>scalar</data_type>
         </attribute>
 		<attribute>
             <name>unit_price</name>
-            <dimension>dimensionless</dimension>
+            <dimension>Energy price</dimension>
             <is_var>N</is_var>
-	    <data_type>scalar</data_type>
+            <data_type>scalar</data_type>
         </attribute>
     </resource>
   
@@ -135,27 +135,69 @@
             <dimension>Volumetric flow rate</dimension>
             <is_var>N</is_var>
             <data_type>timeseries</data_type>
+			<restrictions>
+				<restriction>
+					<type>EQUALTIMESTEPS</type>
+				</restriction>
+				<restriction>
+					<type>DATERANGE</type>
+					<value>
+						<item>2020-01-01 00:00:00.0</item>
+						<item>2020-09-01 00:00:00.0</item>
+					</value>
+				</restriction>
+			</restrictions>
         </attribute>
         <attribute>
             <name>min_storage</name>
             <dimension>Volume</dimension>
             <is_var>N</is_var>
             <data_type>timeseries</data_type>
+			<restrictions>
+				<restriction>
+					<type>EQUALTIMESTEPS</type>
+				</restriction>
+				<restriction>
+					<type>DATERANGE</type>
+					<value>
+						<item>2020-01-01 00:00:00.0</item>
+						<item>2020-09-01 00:00:00.0</item>
+					</value>
+				</restriction>
+			</restrictions>
         </attribute>
         <attribute>
             <name>max_storage</name>
             <dimension>Volume</dimension>
             <is_var>N</is_var>
             <data_type>timeseries</data_type>
+			<restrictions>
+				<restriction>
+					<type>EQUALTIMESTEPS</type>
+				</restriction>
+				<restriction>
+					<type>DATERANGE</type>
+					<value>
+						<item>2020-01-01 00:00:00.0</item>
+						<item>2020-09-01 00:00:00.0</item>
+					</value>
+				</restriction>
+			</restrictions>
         </attribute>
         <attribute>
             <name>initial_storage</name>
             <dimension>Volume</dimension>
             <is_var>N</is_var>
-	    <data_type>scalar</data_type>
+			<data_type>scalar</data_type>
+			<restrictions>
+				<restriction>
+					<type>NOTEQUALTO</type>
+					<value>0</value>
+				</restriction>
+			</restrictions>
         </attribute>
         <attribute>
-            <name>storage_level</name>
+            <name>storage</name>
             <dimension>Volume</dimension>
             <is_var>Y</is_var>
 	    <data_type>timeseries</data_type>
@@ -163,7 +205,7 @@
     </resource>
     <resource>
         <type>NODE</type>
-        <name>surface_reservoir</name>
+        <name>river_reservoir</name>
         <layout>
             <item>
                 <name>image</name>
@@ -171,7 +213,7 @@
             </item>
             <item>
                 <name>group</name>
-                <value>surface_reservoir</value>
+                <value>river_reservoir</value>
             </item>
         </layout>
 
@@ -192,30 +234,153 @@
             <dimension>Volumetric flow rate</dimension>
             <is_var>N</is_var>
             <data_type>timeseries</data_type>
+			<restrictions>
+				<restriction>
+					<type>EQUALTIMESTEPS</type>
+				</restriction>
+				<restriction>
+					<type>DATERANGE</type>
+					<value>
+						<item>2020-01-01 00:00:00.0</item>
+						<item>2020-09-01 00:00:00.0</item>
+					</value>
+				</restriction>
+			</restrictions>
         </attribute>
         <attribute>
             <name>min_storage</name>
             <dimension>Volume</dimension>
             <is_var>N</is_var>
-	    <data_type>timeseries</data_type>
+			<data_type>timeseries</data_type>
+			<restrictions>
+				<restriction>
+					<type>EQUALTIMESTEPS</type>
+				</restriction>
+				<restriction>
+					<type>DATERANGE</type>
+					<value>
+						<item>2020-01-01 00:00:00.0</item>
+						<item>2020-09-01 00:00:00.0</item>
+					</value>
+				</restriction>
+			</restrictions>
         </attribute>
         <attribute>
             <name>max_storage</name>
             <dimension>Volume</dimension>
             <is_var>N</is_var>
-	    <data_type>timeseries</data_type>
+			<data_type>timeseries</data_type>
+			<restrictions>
+				<restriction>
+					<type>EQUALTIMESTEPS</type>
+				</restriction>
+				<restriction>
+					<type>DATERANGE</type>
+					<value>
+						<item>2020-01-01 00:00:00.0</item>
+						<item>2020-09-01 00:00:00.0</item>
+					</value>
+				</restriction>
+			</restrictions>
         </attribute>
         <attribute>
             <name>initial_storage</name>
             <dimension>Volume</dimension>
             <is_var>N</is_var>
-	    <data_type>scalar</data_type>
+			<data_type>scalar</data_type>
+			<restrictions>
+				<restriction>
+					<type>NOTEQUALTO</type>
+					<value>0</value>
+				</restriction>
+			</restrictions>
         </attribute>
         <attribute>
-            <name>storage_level</name>
+            <name>storage</name>
             <dimension>Volume</dimension>
             <is_var>Y</is_var>
-	    <data_type>timeseries</data_type>
+			<data_type>timeseries</data_type>
+        </attribute>
+    </resource>
+	    <resource>
+        <type>NODE</type>
+        <name>service_reservoir</name>
+        <layout>
+            <item>
+                <name>image</name>
+                <value>images\service_reservoir.png</value>
+            </item>
+            <item>
+                <name>group</name>
+                <value>service_reservoir</value>
+            </item>
+        </layout>
+
+        <attribute>
+            <name>received_water</name>
+            <dimension>Volumetric flow rate</dimension>
+            <is_var>Y</is_var>
+            <data_type>timeseries</data_type>
+        </attribute>
+        <attribute>
+            <name>released_water</name>
+            <dimension>Volumetric flow rate</dimension>
+            <is_var>Y</is_var>
+            <data_type>timeseries</data_type>
+        </attribute>
+        <attribute>
+            <name>min_storage</name>
+            <dimension>Volume</dimension>
+            <is_var>N</is_var>
+			<data_type>timeseries</data_type>
+			<restrictions>
+				<restriction>
+					<type>EQUALTIMESTEPS</type>
+				</restriction>
+				<restriction>
+					<type>DATERANGE</type>
+					<value>
+						<item>2020-01-01 00:00:00.0</item>
+						<item>2020-09-01 00:00:00.0</item>
+					</value>
+				</restriction>
+			</restrictions>
+        </attribute>
+        <attribute>
+            <name>max_storage</name>
+            <dimension>Volume</dimension>
+            <is_var>N</is_var>
+			<data_type>timeseries</data_type>
+			<restrictions>
+				<restriction>
+					<type>EQUALTIMESTEPS</type>
+				</restriction>
+				<restriction>
+					<type>DATERANGE</type>
+					<value>
+						<item>2020-01-01 00:00:00.0</item>
+						<item>2020-09-01 00:00:00.0</item>
+					</value>
+				</restriction>
+			</restrictions>
+        </attribute>
+        <attribute>
+            <name>initial_storage</name>
+            <dimension>Volume</dimension>
+            <is_var>N</is_var>
+			<data_type>scalar</data_type>
+			<restrictions>
+				<restriction>
+					<type>NOTEQUALTO</type>
+					<value>0</value>
+				</restriction>
+			</restrictions>
+        </attribute>
+        <attribute>
+            <name>storage</name>
+            <dimension>Volume</dimension>
+            <is_var>Y</is_var>
+			<data_type>timeseries</data_type>
         </attribute>
     </resource>
     <resource>
@@ -249,64 +414,75 @@
             <dimension>Volumetric flow rate</dimension>
             <is_var>N</is_var>
             <data_type>timeseries</data_type>
+			<restrictions>
+				<restriction>
+					<type>EQUALTIMESTEPS</type>
+				</restriction>
+				<restriction>
+					<type>DATERANGE</type>
+					<value>
+						<item>2020-01-01 00:00:00.0</item>
+						<item>2020-09-01 00:00:00.0</item>
+					</value>
+				</restriction>
+			</restrictions>
         </attribute>
         <attribute>
             <name>min_storage</name>
             <dimension>Volume</dimension>
             <is_var>N</is_var>
             <data_type>timeseries</data_type>
+			<restrictions>
+				<restriction>
+					<type>EQUALTIMESTEPS</type>
+				</restriction>
+				<restriction>
+					<type>DATERANGE</type>
+					<value>
+						<item>2020-01-01 00:00:00.0</item>
+						<item>2020-09-01 00:00:00.0</item>
+					</value>
+				</restriction>
+			</restrictions>
         </attribute>
         <attribute>
             <name>max_storage</name>
             <dimension>Volume</dimension>
             <is_var>N</is_var>
             <data_type>timeseries</data_type>
+			<restrictions>
+				<restriction>
+					<type>EQUALTIMESTEPS</type>
+				</restriction>
+				<restriction>
+					<type>DATERANGE</type>
+					<value>
+						<item>2020-01-01 00:00:00.0</item>
+						<item>2020-09-01 00:00:00.0</item>
+					</value>
+				</restriction>
+			</restrictions>
         </attribute>
         <attribute>
             <name>initial_storage</name>
             <dimension>Volume</dimension>
             <is_var>N</is_var>
-	    <data_type>scalar</data_type>
+			<data_type>scalar</data_type>
+			<restrictions>
+				<restriction>
+					<type>NOTEQUALTO</type>
+					<value>0</value>
+				</restriction>
+			</restrictions>
         </attribute>
         <attribute>
-            <name>storage_level</name>
+            <name>storage</name>
             <dimension>Volume</dimension>
             <is_var>Y</is_var>
             <data_type>timeseries</data_type>
         </attribute>
     </resource>
-    <resource>
-        <type>NODE</type>
-        <name>wastewater_treatment</name>
-        <layout>
-            <item>
-                <name>image</name>
-                <value>images\wastewater_treatment.png</value>
-            </item>
-            <item>
-                <name>group</name>
-                <value>wastewater_treatment</value>
-            </item>
-        </layout>		
-		<attribute>
-            <name>capacity</name>
-            <dimension>Volume</dimension>
-            <is_var>N</is_var>
-            <data_type>scalar</data_type>
-        </attribute>
-        <attribute>
-            <name>received_water</name>
-            <dimension>Volumetric flow rate</dimension>
-            <is_var>Y</is_var>
-            <data_type>timeseries</data_type>
-        </attribute>
-        <attribute>
-            <name>released_water</name>
-            <dimension>Volumetric flow rate</dimension>
-            <is_var>Y</is_var>
-            <data_type>timeseries</data_type>
-        </attribute>		
-    </resource>
+
 	<resource>
         <type>NODE</type>
         <name>water_treatment</name>
@@ -325,12 +501,52 @@
             <dimension>dimensionless</dimension>
             <is_var>N</is_var>
             <data_type>scalar</data_type>
+			<restrictions>
+				<restriction>
+					<type>LESSTHANEQ</type>
+					<value>1</value>
+				</restriction>
+				<restriction>
+					<type>GREATERTHAN</type>
+					<value>0</value>
+				</restriction>
+			</restrictions>
         </attribute>
 		<attribute>
-            <name>capacity</name>
+            <name>min_storage</name>
             <dimension>Volume</dimension>
             <is_var>N</is_var>
-            <data_type>scalar</data_type>
+            <data_type>timeseries</data_type>
+			<restrictions>
+				<restriction>
+					<type>EQUALTIMESTEPS</type>
+				</restriction>
+				<restriction>
+					<type>DATERANGE</type>
+					<value>
+						<item>2020-01-01 00:00:00.0</item>
+						<item>2020-09-01 00:00:00.0</item>
+					</value>
+				</restriction>
+			</restrictions>
+        </attribute>
+        <attribute>
+            <name>max_storage</name>
+            <dimension>Volume</dimension>
+            <is_var>N</is_var>
+            <data_type>timeseries</data_type>
+			<restrictions>
+				<restriction>
+					<type>EQUALTIMESTEPS</type>
+				</restriction>
+				<restriction>
+					<type>DATERANGE</type>
+					<value>
+						<item>2020-01-01 00:00:00.0</item>
+						<item>2020-09-01 00:00:00.0</item>
+					</value>
+				</restriction>
+			</restrictions>
         </attribute>
         <attribute>
             <name>received_water</name>
@@ -342,18 +558,6 @@
             <name>released_water</name>
             <dimension>Volumetric flow rate</dimension>
             <is_var>Y</is_var>
-            <data_type>timeseries</data_type>
-        </attribute>
-		<attribute>
-            <name>min_storage</name>
-            <dimension>Volume</dimension>
-            <is_var>N</is_var>
-            <data_type>timeseries</data_type>
-        </attribute>
-        <attribute>
-            <name>max_storage</name>
-            <dimension>Volume</dimension>
-            <is_var>N</is_var>
             <data_type>timeseries</data_type>
         </attribute>
     </resource>
@@ -375,12 +579,64 @@
             <dimension>dimensionless</dimension>
             <is_var>N</is_var>
             <data_type>scalar</data_type>
+			<restrictions>
+				<restriction>
+					<type>LESSTHANEQ</type>
+					<value>1</value>
+				</restriction>
+				<restriction>
+					<type>GREATERTHAN</type>
+					<value>0</value>
+				</restriction>
+			</restrictions>
         </attribute>
 		<attribute>
-            <name>capacity</name>
+            <name>min_storage</name>
             <dimension>Volume</dimension>
             <is_var>N</is_var>
+            <data_type>timeseries</data_type>
+			<restrictions>
+				<restriction>
+					<type>EQUALTIMESTEPS</type>
+				</restriction>
+				<restriction>
+					<type>DATERANGE</type>
+					<value>
+						<item>2020-01-01 00:00:00.0</item>
+						<item>2020-09-01 00:00:00.0</item>
+					</value>
+				</restriction>
+			</restrictions>
+        </attribute>
+        <attribute>
+            <name>max_storage</name>
+            <dimension>Volume</dimension>
+            <is_var>N</is_var>
+            <data_type>timeseries</data_type>
+			<restrictions>
+				<restriction>
+					<type>EQUALTIMESTEPS</type>
+				</restriction>
+				<restriction>
+					<type>DATERANGE</type>
+					<value>
+						<item>2020-01-01 00:00:00.0</item>
+						<item>2020-09-01 00:00:00.0</item>
+					</value>
+				</restriction>
+			</restrictions>
+        </attribute>
+		<attribute>
+            <name>net_head</name>
+            <dimension>Length</dimension>
+            <is_var>N</is_var>
             <data_type>scalar</data_type>
+        </attribute>
+		<attribute>
+            <name>revenue</name>
+            <dimension>Specific cost (time)</dimension>
+            <is_var>Y</is_var>
+            <data_type>timeseries</data_type>
         </attribute>
         <attribute>
             <name>received_water</name>
@@ -391,30 +647,6 @@
         <attribute>
             <name>released_water</name>
             <dimension>Volumetric flow rate</dimension>
-            <is_var>Y</is_var>
-            <data_type>timeseries</data_type>
-        </attribute>
-		<attribute>
-            <name>net_head</name>
-            <dimension>Length</dimension>
-            <is_var>N</is_var>
-            <data_type>scalar</data_type>
-        </attribute>
-		<attribute>
-            <name>min_storage</name>
-            <dimension>Volume</dimension>
-            <is_var>N</is_var>
-            <data_type>timeseries</data_type>
-        </attribute>
-        <attribute>
-            <name>max_storage</name>
-            <dimension>Volume</dimension>
-            <is_var>N</is_var>
-            <data_type>timeseries</data_type>
-        </attribute>
-		 <attribute>
-            <name>Revenue</name>
-            <dimension>Dimensionless</dimension>
             <is_var>Y</is_var>
             <data_type>timeseries</data_type>
         </attribute>
@@ -459,7 +691,6 @@
                 <value>discharge</value>
             </item>
         </layout>
-
         <attribute>
             <name>received_water</name>
             <dimension>Volumetric flow rate</dimension>
@@ -477,12 +708,36 @@
             <dimension>dimensionless</dimension>
             <is_var>N</is_var>
             <data_type>timeseries</data_type>
+			<restrictions>
+				<restriction>
+					<type>EQUALTIMESTEPS</type>
+				</restriction>
+				<restriction>
+					<type>DATERANGE</type>
+					<value>
+						<item>2020-01-01 00:00:00.0</item>
+						<item>2020-09-01 00:00:00.0</item>
+					</value>
+				</restriction>
+			</restrictions>
         </attribute>
         <attribute>
             <name>demand</name>
             <dimension>Volume</dimension>
             <is_var>N</is_var>
             <data_type>timeseries</data_type>
+			<restrictions>
+				<restriction>
+					<type>EQUALTIMESTEPS</type>
+				</restriction>
+				<restriction>
+					<type>DATERANGE</type>
+					<value>
+						<item>2020-01-01 00:00:00.0</item>
+						<item>2020-09-01 00:00:00.0</item>
+					</value>
+				</restriction>
+			</restrictions>
         </attribute>
 		<attribute>
             <name>percent_demand_met</name>
@@ -528,12 +783,36 @@
             <dimension>dimensionless</dimension>
             <is_var>N</is_var>
             <data_type>timeseries</data_type>
-            </attribute>
+			<restrictions>
+				<restriction>
+					<type>EQUALTIMESTEPS</type>
+				</restriction>
+				<restriction>
+					<type>DATERANGE</type>
+					<value>
+						<item>2020-01-01 00:00:00.0</item>
+						<item>2020-09-01 00:00:00.0</item>
+					</value>
+				</restriction>
+			</restrictions>
+        </attribute>
         <attribute>
             <name>demand</name>
             <dimension>Volume</dimension>
             <is_var>N</is_var>
             <data_type>timeseries</data_type>
+			<restrictions>
+				<restriction>
+					<type>EQUALTIMESTEPS</type>
+				</restriction>
+				<restriction>
+					<type>DATERANGE</type>
+					<value>
+						<item>2020-01-01 00:00:00.0</item>
+						<item>2020-09-01 00:00:00.0</item>
+					</value>
+				</restriction>
+			</restrictions>
         </attribute>
 		<attribute>
             <name>percent_demand_met</name>
@@ -579,12 +858,36 @@
             <dimension>dimensionless</dimension>
             <is_var>N</is_var>
             <data_type>timeseries</data_type>
-            </attribute>
+			<restrictions>
+				<restriction>
+					<type>EQUALTIMESTEPS</type>
+				</restriction>
+				<restriction>
+					<type>DATERANGE</type>
+					<value>
+						<item>2020-01-01 00:00:00.0</item>
+						<item>2020-09-01 00:00:00.0</item>
+					</value>
+				</restriction>
+			</restrictions>
+        </attribute>
         <attribute>
             <name>demand</name>
             <dimension>Volume</dimension>
             <is_var>N</is_var>
             <data_type>timeseries</data_type>
+			<restrictions>
+				<restriction>
+					<type>EQUALTIMESTEPS</type>
+				</restriction>
+				<restriction>
+					<type>DATERANGE</type>
+					<value>
+						<item>2020-01-01 00:00:00.0</item>
+						<item>2020-09-01 00:00:00.0</item>
+					</value>
+				</restriction>
+			</restrictions>
         </attribute>
 		<attribute>
             <name>percent_demand_met</name>
@@ -635,18 +938,62 @@
             <dimension>Dimensionless</dimension>
             <is_var>N</is_var>
             <data_type>timeseries</data_type>
+			<restrictions>
+				<restriction>
+					<type>EQUALTIMESTEPS</type>
+				</restriction>
+				<restriction>
+					<type>DATERANGE</type>
+					<value>
+						<item>2020-01-01 00:00:00.0</item>
+						<item>2020-09-01 00:00:00.0</item>
+					</value>
+				</restriction>
+				<restriction>
+					<type>LESSTHANEQ</type>
+					<value>1</value>
+				</restriction>
+				<restriction>
+					<type>GREATERTHAN</type>
+					<value>0</value>
+				</restriction>
+			</restrictions>
         </attribute>
         <attribute>
             <name>min_flow</name>
             <dimension>Volumetric flow rate</dimension>
             <is_var>N</is_var>
             <data_type>timeseries</data_type>
+			<restrictions>
+				<restriction>
+					<type>EQUALTIMESTEPS</type>
+				</restriction>
+				<restriction>
+					<type>DATERANGE</type>
+					<value>
+						<item>2020-01-01 00:00:00.0</item>
+						<item>2020-09-01 00:00:00.0</item>
+					</value>
+				</restriction>
+			</restrictions>
         </attribute>
         <attribute>
             <name>max_flow</name>
             <dimension>Volumetric flow rate</dimension>
             <is_var>N</is_var>
             <data_type>timeseries</data_type>
+			<restrictions>
+				<restriction>
+					<type>EQUALTIMESTEPS</type>
+				</restriction>
+				<restriction>
+					<type>DATERANGE</type>
+					<value>
+						<item>2020-01-01 00:00:00.0</item>
+						<item>2020-09-01 00:00:00.0</item>
+					</value>
+				</restriction>
+			</restrictions>
         </attribute>
     </resource>
     <resource>
@@ -658,6 +1005,18 @@
                 <value>images\storage group.png</value>
             </item>
         </layout>
+		<attribute>
+            <name>management</name>
+            <dimension>dimensionless</dimension>
+            <is_var>N</is_var>
+            <data_type>descriptor</data_type>
+			<restrictions>
+				<restriction>
+					<type>MAXLEN</type>
+					<value>20</value>
+				</restriction>
+			</restrictions>
+        </attribute>
     </resource>
 	<resource>
         <type>GROUP</type>
@@ -668,6 +1027,18 @@
                 <value>images\non-storage group.png</value>
             </item>
         </layout>
+		<attribute>
+            <name>management</name>
+            <dimension>dimensionless</dimension>
+            <is_var>N</is_var>
+            <data_type>descriptor</data_type>
+			<restrictions>
+				<restriction>
+					<type>MAXLEN</type>
+					<value>20</value>
+				</restriction>
+			</restrictions>
+        </attribute>
     </resource>
 	<resource>
         <type>GROUP</type>
@@ -678,16 +1049,40 @@
                 <value>images\demand group.png</value>
             </item>
         </layout>
+		<attribute>
+            <name>management</name>
+            <dimension>dimensionless</dimension>
+            <is_var>N</is_var>
+            <data_type>descriptor</data_type>
+			<restrictions>
+				<restriction>
+					<type>MAXLEN</type>
+					<value>20</value>
+				</restriction>
+			</restrictions>
+        </attribute>
     </resource>
 	<resource>
         <type>GROUP</type>
-        <name>treatment_hydro_nodes group</name>
+        <name>treatment and hydropower group</name>
 		<layout>
             <item>
                 <name>image</name>
-                <value>images\treatment_hydro_nodes group.png</value>
+                <value>images\water_treatment.png</value>
             </item>
         </layout>
+		<attribute>
+            <name>management</name>
+            <dimension>dimensionless</dimension>
+            <is_var>N</is_var>
+            <data_type>descriptor</data_type>
+			<restrictions>
+				<restriction>
+					<type>MAXLEN</type>
+					<value>20</value>
+				</restriction>
+			</restrictions>
+        </attribute>
     </resource>
 </resources>
 </template_definition>
