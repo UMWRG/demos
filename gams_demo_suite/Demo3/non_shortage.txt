@@ -1,9 +1,9 @@
 * Data exported from Hydra using GAMSplugin.
 * (c) Copyright 2015, University of Manchester
 *
-* Demo 3 network: groups.csv
-* Network-ID:  22
-* Scenario-ID: 22
+* Demo 3 network: A demonstration network for teaching purposes
+* Network-ID:  16
+* Scenario-ID: 21
 *******************************************************************************
 
 * Network definition
@@ -166,35 +166,6 @@ WWTP1 . Urb2
 
 * Link types
 
-conduit(i,j) /
-Ag1 . GW2
-Ag1 . J2
-Ag2 . GW2
-Ag2 . J3
-Desal1 . Urb2
-GW1 . WTP1
-GW2 . Ag1
-GW2 . Ag2
-Hp1 . SR4
-J1 . WWTP1
-J2 . Ag2
-J2 . J3
-J3 . EndPt
-SR1 . SR2
-SR1 . WTP1
-SR2 . SR4
-SR3 . Hp1
-SR4 . Ag1
-SR4 . J2
-SR4 . Urb2
-Urb1 . GW1
-Urb1 . J1
-Urb2 . WWTP1
-WTP1 . Urb1
-WWTP1 . J2
-WWTP1 . Urb2
-/
-
 * Connectivity matrix.
 Table Connect(i,j)
                  Ag1       Ag2    Desal1     EndPt       GW1       GW2       Hp1        J1        J2        J3       SR1       SR2       SR3       SR4      Urb1      Urb2      WTP1      WTP2     WWTP1
@@ -294,11 +265,28 @@ WTP2             250
 WWTP1            500              
 /;
               
+Parameter  percent_loss(i)
+/                
+Hp1              0.25             
+WTP1             0.1              
+WTP2             0.1              
+/;
+              
 Parameter  net_head(i)
 /                
 Hp1              5                
 /;
               
+*demand
+Table demand (i,t)
+
+                 0                1                2                3                4                5                6                7                8                
+Ag1              27.0             27.0             27.0             27.0             27.0             29.0             29.0             29.0             28.0             
+Ag2              21.0             21.0             21.0             21.0             22.0             22.0             22.0             22.0             21.0             
+EndPt            15.0             16.0             14.0             15.0             15.0             15.0             14.0             15.0             16.0             
+Urb1             43.0             43.0             44.0             44.0             46.0             49.0             50.0             50.0             47.0             
+Urb2             60.0             60.0             60.0             62.0             62.0             65.0             69.0             69.0             64.0             
+
 *priority
 Table priority (i,t)
 
@@ -309,15 +297,13 @@ EndPt            10.0             10.0             10.0             10.0        
 Urb1             90.0             90.0             90.0             90.0             90.0             90.0             90.0             90.0             90.0             
 Urb2             100.0            100.0            100.0            100.0            100.0            100.0            100.0            100.0            100.0            
 
-*demand
-Table demand (i,t)
+*inflow
+Table inflow (i,t)
 
                  0                1                2                3                4                5                6                7                8                
-Ag1              27.0             27.0             27.0             27.0             27.0             29.0             29.0             29.0             28.0             
-Ag2              21.0             21.0             21.0             21.0             22.0             22.0             22.0             22.0             21.0             
-EndPt            15.0             16.0             14.0             15.0             15.0             15.0             14.0             15.0             16.0             
-Urb1             43.0             43.0             44.0             44.0             46.0             49.0             50.0             50.0             47.0             
-Urb2             60.0             60.0             60.0             62.0             62.0             65.0             69.0             69.0             64.0             
+Desal1           1000.0           1000.0           1000.0           1000.0           1000.0           1000.0           1000.0           1000.0           1000.0           
+SR1              100.0            120.0            120.0            130.0            110.0            110.0            100.0            120.0            120.0            
+SR3              40.0             30.0             30.0             30.0             40.0             50.0             40.0             40.0             50.0             
 
 *min_storage
 Table min_storage (i,t)
@@ -348,22 +334,6 @@ SR3              700.0            700.0            700.0            700.0       
 SR4              600.0            600.0            600.0            600.0            600.0            600.0            600.0            600.0            600.0            
 WTP1             60.0             60.0             60.0             60.0             60.0             60.0             60.0             60.0             60.0             
 WTP2             60.0             60.0             60.0             60.0             60.0             60.0             60.0             60.0             60.0             
-
-*inflow
-Table inflow (i,t)
-
-                 0                1                2                3                4                5                6                7                8                
-Desal1           1000.0           1000.0           1000.0           1000.0           1000.0           1000.0           1000.0           1000.0           1000.0           
-SR1              100.0            120.0            120.0            130.0            110.0            110.0            100.0            120.0            120.0            
-SR3              40.0             30.0             30.0             30.0             40.0             50.0             40.0             40.0             50.0             
-
-*percent_efficiency
-Table percent_efficiency (i,t)
-
-                 0                1                2                3                4                5                6                7                8                
-Hp1              0.25             0.25             0.25             0.25             0.25             0.25             0.25             0.25             0.25             
-WTP1             0.1              0.1              0.1              0.1              0.1              0.1              0.1              0.1              0.1              
-WTP2             0.1              0.1              0.1              0.1              0.1              0.1              0.1              0.1              0.1              
 
 * Links data
 

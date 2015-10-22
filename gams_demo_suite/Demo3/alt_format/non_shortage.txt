@@ -391,12 +391,12 @@ SETS
 hydropower_timeseries /
 min_storage
 max_storage
-percent_efficiency
+percent_loss
 /
 
 Table hydropower_timeseries_data(t,i,hydropower_timeseries)
 
-      Hp1.min_storage Hp1.max_storage Hp1.percent_efficiency
+      Hp1.min_storage Hp1.max_storage       Hp1.percent_loss
 0            0.000000       60.000000              0.2500000
 1            0.000000       60.000000              0.2500000
 2            0.000000       60.000000              0.2500000
@@ -478,12 +478,12 @@ SETS
 watertreatment_timeseries /
 min_storage
 max_storage
-percent_efficiency
+percent_loss
 /
 
 Table watertreatment_timeseries_data(t,i,watertreatment_timeseries)
 
-        WT1.min_storage   WT2.min_storage   WT1.max_storage   WT2.max_storage     WT1.percent_efficiency     WT2.percent_efficiency
+        WT1.min_storage   WT2.min_storage   WT1.max_storage   WT2.max_storage           WT1.percent_loss           WT2.percent_loss
 0              0.000000          0.000000         60.000000         60.000000                  0.1000000                  0.1000000
 1              0.000000          0.000000         60.000000         60.000000                  0.1000000                  0.1000000
 2              0.000000          0.000000         60.000000         60.000000                  0.1000000                  0.1000000
