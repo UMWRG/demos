@@ -33,7 +33,7 @@ Parameter FCCl(i,j) "capital costs for future  oprtional links" ;
 *******************************************************************************
 
 Variable
-         z "annualised capital and operating cost of sources&links" ;
+         Z "annualised capital and operating cost of sources&links" ;
 
 Binary variables
          AS(t,i) "Activation for optional source during period t"
@@ -42,7 +42,7 @@ Binary variables
                                                       ;
 Positive variables
          Q(t,i,j) "Flow from node i to j during year t"
-         S(t,i) "Supply from source i during year t"            ;
+         S(t,i) "Supply from source i during year t";
 
 Equations
 
