@@ -183,7 +183,7 @@ loop (tsteps,
 
 
     Revenue.l(hydropower,tsteps)= (1-percent_loss(hydropower,tsteps))
-         * SUM(j$links(hydropower,j), Flow.l(hydropower,j,tsteps))
+         * SUM(j$links(j,hydropower), Flow.l(j,hydropower,tsteps)*flow_multiplier(j,hydropower,tsteps))
          * 9.81
          * net_head
          * unit_price

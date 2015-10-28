@@ -205,7 +205,7 @@ released_water.l(tsteps,i) =
 
 
 Revenue.l(tsteps,hydropower)= (1-hydropower_timeseries_data(tsteps,hydropower,"percent_loss"))
-         * SUM(j$links(hydropower,j), Flow.l(tsteps,hydropower,j))
+         * SUM(j$links(j,hydropower), Flow.l(tsteps,j,hydropower)*river_section_timeseries_data(tsteps,j,hydropower, "flow_multiplier"))
          * 9.81
          * hydropower_scalar_data(hydropower,"net_head")
          * hydropower_scalar_data(hydropower,"unit_price")
