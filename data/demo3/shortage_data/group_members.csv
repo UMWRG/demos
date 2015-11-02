@@ -7,7 +7,6 @@ storage_nodes    , Node , SR4
 storage_nodes    , Node , GW1
 storage_nodes    , Node , GW2
 storage_nodes    , Node ,Desal1
-non_storage_nodes , Node ,WWTP1
 non_storage_nodes , Node ,Hp1
 non_storage_nodes , Node ,J1
 non_storage_nodes , Node ,J2
