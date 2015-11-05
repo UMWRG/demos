@@ -70,7 +70,11 @@ model.percent_demand_met = Var(model.demand_nodes, bounds=percent_demand_met_bou
 # Declaring variable alpha
 demand_satisfaction_ratio_bound = Constraint(rule=percent_demand_met_bound)
 
-
+# Defining post process variables
+model.Released_Water = Var(model.nodes)
+model.Received_Water = Var(model.nodes)
+model.Demand_Met = Var(model.demand_nodes)
+model.Revenue = Var(model.hydro_nodes)
 
 def get_current_priority(model):
     current_priority = {}
@@ -144,87 +148,6 @@ def hydro_treatment_capacity(model, treatment_hydro_nodes):
 
 model.hydro_treatment_capacity_constraint = Constraint(model.treatment_hydro_nodes, rule=hydro_treatment_capacity)
 
-
-
-def get_storage(instance):
-    storage_levels={}
-    for var in instance.component_objects(Var):
-            if str(var)=="Storage":
-                s_var = getattr(instance, str(var))
-                for vv in s_var:
-                    name = ''.join(map(str,vv))
-                    storage_levels[name]=(s_var[vv].value)
-    return storage_levels
-
-def set_initial_storage(instance, storage_levels):
-    for var in instance.component_objects(Param):
-            if str(var) == "initial_storage":
-                s_var = getattr(instance, str(var))
-                for vv in s_var:
-                    s_var[vv] = storage_levels[vv]
-
-
-def run_model(datafile):
-    print "==== Running the model ===="
-    opt = SolverFactory("cplex")
-    list = []
-    list_ = []
-    model.current_time_step.add(1)
-    instance = model.create_instance(datafile)
-    #"""
-    ## determine the time steps
-    for comp in instance.component_objects():
-        #print comp, type (comp), str(comp)
-        if(str(comp)=="time_step"):
-            parmobject = getattr(instance, str(comp))
-            for vv in parmobject.value:
-                list_.append(vv)
-    storage = {}
-    insts=[]
-
-    for vv in list_:
-        ##################
-        model.current_time_step.clear()
-        model.current_time_step.add(vv)
-        print "Running for time step: ", vv
-
-        instance=model.create_instance(datafile)
-        ##update intial storage value from previous storage
-        if len(storage) > 0:
-            set_initial_storage(instance, storage)
-            instance.preprocess()
-    #"""
-        res=opt.solve(instance)  
-        instance.solutions.load_from(res)
-
-        #instance.load(res)
-        insts.append(instance)
-        storage=get_storage(instance)
-        list.append(res)
-        print "-------------------------"
-
-        ####################
-    count=1
-    for res in list:
-        print " ========= Time step:  %s =========="%count
-        print res
-
-
-        count+=1
-    count=1
-    for inst in insts:
-        print " ========= Time step:  %s =========="%count
-        display_variables(inst)
-        print "****************** Post processing*******************"
-        print "Received water in each node: %s" % received(inst)
-        print "Released water from each node: %s" % released(inst)
-        print "The amount of demand met in each node: %s" % demand_met(inst)
-        print "Hydro-power nodes revenue: %s" % revenue(inst)
-
-
-        count+=1
-    return list, insts
-
 def released(instance):
     released_water = {}
     for i in instance.nodes:
@@ -240,9 +163,10 @@ def received(instance):
 
 
 def demand_met(instance):
-    incoming=received(instance)
-    outgoing=released(instance)
     dem_met = {}
+    incoming = received(instance)
+    outgoing = released(instance)
+    model.dem_met = {}
     for i in instance.demand_nodes:
         dem_met[i] = incoming[i] - outgoing[i]
     return dem_met
@@ -256,6 +180,100 @@ def revenue(instance):
     return rev
 
 
+def get_storage(instance):
+    storage_levels={}
+    for var in instance.component_objects(Var):
+            if str(var)=="Storage":
+                s_var = getattr(instance, str(var))
+                for vv in s_var:
+                    name = ''.join(map(str,vv))
+                    storage_levels[name]=(s_var[vv].value)
+    return storage_levels
+
+
+def set_initial_storage(instance, storage_levels):
+    for var in instance.component_objects(Param):
+            if str(var) == "initial_storage":
+                s_var = getattr(instance, str(var))
+                for vv in s_var:
+                    s_var[vv] = storage_levels[vv]
+
+
+def set_post_process_variables(instance):
+    for var in instance.component_objects(Var):
+            if str(var) == "Released_Water":
+                s_var = getattr(instance, str(var))
+                for vv in s_var:
+                    s_var[vv] = released(instance)[vv]
+            if str(var) == "Received_Water":
+                s_var = getattr(instance, str(var))
+                for vv in s_var:
+                    s_var[vv] = received(instance)[vv]
+            if str(var) == "Demand_Met":
+                s_var = getattr(instance, str(var))
+                for vv in s_var:
+                    s_var[vv] = demand_met(instance)[vv]
+            if str(var) == "Revenue":
+                s_var = getattr(instance, str(var))
+                for vv in s_var:
+                    s_var[vv] = revenue(instance)[vv]
+
+
+def run_model(datafile):
+    print "==== Running the model ===="
+    opt = SolverFactory("cplex")
+    list = []
+    list_ = []
+    model.current_time_step.add(1)
+    instance = model.create_instance(datafile)
+
+    ## determine the time steps
+    for comp in instance.component_objects():
+        if str(comp) == "time_step":
+            parmobject = getattr(instance, str(comp))
+            for vv in parmobject.value:
+                list_.append(vv)
+    storage = {}
+    insts = []
+
+    for vv in list_:
+        model.current_time_step.clear()
+        model.current_time_step.add(vv)
+        print "Running for time step: ", vv
+
+        instance = model.create_instance(datafile)
+        # update initial storage value from previous storage
+        if len(storage) > 0:
+            set_initial_storage(instance, storage)
+            instance.preprocess()
+
+        res=opt.solve(instance)  
+        instance.solutions.load_from(res)
+
+        #instance.load(res)
+        insts.append(instance)
+        storage=get_storage(instance)
+        list.append(res)
+        print "-------------------------"
+
+
+    count=1
+    for inst in insts:
+        print "******************This is inst: %s" % type(inst)
+    for res in list:
+        print " ========= Time step:  %s =========="%count
+        print res
+        count+=1
+    count=1
+
+    for inst in insts:
+        print " ========= Time step:  %s =========="%count
+        set_post_process_variables(inst)
+        display_variables(inst)
+        count+=1
+    return list, insts
+
+
 def display_variables(instance):
     for var in instance.component_objects(Var):
             s_var = getattr(instance, str(var))
@@ -264,13 +282,12 @@ def display_variables(instance):
             print "=================="
             for vv in s_var:
                 if len(vv) == 2:
-                    name="[" + ', '.join(map(str,vv)) + "]"
+                    name = "[" + ', '.join(map(str,vv)) + "]"
                 else:
-                    name= ''.join(map(str,vv))
-                print name,": ",(s_var[vv].value)
+                    name = ''.join(map(str,vv))
+                print name ,": ",(s_var[vv].value)
 
 ##========================
 # running the model in a loop for each time step
 if __name__ == '__main__':
     run_model("Demo3 (shortage).dat")
-    #run_model("input.dat")
