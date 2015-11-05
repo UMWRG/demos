@@ -28,83 +28,88 @@ model.demand_nodes = Set()
 model.non_storage_nodes = Set()
 model.storage_nodes = Set()
 model.time_step = Set()
+model.treatment_hydro_nodes = Set()
+model.hydro_nodes = Set()
 
 # Declaring model parameters
 model.inflow = Param(model.nodes, model.time_step, default=0)
 model.current_time_step = Set()
 model.initial_storage = Param(model.storage_nodes, mutable=True)
-model.cost = Param(model.demand_nodes, model.time_step, default=0)
+model.priority = Param(model.demand_nodes, model.time_step, default=0)
 model.flow_multiplier = Param(model.links, model.time_step)
 model.min_flow = Param(model.links, model.time_step)
 model.max_flow = Param(model.links, model.time_step)
-model.min_storage = Param(model.storage_nodes, model.time_step)
-model.max_storage = Param(model.storage_nodes, model.time_step)
+model.min_storage = Param(model.nodes, model.time_step)
+model.max_storage = Param(model.nodes, model.time_step)
 model.demand = Param(model.demand_nodes, model.time_step, default=0)
-
+model.percent_loss = Param(model.treatment_hydro_nodes, model.time_step)
+model.net_head = Param(model.hydro_nodes)
+model.unit_price = Param(model.hydro_nodes)
 ##======================================== Declaring Variables (X and S)
 
 # Defining the flow lower and upper bound
 def flow_capacity_constraint(model, node, node2):
-    return (model.min_flow[node, node2, model.current_time_step], model.max_flow[node, node2, model.current_time_step])
+    return model.min_flow[node, node2, model.current_time_step], model.max_flow[node, node2, model.current_time_step]
 
 # Defining the storage lower and upper bound
-def  storage_capacity_constraint(model, storage_nodes):
-    return (model.min_storage[storage_nodes, model.current_time_step], model.max_storage[storage_nodes, model.current_time_step])
+def storage_capacity_constraint(model, storage_nodes):
+    return model.min_storage[storage_nodes, model.current_time_step], model.max_storage[storage_nodes, model.current_time_step]
 
 # Declaring decision variable X
-# Declaring decision variable X
-model.Q = Var(model.links, domain=NonNegativeReals, bounds=flow_capacity_constraint) #*1e6 m^3 mon^-1
+
+model.Flow = Var(model.links, domain=NonNegativeReals, bounds=flow_capacity_constraint) #*1e6 m^3 mon^-1
 
 # Declaring state variable S
-model.S = Var(model.storage_nodes, bounds=storage_capacity_constraint) #1e6 m^3
+model.Storage = Var(model.storage_nodes, bounds=storage_capacity_constraint) #1e6 m^3
 
-def alpha_bound(model):
-    return 0, 1#, model.alpha, 1
+def percent_demand_met_bound(model):
+    return 0, 1
 
-model.alpha = Var(model.demand_nodes, bounds=alpha_bound) #*%
+model.percent_demand_met = Var(model.demand_nodes, bounds=percent_demand_met_bound) #*%
 
 # Declaring variable alpha
-demand_satisfaction_ratio_bound = Constraint(rule=alpha_bound)
+demand_satisfaction_ratio_bound = Constraint(rule=percent_demand_met_bound)
 
-"""
-def demand_satisfaction_ratio(model, demand_nodes):
-            alpha = (sum([model.X[node_in, demand_nodes]*model.flow_multiplier[node_in, demand_nodes]
-                          for node_in in model.nodes if (node_in, demand_nodes) in model.links]) - sum([model.X[demand_nodes, node_out]
-                          for node_out in model.nodes if (demand_nodes, node_out) in model.links]))/model.targert_demand[demand_nodes]
-            return (0, alpha, 1)
-"""
 
-def get_current_cost(model):
-    current_cost = {}
+
+def get_current_priority(model):
+    current_priority = {}
     for node in model.demand_nodes:
         #print link
-        current_cost[node] = model.cost[node, model.current_time_step]
-    return current_cost  # model.cost [model.current_time_step]
+        current_priority[node] = model.priority[node, model.current_time_step]
+    return current_priority  # model.priority [model.current_time_step]
 
 def objective_function(model):
-    return summation(get_current_cost(model), model.alpha)
+    return summation(get_current_priority(model), model.percent_demand_met)
 
-model.Z = Objective(rule=objective_function, sense=maximize)
+model.Objective = Objective(rule=objective_function, sense=maximize)
 
 ##======================================== Declaring constraints
 # Mass balance for non-storage nodes:
 
-def mass_balance(model, nonstorage_nodes):
+def mass_balance(model, non_storage_nodes):
     # inflow
-    term1 = model.inflow[nonstorage_nodes, model.current_time_step]
-    term2 = sum([model.Q[node_in, nonstorage_nodes]*model.flow_multiplier[node_in, nonstorage_nodes, model.current_time_step]
-                  for node_in in model.nodes if (node_in, nonstorage_nodes) in model.links])
+    term1 = model.inflow[non_storage_nodes, model.current_time_step]
+    term2 = sum([model.Flow[node_in, non_storage_nodes]*model.flow_multiplier[node_in, non_storage_nodes, model.current_time_step]
+                  for node_in in model.nodes if (node_in, non_storage_nodes) in model.links])
+
+    if non_storage_nodes in model.treatment_hydro_nodes:
+        term22 = model.percent_loss[non_storage_nodes, model.current_time_step]
+    else:
+        term22 = 0
+
     # outflow
-    if nonstorage_nodes in model.demand_nodes:
-        term3 = model.alpha[nonstorage_nodes] * model.demand[nonstorage_nodes, model.current_time_step]
+
+    if non_storage_nodes in model.demand_nodes:
+        term3 = model.percent_demand_met[non_storage_nodes] * model.demand[non_storage_nodes, model.current_time_step]
     else:
         term3 = 0
 
-    term4 = sum([model.Q[nonstorage_nodes, node_out]
-                  for node_out in model.nodes if (nonstorage_nodes, node_out) in model.links])
+    term4 = sum([model.Flow[non_storage_nodes, node_out]
+                  for node_out in model.nodes if (non_storage_nodes, node_out) in model.links])
 
     # inflow - outflow = 0:
-    return (term1 + term2) - (term3 + term4) == 0
+    return (term1 + (1-term22) * term2) - (term3 + term4) == 0
 
 model.mass_balance_const = Constraint(model.non_storage_nodes, rule=mass_balance)
 
@@ -112,95 +117,153 @@ model.mass_balance_const = Constraint(model.non_storage_nodes, rule=mass_balance
 def storage_mass_balance(model, storage_nodes):
     # inflow
     term1 = model.inflow[storage_nodes, model.current_time_step]
-    term2 = sum([model.Q[node_in, storage_nodes]*model.flow_multiplier[node_in, storage_nodes, model.current_time_step]
+    term2 = sum([model.Flow[node_in, storage_nodes]*model.flow_multiplier[node_in, storage_nodes, model.current_time_step]
                   for node_in in model.nodes if (node_in, storage_nodes) in model.links])
+    if storage_nodes in model.treatment_hydro_nodes:
+        term22 = model.percent_loss[storage_nodes, model.current_time_step]
+    else:
+        term22 = 0
 
     # outflow
-    term3 = sum([model.Q[storage_nodes, node_out]
+    term3 = sum([model.Flow[storage_nodes, node_out]
                   for node_out in model.nodes if (storage_nodes, node_out) in model.links])
 
     # storage
     term4 = model.initial_storage[storage_nodes]
-    term5 = model.S[storage_nodes]
+    term5 = model.Storage[storage_nodes]
     # inflow - outflow = 0:
-    return (term1 + term2 + term4) - (term3 + term5) == 0
+    return (term1 + (1-term22) * term2 + term4) - (term3 + term5) == 0
 
 model.storage_mass_balance_const = Constraint(model.storage_nodes, rule=storage_mass_balance)
 
-def get_storage(instance):
-    storage={}
-    for var in instance.active_components(Var):
-            if(var=="S"):
-                s_var = getattr(instance, var)
-                for vv in s_var:
-                    name= ''.join(map(str,vv))
-                    storage[name]=(s_var[vv].value)
-    return storage
+# Storage capacity constraint for Hydro-power and Treatment nodes
 
-def set_initial_storage(instance, storage):
-    for var in instance.active_components(Param):
-            if(var=="initial_storage"):
-                s_var = getattr(instance, var)
+def hydro_treatment_capacity(model, treatment_hydro_nodes):
+    return 0 <= sum([model.Flow[node_in, treatment_hydro_nodes]*model.flow_multiplier[node_in, treatment_hydro_nodes, model.current_time_step]
+                  for node_in in model.nodes if (node_in, treatment_hydro_nodes) in model.links]) <= model.max_storage[treatment_hydro_nodes, model.current_time_step]
+
+model.hydro_treatment_capacity_constraint = Constraint(model.treatment_hydro_nodes, rule=hydro_treatment_capacity)
+
+
+
+def get_storage(instance):
+    storage_levels={}
+    for var in instance.component_objects(Var):
+            if str(var)=="Storage":
+                s_var = getattr(instance, str(var))
                 for vv in s_var:
-                    s_var[vv] = storage[vv]
+                    name = ''.join(map(str,vv))
+                    storage_levels[name]=(s_var[vv].value)
+    return storage_levels
+
+def set_initial_storage(instance, storage_levels):
+    for var in instance.component_objects(Param):
+            if str(var) == "initial_storage":
+                s_var = getattr(instance, str(var))
+                for vv in s_var:
+                    s_var[vv] = storage_levels[vv]
+
 
 def run_model(datafile):
     print "==== Running the model ===="
-    opt = SolverFactory("glpk")
-    list=[]
-    list_=[]
+    opt = SolverFactory("cplex")
+    list = []
+    list_ = []
     model.current_time_step.add(1)
-    instance=model.create(datafile)
+    instance = model.create_instance(datafile)
     #"""
     ## determine the time steps
-    for comp in instance.active_components():
-        if(comp=="time_step"):
-            parmobject = getattr(instance, comp)
+    for comp in instance.component_objects():
+        #print comp, type (comp), str(comp)
+        if(str(comp)=="time_step"):
+            parmobject = getattr(instance, str(comp))
             for vv in parmobject.value:
                 list_.append(vv)
     storage = {}
     insts=[]
+
     for vv in list_:
         ##################
         model.current_time_step.clear()
-        model.preprocess()
         model.current_time_step.add(vv)
-        model.preprocess()
         print "Running for time step: ", vv
-        instance=model.create(datafile)
+
+        instance=model.create_instance(datafile)
         ##update intial storage value from previous storage
         if len(storage) > 0:
             set_initial_storage(instance, storage)
-            model.preprocess()
             instance.preprocess()
     #"""
-        res=opt.solve(instance)
-        instance.load(res)
+        res=opt.solve(instance)  
+        instance.solutions.load_from(res)
+
+        #instance.load(res)
         insts.append(instance)
         storage=get_storage(instance)
         list.append(res)
-    #print "This is the list:", list
+        print "-------------------------"
+
         ####################
     count=1
     for res in list:
         print " ========= Time step:  %s =========="%count
         print res
+
+
         count+=1
     count=1
     for inst in insts:
         print " ========= Time step:  %s =========="%count
         display_variables(inst)
+        print "****************** Post processing*******************"
+        print "Received water in each node: %s" % received(inst)
+        print "Released water from each node: %s" % released(inst)
+        print "The amount of demand met in each node: %s" % demand_met(inst)
+        print "Hydro-power nodes revenue: %s" % revenue(inst)
+
+
         count+=1
     return list, insts
 
-def display_variables (instance):
-    for var in instance.active_components(Var):
-            s_var = getattr(instance, var)
+def released(instance):
+    released_water = {}
+    for i in instance.nodes:
+        released_water[i] = sum([instance.Flow[i, node_out].value for node_out in instance.nodes if (i, node_out) in instance.links])
+    return released_water
+
+
+def received(instance):
+    received_water = {}
+    for i in instance.nodes:
+        received_water[i] = sum([instance.flow_multiplier[node_in, i, instance.current_time_step]*instance.Flow[node_in, i].value for node_in in instance.nodes if (node_in, i) in instance.links])
+    return received_water
+
+
+def demand_met(instance):
+    incoming=received(instance)
+    outgoing=released(instance)
+    dem_met = {}
+    for i in instance.demand_nodes:
+        dem_met[i] = incoming[i] - outgoing[i]
+    return dem_met
+
+
+def revenue(instance):
+    rev = {}
+    incoming = received(instance)
+    for i in instance.hydro_nodes:
+        rev[i] = (1-instance.percent_loss[i, instance.current_time_step])*incoming[i]*9.81*24*0.3858*instance.net_head[i]*instance.unit_price[i]
+    return rev
+
+
+def display_variables(instance):
+    for var in instance.component_objects(Var):
+            s_var = getattr(instance, str(var))
             print "=================="
             print "Variable: %s"%s_var
             print "=================="
             for vv in s_var:
-                if len(vv) ==2:
+                if len(vv) == 2:
                     name="[" + ', '.join(map(str,vv)) + "]"
                 else:
                     name= ''.join(map(str,vv))
@@ -209,5 +272,5 @@ def display_variables (instance):
 ##========================
 # running the model in a loop for each time step
 if __name__ == '__main__':
-    run_model("Demo3.dat")
+    run_model("Demo3 (shortage).dat")
     #run_model("input.dat")
