@@ -71,10 +71,12 @@ model.percent_demand_met = Var(model.demand_nodes, bounds=percent_demand_met_bou
 demand_satisfaction_ratio_bound = Constraint(rule=percent_demand_met_bound)
 
 # Defining post process variables
+
 model.Released_Water = Var(model.nodes)
 model.Received_Water = Var(model.nodes)
 model.Demand_Met = Var(model.demand_nodes)
 model.Revenue = Var(model.hydro_nodes)
+
 
 def get_current_priority(model):
     current_priority = {}
@@ -142,42 +144,36 @@ model.storage_mass_balance_const = Constraint(model.storage_nodes, rule=storage_
 
 # Storage capacity constraint for Hydro-power and Treatment nodes
 
+
 def hydro_treatment_capacity(model, treatment_hydro_nodes):
     return 0 <= sum([model.Flow[node_in, treatment_hydro_nodes]*model.flow_multiplier[node_in, treatment_hydro_nodes, model.current_time_step]
                   for node_in in model.nodes if (node_in, treatment_hydro_nodes) in model.links]) <= model.max_storage[treatment_hydro_nodes, model.current_time_step]
 
 model.hydro_treatment_capacity_constraint = Constraint(model.treatment_hydro_nodes, rule=hydro_treatment_capacity)
 
-def released(instance):
-    released_water = {}
-    for i in instance.nodes:
-        released_water[i] = sum([instance.Flow[i, node_out].value for node_out in instance.nodes if (i, node_out) in instance.links])
-    return released_water
+
+def released(instance, i):
+    rel = {}
+    rel[i] = sum([instance.Flow[i, node_out].value for node_out in instance.nodes if (i, node_out) in instance.links])
+    return rel[i]
 
 
-def received(instance):
-    received_water = {}
-    for i in instance.nodes:
-        received_water[i] = sum([instance.flow_multiplier[node_in, i, instance.current_time_step]*instance.Flow[node_in, i].value for node_in in instance.nodes if (node_in, i) in instance.links])
-    return received_water
+def received(instance, i):
+    rec = {}
+    rec[i] = sum([instance.flow_multiplier[node_in, i, instance.current_time_step]*instance.Flow[node_in, i].value for node_in in instance.nodes if (node_in, i) in instance.links])
+    return rec[i]
 
 
-def demand_met(instance):
+def demand_met(instance, i):
     dem_met = {}
-    incoming = received(instance)
-    outgoing = released(instance)
-    model.dem_met = {}
-    for i in instance.demand_nodes:
-        dem_met[i] = incoming[i] - outgoing[i]
-    return dem_met
+    dem_met[i] = received(instance, i) - released(instance, i)
+    return dem_met[i]
 
 
-def revenue(instance):
-    rev = {}
-    incoming = received(instance)
-    for i in instance.hydro_nodes:
-        rev[i] = (1-instance.percent_loss[i, instance.current_time_step])*incoming[i]*9.81*24*0.3858*instance.net_head[i]*instance.unit_price[i]
-    return rev
+def revenue(instance, i):
+    #incoming = received(instance, i)
+    instance.rev = (1-instance.percent_loss[i, instance.current_time_step])*received(instance, i)*9.81*24*0.3858*instance.net_head[i]*instance.unit_price[i]
+    return instance.rev
 
 
 def get_storage(instance):
@@ -204,19 +200,19 @@ def set_post_process_variables(instance):
             if str(var) == "Released_Water":
                 s_var = getattr(instance, str(var))
                 for vv in s_var:
-                    s_var[vv] = released(instance)[vv]
+                    s_var[vv] = released(instance, vv)
             if str(var) == "Received_Water":
                 s_var = getattr(instance, str(var))
                 for vv in s_var:
-                    s_var[vv] = received(instance)[vv]
+                    s_var[vv] = received(instance, vv)
             if str(var) == "Demand_Met":
                 s_var = getattr(instance, str(var))
                 for vv in s_var:
-                    s_var[vv] = demand_met(instance)[vv]
+                    s_var[vv] = demand_met(instance, vv)
             if str(var) == "Revenue":
                 s_var = getattr(instance, str(var))
                 for vv in s_var:
-                    s_var[vv] = revenue(instance)[vv]
+                    s_var[vv] = revenue(instance, vv)
 
 
 def run_model(datafile):
@@ -255,11 +251,7 @@ def run_model(datafile):
         storage=get_storage(instance)
         list.append(res)
         print "-------------------------"
-
-
     count=1
-    for inst in insts:
-        print "******************This is inst: %s" % type(inst)
     for res in list:
         print " ========= Time step:  %s =========="%count
         print res
@@ -276,15 +268,16 @@ def run_model(datafile):
 
 def display_variables(instance):
     for var in instance.component_objects(Var):
-            s_var = getattr(instance, str(var))
-            print "=================="
-            print "Variable: %s"%s_var
-            print "=================="
-            for vv in s_var:
-                if len(vv) == 2:
-                    name = "[" + ', '.join(map(str,vv)) + "]"
-                else:
-                    name = ''.join(map(str,vv))
+        s_var = getattr(instance, str(var))
+        print "=================="
+        print "Variable: %s"%s_var
+        print "=================="
+        for vv in s_var:
+            if type(vv) is str:
+                name = ''.join(map(str,vv))
+                print name ,": ",(s_var[vv].value)
+            elif len(vv) == 2:
+                name = "[" + ', '.join(map(str,vv)) + "]"
                 print name ,": ",(s_var[vv].value)
 
 ##========================
