@@ -38,9 +38,8 @@ $        include "non_shortage.txt";
 * Optimisation model variables
 
 VARIABLES
-
-objective_function objective function [-]
-Obj(t) an interim variable for saving the value of the objective function at the end of each time step[-]
+objective_function(t) an interim variable for saving the value of the objective function at the end of each time step[-]
+obj objective function [-]
 ;
 
 POSITIVE VARIABLES
@@ -78,7 +77,7 @@ set dv(t) / /;
 * Objective function for time step by time step formulation
 
 Objective ..
-    objective_function =E= sum(t$dv(t),SUM((demand_nodes), percent_demand_met_ratio(demand_nodes)
+    obj =E= sum(t$dv(t),SUM((demand_nodes), percent_demand_met_ratio(demand_nodes)
           * priority(demand_nodes, t)));
 
 * Mass balance constraint for non-storage nodes:
@@ -137,11 +136,11 @@ MODEL Demo3 /MassBalance_storage,MassBalance_nonstorage,Minflow,Maxflow,MinStor,
 
 loop (tsteps,
             dv(tsteps)=t(tsteps);
-            SOLVE Demo3 USING LP MAXIMIZING objective_function;
+            SOLVE Demo3 USING LP MAXIMIZING obj;
             storage.fx(storage_nodes,tsteps)=Storage_level.l(storage_nodes,tsteps) ;
             percent_demand_met.l(i,tsteps)=percent_demand_met_ratio.l(i);
-            Obj.l(tsteps)=objective_function.l;
-            DISPLAY  objective_function.l, Storage_level.l, flow.l;
+            objective_function.l(tsteps)=obj.l;
+            DISPLAY  obj.l, Storage_level.l, flow.l;
             dv(tsteps)=no;
       );
 
@@ -181,7 +180,7 @@ loop (tsteps,
 
 
 
-    Revenue.l(hydropower,tsteps)= (1-percent_loss(hydropower,tsteps))
+    Revenue.l(hydropower,tsteps)= (1-percent_loss(hydropower))
          * SUM(j$links(j,hydropower), Flow.l(j,hydropower,tsteps)*flow_multiplier(j,hydropower,tsteps))
          * 9.81
          * net_head(hydropower)
@@ -203,7 +202,7 @@ execute_unload "Results.gdx" ,
     demand_met,
     storage,
     received_water,
-    released_water,
+    released_water,	
     revenue;
 
 
