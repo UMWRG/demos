@@ -43,15 +43,15 @@ obj objective function [-]
 ;
 
 POSITIVE VARIABLES
-flow(i,j,t) flow in each link in each period [-]
+flow(i,j,t) flow in each link in each period [1e6 m^3 mon^-1]
 Storage_level(i,t) storage volume in storage nodes [-]
 percent_demand_met_ratio(i) target demand satisfaction ratio [-]
-storage(storage_nodes,t) an interim variable for saving the value of the storage at the end of each time step
+storage(storage_nodes,t) an interim variable for saving the value of the storage at the end of each time step [1e6 m^3]
 percent_demand_met(i,t) an interim variable for saving the value of the satisfaction ratio at the end of each time step [-]
-received_water(i,t) a variable for saving the amount of water received by every node at the end of each time step[-]
-released_water(i,t) a variable for saving the amount of water released by every node at the end of each time step[-]
+received_water(i,t) a variable for saving the amount of water received by every node at the end of each time step[1e6 m^3 mon^-1]
+released_water(i,t) a variable for saving the amount of water released by every node at the end of each time step[1e6 m^3 mon^-1]
 demand_met(i,t) a variable for saving the amount of demand met in each node at the end of each time step [-]
-revenue(i,t) a variable for saving the value of revenue calculated for each hydropower node at the end of each time step [-];
+revenue(i,t) a variable for saving the value of revenue calculated for each hydropower node at the end of each time step [GBP mon^-1];
 
 
 
