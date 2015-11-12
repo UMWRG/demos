@@ -71,11 +71,11 @@ model.demand_urban = Param(model.urban, model.time_step, default=0)
 model.demand_agricultural = Param(model.agricultural, model.time_step, default=0)
 model.demand_discharge = Param(model.discharge, model.time_step, default=0)
 
-model.percent_loss_hydropower = Param(model.hydropower, model.time_step)
-model.percent_loss_water_treatment = Param(model.water_treatment, model.time_step)
+model.percent_loss_hydropower = Param(model.hydropower)
+model.percent_loss_water_treatment = Param(model.water_treatment)
 
 model.net_head_hydropower = Param(model.hydropower)
-model.unit_price_hydropower = Param(model.hydropower)
+model.unit_price_hydropower = Param()
 
 ##======================================== Declaring Variables (X and S)
 
@@ -110,10 +110,10 @@ demand_satisfaction_ratio_bound = Constraint(rule=percent_demand_met_bound)
 
 # Defining post process variables
 
-model.Released_Water = Var(model.nodes)
-model.Received_Water = Var(model.nodes)
-model.Demand_Met = Var(model.demand_nodes)
-model.Revenue = Var(model.hydropower)
+model.released_water = Var(model.nodes)
+model.received_water = Var(model.nodes)
+model.demand_met = Var(model.demand_nodes)
+model.revenue = Var(model.hydropower)
 
 
 def get_current_priority(model):
@@ -129,7 +129,7 @@ def get_current_priority(model):
 def objective_function(model):
     return summation(get_current_priority(model), model.percent_demand_met)
 
-model.Objective = Objective(rule=objective_function, sense=maximize) #*Z_Unit
+model.Objective_function = Objective(rule=objective_function, sense=maximize) #*Z_Unit
 
 ##======================================== Declaring constraints
 # Mass balance for non-storage nodes:
@@ -147,9 +147,9 @@ def mass_balance(model, nonstorage_nodes):
                   for node_in in model.nodes if (node_in, nonstorage_nodes) in model.links])
 
     if nonstorage_nodes in model.hydropower:
-        term22 = model.percent_loss_hydropower[nonstorage_nodes, model.current_time_step]
+        term22 = model.percent_loss_hydropower[nonstorage_nodes]
     elif nonstorage_nodes in model.water_treatment:
-        term22 = model.percent_loss_water_treatment[nonstorage_nodes, model.current_time_step]
+        term22 = model.percent_loss_water_treatment[nonstorage_nodes]
     else:
         term22 = 0
 
@@ -191,9 +191,9 @@ def storage_mass_balance(model, storage_nodes):
                   for node_in in model.nodes if (node_in, storage_nodes) in model.river_section])
 
     if storage_nodes in model.hydropower:
-        term22 = model.percent_loss_hydropower[storage_nodes, model.current_time_step]
+        term22 = model.percent_loss_hydropower[storage_nodes]
     elif storage_nodes in model.water_treatment:
-        term22 = model.percent_loss_water_treatment[storage_nodes, model.current_time_step]
+        term22 = model.percent_loss_water_treatment[storage_nodes]
     else:
         term22 = 0
 
@@ -216,38 +216,53 @@ def hydro_treatment_capacity(model, treatment_hydro_nodes):
 model.hydro_treatment_capacity_constraint = Constraint(model.treatment_hydro_nodes, rule=hydro_treatment_capacity)
 
 
-def released(instance, i):
-    rel = {}
-    rel[i] = sum([instance.Flow[i, node_out].value for node_out in instance.nodes if (i, node_out) in instance.links])
-    return rel[i]
+def released(instance):
+    for i in instance.nodes:
+        instance.released_water[i]=sum([instance.Flow[i, node_out].value for node_out in instance.nodes if (i, node_out) in instance.links])
 
 
-def received(instance, i):
-    rec = {}
-    rec[i] = sum([instance.flow_multiplier_river_section[node_in, i, instance.current_time_step]*instance.Flow[node_in, i].value for node_in in instance.nodes if (node_in, i) in instance.links])
-    return rec[i]
+def received(instance):
+    for i in instance.nodes:
+        instance.received_water[i].value=sum([instance.flow_multiplier_river_section[node_in, i, instance.current_time_step]*instance.Flow[node_in, i].value for node_in in instance.nodes if (node_in, i) in instance.links])
 
 
-def demand_met(instance, i):
-    dem_met = {}
-    dem_met[i] = received(instance, i) - released(instance, i)
-    return dem_met[i]
+def demand_met(instance):
+    for i in instance.demand_nodes:
+        instance.demand_met[i].value= instance.received_water[i].value - instance.released_water[i].value
 
 
-def revenue(instance, i):
-    instance.rev = (1-instance.percent_loss_hydropower[i, instance.current_time_step])*received(instance, i)*9.81*24*0.3858*instance.net_head_hydropower[i]*instance.unit_price_hydropower[i]
-    return instance.rev
+def revenue(instance):
+    for i in instance.hydropower:
+        instance.revenue[i].value=(1-instance.percent_loss_hydropower[i])*instance.received_water[i].value*9.81*24*0.3858*instance.net_head_hydropower[i]*instance.unit_price_hydropower
 
 
 def get_storage(instance):
     storage_levels={}
-    for var in instance.component_objects(Var):
-            if str(var)=="Storage" :
-                s_var = getattr(instance, str(var))
-                for vv in s_var:
-                    name= ''.join(map(str,vv))
-                    storage_levels[name]=(s_var[vv].value)
+    for i in instance.storage_nodes:
+        storage_levels[i]=instance.Storage[i].value
     return storage_levels
+
+
+def set_initial_storage(instance, storage_levels):
+    for i in instance.storage_nodes:
+        if i in instance.surface_reservoir:
+            instance.initial_storage_surface_reservoir[i].value =storage_levels[i]
+        elif i in instance.groundwater:
+            instance.initial_storage_groundwater[i].value =storage_levels[i]
+        elif i in instance.desalination:
+            instance.initial_storage_desalination[i].value =storage_levels[i]
+
+
+def set_post_process_variables(instance):
+    released(instance)
+    received(instance)
+    demand_met(instance)
+    revenue(instance)
+"""
+model.initial_storage_desalination = Param(model.desalination, mutable=True)
+model.initial_storage_groundwater = Param(model.groundwater, mutable=True)
+model.initial_storage_surface_reservoir = Param(model.surface_reservoir, mutable=True)
+
 
 def set_initial_storage(instance, storage_levels):
     for var in instance.component_objects(Param):
@@ -275,7 +290,7 @@ def set_post_process_variables(instance):
                 s_var = getattr(instance, str(var))
                 for vv in s_var:
                     s_var[vv] = revenue(instance, vv)
-
+"""
 def run_model(datafile):
     print "==== Running the model ===="
     opt = SolverFactory("cplex")

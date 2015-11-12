@@ -29,7 +29,6 @@ model.non_storage_nodes = Set()
 model.storage_nodes = Set()
 model.time_step = Set()
 model.treatment_hydro_nodes = Set()
-model.hydro_nodes = Set()
 model.hydropower=Set()
 
 # Declaring model parameters
@@ -154,22 +153,22 @@ model.hydro_treatment_capacity_constraint = Constraint(model.treatment_hydro_nod
 
 def released(instance):
     for i in instance.nodes:
-        instance.received_water[i]=sum([instance.flow[i, node_out].value for node_out in instance.nodes if (i, node_out) in instance.links])
+        instance.released_water[i]=sum([instance.flow[i, node_out].value for node_out in instance.nodes if (i, node_out) in instance.links])
 
 
 def received(instance):
     for i in instance.nodes:
-        instance.released_water[i].value=sum([instance.flow_multiplier[node_in, i, instance.current_time_step]*instance.flow[node_in, i].value for node_in in instance.nodes if (node_in, i) in instance.links])
+        instance.received_water[i].value=sum([instance.flow_multiplier[node_in, i, instance.current_time_step]*instance.flow[node_in, i].value for node_in in instance.nodes if (node_in, i) in instance.links])
 
 
 def demand_met(instance):
     for i in instance.demand_nodes:
-        instance.demand_met[i].value= instance.released_water[i].value - instance.received_water[i].value
+        instance.demand_met[i].value= instance.received_water[i].value - instance.released_water[i].value
 
 
 def revenue(instance):
     for i in instance.hydropower:
-        instance.Revenue[i].value=(1-instance.percent_loss[i])*instance.released_water[i].value*9.81*24*0.3858*instance.net_head[i]*instance.unit_price.value
+        instance.Revenue[i].value=(1-instance.percent_loss[i])*instance.received_water[i].value*9.81*24*0.3858*instance.net_head[i]*instance.unit_price
 
 
 def get_storage(instance):
@@ -181,8 +180,8 @@ def get_storage(instance):
 
 
 def set_initial_storage(instance, storage_levels):
-    for i  in instance.storage_nodes:
-        instance.initial_storage.value =storage_levels[i]
+    for i in instance.storage_nodes:
+        instance.initial_storage[i].value =storage_levels[i]
 
 
 def set_post_process_variables(instance):
@@ -222,8 +221,6 @@ def run_model(datafile):
         res=opt.solve(instance)  
         instance.solutions.load_from(res)
         set_post_process_variables(instance)
-
-        #instance.load(res)
         insts.append(instance)
         storage=get_storage(instance)
         list.append(res)
@@ -262,5 +259,4 @@ def display_variables(instance):
 ##========================
 # running the model in a loop for each time step
 if __name__ == '__main__':
-    #run_model("Demo3 (shortage).dat")
-    run_model("input.dat")
+    run_model("Demo3 (non-shortage).dat")

@@ -87,8 +87,6 @@ WT1
 WT2
 Hp1;
 
-set hydro_nodes:=
-Hp1;
 
 
 #Nodes types
@@ -253,9 +251,8 @@ param demand_urban:
   Urb1          75               430              44               44               46               49               50               50               470              
   Urb2          90               600              60               62               62               65               69               69               640              ;
 
-param percent_loss_hydropower:
-                 1       2      3      4      5      6      7      8      9:=
-Hp1              0.25    0.25   0.25   0.25   0.25   0.25   0.25   0.25   0.25;
+param percent_loss_hydropower:=
+Hp1              0.25;
 
 param max_storage_treatment_hydro_nodes:
                   1       2      3      4      5      6      7      8      9:=
@@ -269,12 +266,11 @@ Hp1         5;
 
 
 param     unit_price_hydropower:=
-Hp1         9.4;
+       0.094;
 
-param percent_loss_water_treatment:
-                 1       2      3      4      5      6      7      8      9:=
-WT1              0.1     0.1    0.1    0.1    0.1    0.1    0.1    0.1    0.1
-WT2              0.1     0.1    0.1    0.1    0.1    0.1    0.1    0.1    0.1;
+param percent_loss_water_treatment:=
+WT1              0.1
+WT2              0.1;
 
 
 param flow_multiplier_river_section:
