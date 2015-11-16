@@ -57,10 +57,10 @@ def storage_capacity_constraint(model, storage_nodes):
 
 # Declaring decision variable X
 
-model.flow = Var(model.links, domain=NonNegativeReals, bounds=flow_capacity_constraint) #*1e6 m^3 mon^-1
+model.flow = Var(model.links, domain=NonNegativeReals, bounds=flow_capacity_constraint) #*1e6 m^3 mon^-1 
 
 # Declaring state variable S
-model.storage = Var(model.storage_nodes, bounds=storage_capacity_constraint) #1e6 m^3
+model.storage = Var(model.storage_nodes, bounds=storage_capacity_constraint) #1e6 m^3  
 
 def percent_demand_met_bound(model):
     return 0, 1
@@ -71,10 +71,10 @@ model.percent_demand_met = Var(model.demand_nodes, bounds=percent_demand_met_bou
 demand_satisfaction_ratio_bound = Constraint(rule=percent_demand_met_bound)
 
 # Defining post process variables
-model.received_water = Var(model.nodes) #*%
-model.released_water = Var(model.nodes) #*%
+model.received_water = Var(model.nodes) #*1e6 m^3 mon^-1
+model.released_water = Var(model.nodes) #*1e6 m^3 mon^-1
 model.demand_met = Var(model.demand_nodes) #*%
-model.Revenue = Var(model.hydropower) #*%
+model.revenue = Var(model.hydropower) #*GBP mon^-1
 
 
 def get_current_priority(model):
@@ -168,7 +168,7 @@ def demand_met(instance):
 
 def revenue(instance):
     for i in instance.hydropower:
-        instance.Revenue[i].value=(1-instance.percent_loss[i])*instance.received_water[i].value*9.81*24*0.3858*instance.net_head[i]*instance.unit_price
+        instance.revenue[i].value=(1-instance.percent_loss[i])*instance.received_water[i].value*9.81*24*0.3858*instance.net_head[i]*instance.unit_price
 
 
 def get_storage(instance):
@@ -259,4 +259,4 @@ def display_variables(instance):
 ##========================
 # running the model in a loop for each time step
 if __name__ == '__main__':
-    run_model("Demo3 (non-shortage).dat")
+    run_model("input.dat")
