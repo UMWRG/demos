@@ -1,26 +1,27 @@
-Name       , Type , Member
-Units      ,      ,
-storage_nodes    , Node , SR1
-storage_nodes    , Node , SR2
-storage_nodes    , Node , SR3
-storage_nodes    , Node , SR4
-storage_nodes    , Node , GW1
-storage_nodes    , Node , GW2
-storage_nodes    , Node ,Desal1
-non_storage_nodes , Node ,Hp1
-non_storage_nodes , Node ,J1
-non_storage_nodes , Node ,J2
-non_storage_nodes , Node ,J3
-non_storage_nodes , Node ,EndPt
-non_storage_nodes , Node ,Urb2
-non_storage_nodes , Node ,Urb1
-non_storage_nodes , Node ,Ag2
-non_storage_nodes , Node ,Ag1
-demand_nodes , Node ,EndPt
-demand_nodes , Node ,Urb2
-demand_nodes , Node ,Urb1
-demand_nodes , Node ,Ag2
-demand_nodes , Node ,Ag1
-treatment_hydro_nodes, Node ,Hp1
-treatment_hydro_nodes, Node ,WTP1
-treatment_hydro_nodes, Node ,WTP2
+Name, Type, Member
+storage_nodes, NODE, SR1
+storage_nodes, NODE, SR2
+storage_nodes, NODE, SR3
+storage_nodes, NODE, SR4
+storage_nodes, NODE, GW1
+storage_nodes, NODE, GW2
+storage_nodes, NODE, Desal1
+non_storage_nodes, NODE, Hp1
+non_storage_nodes, NODE, J1
+non_storage_nodes, NODE, J2
+non_storage_nodes, NODE, J3
+non_storage_nodes, NODE, EndPt
+non_storage_nodes, NODE, Urb2
+non_storage_nodes, NODE, Urb1
+non_storage_nodes, NODE, Ag2
+non_storage_nodes, NODE, Ag1
+non_storage_nodes, NODE, WTP1
+non_storage_nodes, NODE, WTP2
+demand_nodes, NODE, EndPt
+demand_nodes, NODE, Urb2
+demand_nodes, NODE, Urb1
+demand_nodes, NODE, Ag2
+demand_nodes, NODE, Ag1
+treatment_hydro_nodes, NODE, Hp1
+treatment_hydro_nodes, NODE, WTP1
+treatment_hydro_nodes, NODE, WTP2
