@@ -1,5 +1,7 @@
 **    (c) Copyright 2014, University of Manchester
 **
+**    Authors: Majed Khadem, Silvia Padula, Khaled Mohamed, Stephen Knox and Julien Harou
+**
 **    This file is part of the GAMS Plugin Demo Suite.
 **
 **    The GAMS Plugin Demo Suite is free software: you can redistribute it and/or modify

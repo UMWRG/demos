@@ -15,6 +15,8 @@
 #  You should have received a copy of the GNU General Public License
 #  along with the Pyomo Plugin Demo Suite.  If not, see <http://www.gnu.org/licenses/>.
 
+#Author: Majed Khadem, Silvia Padula, Khaled Mohamed, Stephen Knox, Julien Harou
+
 from pyomo.environ import *
 
 from pyomo.opt import SolverFactory

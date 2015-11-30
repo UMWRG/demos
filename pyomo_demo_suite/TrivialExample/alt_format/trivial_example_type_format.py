@@ -18,7 +18,7 @@
 
 # TrivialExample.py
 #Version: no time-step
-#Author: Majed Khadem
+#Author: Majed Khadem, Silvia Padula, Khaled Mohamed, Stephen Knox, Julien Harou
 
 # Importing needed Packages
 from pyomo.environ import *
