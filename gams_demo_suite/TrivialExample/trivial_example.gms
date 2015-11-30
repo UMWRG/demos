@@ -16,7 +16,7 @@
 **    along with the GAMS Plugin Demo Suite.  If not, see <http://www.gnu.org/licenses/>.
 **
 
-$TITLE    Demo1.gms
+$TITLE    TrivialExample.gms
 
 * version: no time-step
 
@@ -94,9 +94,9 @@ MaxFlow(i,j)$links(i,j) ..
 **  Model declaration and solve statements
 ** ----------------------------------------------------------------------
 
-MODEL Demo1 /ALL/;
+MODEL TrivialExample /ALL/;
 
-SOLVE Demo1 USING LP MINIMIZING Z;
+SOLVE TrivialExample USING LP MINIMIZING Z;
 
 *Generating results output
 

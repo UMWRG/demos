@@ -16,7 +16,7 @@
 #  along with the Pyomo Plugin Demo Suite.  If not, see <http://www.gnu.org/licenses/>.
 
 
-# Demo1.py
+# TrivialExample.py
 #Version: no time-step
 #Author: Majed Khadem
 

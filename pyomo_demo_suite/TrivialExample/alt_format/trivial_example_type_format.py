@@ -16,7 +16,7 @@
 #  along with the Pyomo Plugin Demo Suite.  If not, see <http://www.gnu.org/licenses/>.
 
 
-# Demo1.py
+# TrivialExample.py
 #Version: no time-step
 #Author: Majed Khadem
 
@@ -107,5 +107,5 @@ def run_model (input_data_file):
     return list, insts
 
 if __name__ == '__main__':
-    run_model("Demo1.dat")
+    run_model("input.dat")
 
