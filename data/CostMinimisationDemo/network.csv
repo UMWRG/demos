@@ -1,0 +1,3 @@
+ID      , Name              , Type           ,nodes,links,groups, Z    , Description
+Units   ,                   ,                ,,,, 1e6 m^3 mon^-1  ,
+        ,Cost Minimisation network, tutorial_model ,nodes.csv,links.csv,groups.csv, NULL ,

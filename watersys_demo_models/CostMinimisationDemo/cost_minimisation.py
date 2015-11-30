@@ -1,4 +1,4 @@
-from components import UrbanNode, AgriculturalNode, SurfaceReservoir, Junction, RiverSection,DemoNetwork2
+from components import UrbanNode, AgriculturalNode, SurfaceReservoir, Junction, RiverSection,CostMinimisationNetwork
 from engines import PyomoAllocation
 
 from watersys import Simulator
@@ -12,7 +12,7 @@ timesteps = ["1", "2", "3", "4", "5", "6"]
 #to access timeseries data in the network.
 s.set_timesteps(timesteps)
 
-n = DemoNetwork2(name="demo2+ network")
+n = CostMinimisationNetwork(name="Cost Minimisation network")
 
 #Create the surface reservoir with a name, x and y coordinate.
 sr1 = SurfaceReservoir(x=1,  y=2,   name="SR1")

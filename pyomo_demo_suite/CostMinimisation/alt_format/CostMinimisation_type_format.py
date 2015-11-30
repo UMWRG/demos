@@ -275,4 +275,4 @@ def run_model(datafile):
 
 if __name__ == '__main__':
     pymodel=PyMode()
-    pymodel.run("Demo2.dat")
+    pymodel.run("CostMinimisation.dat")

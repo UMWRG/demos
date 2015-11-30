@@ -16,7 +16,7 @@
 **    along with the GAMS Plugin Demo Suite.  If not, see <http://www.gnu.org/licenses/>.
 **
 
-$TITLE    Demo2.gmdataset 1s
+$TITLE    CostMinimisation.gmdataset 1s
 
 * version: time-step by time-step
 
@@ -145,12 +145,12 @@ MinStor(surface_reservoir,t)$dv(t)..
 **  Model declaration and solve statements
 ** ----------------------------------------------------------------------
 alias (t,tsteps);
-MODEL Demo2 /ALL/;
+MODEL CostMinimisation /ALL/;
 
 loop (tsteps,
             dv(tsteps)=t(tsteps);
             display dv;
-            SOLVE Demo2 USING LP MINIMIZING Z;
+            SOLVE CostMinimisation USING LP MINIMIZING Z;
             storage.fx(i,tsteps)=S.l(i,tsteps) ;
             Obj.l(tsteps)=Z.l;
             delivery.l(urban,tsteps)=delivered_water.l(urban);
