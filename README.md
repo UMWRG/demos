@@ -13,7 +13,7 @@ The WAD and CMD are written in [GAMS](http://www.gams.com), [Pyomo](http://www.p
 The trivial example is written in GAMS & Pyomo only.
 
 All models use a network structure of nodes & links, allowing them to be compatible
-with (Hydra Platform)[http://umwrg.github.io/HydraPlatform].
+with [Hydra Platform](http://umwrg.github.io/HydraPlatform).
 
 Each model comes with its own set of data, which is compatible with Hydra Platform.
 Each model also comes with a [template](http://umwrg.github.io/HydraPlatform/tutorials/plug-in/templates.html?highlight=template), again for use with Hydra Platform. A template
