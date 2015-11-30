@@ -1,0 +1,6 @@
+Name, Type, Members ,management, description
+Units,,,
+demand_nodes,demand group,group_members.csv,County council,Nodes that feature a demand
+non_storage_nodes,non-storage group,group_members.csv,County council,Nodes that don't feature a storage
+storage_nodes,storage group,group_members.csv,Water company,Nodes that feature a storage
+treatment_hydro_nodes,treatment and hydropower group,group_members.csv,Water company,water treatment and hydropower nodes

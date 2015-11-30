@@ -1,0 +1,3 @@
+ID      , Name              , Type           ,nodes,links, Z    , Description
+Units   ,                   ,                ,,, 1e6 m^3 mon^-1  ,
+        ,Trivial Example Network, tutorial_model ,nodes.csv,links.csv, NULL ,Network for a trivial gams tutorial model

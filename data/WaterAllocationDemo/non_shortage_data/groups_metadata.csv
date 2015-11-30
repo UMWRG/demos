@@ -1,0 +1,5 @@
+Name ,management
+demand_nodes,(source;jsonplugin)(user_id;1)
+non_storage_nodes,(source;jsonplugin)(user_id;1)
+storage_nodes,(source;jsonplugin)(user_id;1)
+treatment_hydro_nodes,(source;jsonplugin)(user_id;1)

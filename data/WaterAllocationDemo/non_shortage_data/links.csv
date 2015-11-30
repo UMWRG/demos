@@ -1,0 +1,27 @@
+Name, from, to, Type,flow,flow_multiplier,min_flow,max_flow, description
+Units,,,,1e6 m^3 mon^-1,-,1e6 m^3 mon^-1,1e6 m^3 mon^-1,
+Ag1_GW2,Ag1,GW2,pipe,NULL,timeseries_LINK_flow_multiplier.csv,timeseries_LINK_min_flow.csv,timeseries_LINK_max_flow.csv,Pipe
+Ag1_J2,Ag1,J2,pipe,NULL,timeseries_LINK_flow_multiplier.csv,timeseries_LINK_min_flow.csv,timeseries_LINK_max_flow.csv,Pipe
+Ag2_GW2,Ag2,GW2,pipe,NULL,timeseries_LINK_flow_multiplier.csv,timeseries_LINK_min_flow.csv,timeseries_LINK_max_flow.csv,Pipe
+Ag2_J3,Ag2,J3,river,NULL,timeseries_LINK_flow_multiplier.csv,timeseries_LINK_min_flow.csv,timeseries_LINK_max_flow.csv,Pipe
+Desal1_Urb2,Desal1,Urb2,pipe,NULL,timeseries_LINK_flow_multiplier.csv,timeseries_LINK_min_flow.csv,timeseries_LINK_max_flow.csv,Pipe
+GW1_Urb1,GW1,Urb1,pipe,NULL,timeseries_LINK_flow_multiplier.csv,timeseries_LINK_min_flow.csv,timeseries_LINK_max_flow.csv,Pipe
+GW2_Ag1,GW2,Ag1,pipe,NULL,timeseries_LINK_flow_multiplier.csv,timeseries_LINK_min_flow.csv,timeseries_LINK_max_flow.csv,Pipe
+GW2_Ag2,GW2,Ag2,pipe,NULL,timeseries_LINK_flow_multiplier.csv,timeseries_LINK_min_flow.csv,timeseries_LINK_max_flow.csv,Pipe
+Hp1_SR4,Hp1,SR4,pipe,NULL,timeseries_LINK_flow_multiplier.csv,timeseries_LINK_min_flow.csv,timeseries_LINK_max_flow.csv,Pipe
+J1_SR2,J1,SR2,pipe,NULL,timeseries_LINK_flow_multiplier.csv,timeseries_LINK_min_flow.csv,timeseries_LINK_max_flow.csv,Pipe
+J2_Ag2,J2,Ag2,pipe,NULL,timeseries_LINK_flow_multiplier.csv,timeseries_LINK_min_flow.csv,timeseries_LINK_max_flow.csv,Pipe
+J2_J3,J2,J3,pipe,NULL,timeseries_LINK_flow_multiplier.csv,timeseries_LINK_min_flow.csv,timeseries_LINK_max_flow.csv,Pipe
+J3_EndPt,J3,EndPt,river,NULL,timeseries_LINK_flow_multiplier.csv,timeseries_LINK_min_flow.csv,timeseries_LINK_max_flow.csv,River
+SR1_J1,SR1,J1,river,NULL,timeseries_LINK_flow_multiplier.csv,timeseries_LINK_min_flow.csv,timeseries_LINK_max_flow.csv,River
+SR1_WTP1,SR1,WTP1,pipe,NULL,timeseries_LINK_flow_multiplier.csv,timeseries_LINK_min_flow.csv,timeseries_LINK_max_flow.csv,Pipe
+SR2_SR4,SR2,SR4,pipe,NULL,timeseries_LINK_flow_multiplier.csv,timeseries_LINK_min_flow.csv,timeseries_LINK_max_flow.csv,Pipe
+SR3_Hp1,SR3,Hp1,river,NULL,timeseries_LINK_flow_multiplier.csv,timeseries_LINK_min_flow.csv,timeseries_LINK_max_flow.csv,River
+SR4_Ag1,SR4,Ag1,pipe,NULL,timeseries_LINK_flow_multiplier.csv,timeseries_LINK_min_flow.csv,timeseries_LINK_max_flow.csv,Pipe
+SR4_J2,SR4,J2,pipe,NULL,timeseries_LINK_flow_multiplier.csv,timeseries_LINK_min_flow.csv,timeseries_LINK_max_flow.csv,Pipe
+SR4_WTP2,SR4,WTP2,pipe,NULL,timeseries_LINK_flow_multiplier.csv,timeseries_LINK_min_flow.csv,timeseries_LINK_max_flow.csv,Pipe
+Urb1_GW1,Urb1,GW1,pipe,NULL,timeseries_LINK_flow_multiplier.csv,timeseries_LINK_min_flow.csv,timeseries_LINK_max_flow.csv,Pipe
+Urb2_J2,Urb2,J2,river,NULL,timeseries_LINK_flow_multiplier.csv,timeseries_LINK_min_flow.csv,timeseries_LINK_max_flow.csv,River
+WTP1_Urb1,WTP1,Urb1,pipe,NULL,timeseries_LINK_flow_multiplier.csv,timeseries_LINK_min_flow.csv,timeseries_LINK_max_flow.csv,Pipe
+WTP2_Urb2,WTP2,Urb2,pipe,NULL,timeseries_LINK_flow_multiplier.csv,timeseries_LINK_min_flow.csv,timeseries_LINK_max_flow.csv,Pipe
+Urb1_J1,Urb1,J1,pipe,NULL,timeseries_LINK_flow_multiplier.csv,timeseries_LINK_min_flow.csv,timeseries_LINK_max_flow.csv,Pipe

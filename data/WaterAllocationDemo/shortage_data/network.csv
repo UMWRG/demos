@@ -1,0 +1,3 @@
+ID      , Name              , Type           ,Nodes,Links,Groups, Rules, starttime, endtime, timestep ,objective_function,unit_price, Description
+Units   ,                   ,                ,,,,,,,,-,GBP kWh^-1,
+        ,Water Allocation Network,tutorial_network,nodes.csv,links.csv,groups.csv,,01/01/2020,01/09/2020,1 mon, NULL ,0.094,A demonstration network for teaching purposes

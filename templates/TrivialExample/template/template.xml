@@ -1,0 +1,241 @@
+<?xml version="1.0"?>
+<template_definition>
+<template_name>TrivialExample</template_name>
+<layout>	    
+        <item>
+            <name>grouping</name>
+            <value>			    
+			    <name>Trivial Example</name>
+				<description>Trivial Example network model</description>
+				<categories>
+				    <category>
+						<name>Resources</name>
+						<description>Network resources</description>
+						<displayname>Network resources</displayname>
+						<groups>
+                            <group>
+								<name>urban</name>
+								<description>Urban</description>
+								<displayname>Urban</displayname>
+								<image>images\urban.png</image>
+							</group>
+                            <group>
+								<name>agricultural</name>
+								<description>Agricultural</description>
+								<displayname>Agricultural</displayname>
+								<image>images\agricultural.png</image>
+							</group>
+                            <group>
+								<name>junction</name>
+								<description>Junction</description>
+								<displayname>Junction</displayname>
+								<image>images\junction.png</image>
+							</group>
+                            <group>
+								<name>discharge</name>
+								<description>discharge</description>
+								<displayname>discharge</displayname>
+								<image>images\discharge.png</image>
+                            </group>
+                            <group>
+								<name>river_section</name>
+								<description>River Section</description>
+								<displayname>River Section</displayname>		
+								<image>images\red_line.png</image>
+							</group>
+
+						</groups>
+				    </category>	
+				</categories>
+            </value>
+        </item>
+    </layout>
+<resources>
+  <resource>
+    <type>NODE</type>
+    <name>urban</name>
+    <layout>
+        <item>
+            <name>image</name>
+            <value>images\urban.png</value>
+        </item>
+        <item>
+            <name>symbol</name>
+            <value>square</value>
+        </item>
+        <item>
+            <name>colour</name>
+            <value>green</value>
+        </item>
+        <item>
+            <name>group</name>
+            <value>urban</value>
+        </item>
+    </layout>
+    <attribute>
+      <name>delivery</name>
+      <dimension>Volumetric flow rate</dimension>
+      <is_var>Y</is_var>
+      <data_type>timeseries</data_type>
+    </attribute>
+    <attribute>
+      <name>consumption_coefficient</name>
+      <dimension>Dimensionless</dimension>
+      <is_var>N</is_var>
+      <data_type>scalar</data_type>
+    </attribute>
+  </resource>
+  <resource>
+    <type>NODE</type>
+    <name>agricultural</name>
+	<layout>
+		<item>
+			<name>image</name>
+			<value>images\agricultural.png</value>
+		</item>
+		<item>
+			<name>symbol</name>
+			<value>square</value>
+		</item>
+		<item>
+			<name>colour</name>
+			<value>green</value>
+		</item>
+        <item>
+            <name>group</name>
+            <value>agricultural</value>
+        </item>
+	</layout>
+    <attribute>
+      <name>delivery</name>
+      <dimension>Volumetric flow rate</dimension>
+      <is_var>Y</is_var>
+	  <data_type>timeseries</data_type>
+    </attribute>
+    <attribute>
+      <name>consumption_coefficient</name>
+      <dimension>Dimensionless</dimension>
+      <is_var>N</is_var>
+	  <data_type>scalar</data_type>
+    </attribute>
+  </resource>
+  <resource>
+    <type>NODE</type>
+    <name>junction</name>
+	<layout>
+		<item>
+			<name>image</name>
+			<value>images\junction.png</value>
+		</item>
+		<item>
+			<name>symbol</name>
+			<value>triangle</value>
+		</item>
+		<item>
+			<name>colour</name>
+			<value>yellow</value>
+		</item>
+        <item>
+            <name>group</name>
+            <value>junction</value>
+        </item>
+	</layout>
+	<attribute>
+      <name>inflow</name>
+      <dimension>Volumetric flow rate</dimension>
+      <is_var>N</is_var>
+	  <data_type>timeseries</data_type>
+    </attribute>
+  </resource>
+    <resource>
+    <type>NODE</type>
+    <name>discharge</name>
+  <layout>
+    <item>
+      <name>image</name>
+      <value>images\discharge.png</value>
+    </item>
+    <item>
+      <name>symbol</name>
+      <value>triangle</value>
+    </item>
+    <item>
+      <name>colour</name>
+      <value>black</value>
+    </item>
+    <item>
+        <name>group</name>
+        <value>discharge</value>
+    </item>
+  </layout>
+  </resource>
+  <resource>
+    <type>LINK</type>
+    <name>river_section</name>
+	<layout>
+		<item>
+			<name>image</name>
+			<value>images\red_line.png</value>
+		</item>
+		<item>
+			<name>symbol</name>
+			<value>solid</value>
+		</item>
+		<item>
+			<name>colour</name>
+			<value>red</value>
+		</item>
+		<item>
+			<name>line_weight</name>
+			<value>3</value>
+		</item>
+        <item>
+               <name>group</name>
+               <value>river_section</value>
+        </item>
+        
+	</layout>
+    <attribute>
+      <name>cost</name>
+      <dimension>Monetary value</dimension>
+      <is_var>N</is_var>
+	  <data_type>timeseries</data_type>
+    </attribute>
+    <attribute>
+      <name>flow_multiplier</name>
+      <dimension>Dimensionless</dimension>
+      <is_var>N</is_var>
+	  <data_type>timeseries</data_type>
+    </attribute>
+    <attribute>
+      <name>min_flow</name>
+      <dimension>Volumetric flow rate</dimension>
+      <is_var>N</is_var>
+	  <data_type>timeseries</data_type>
+    </attribute>
+    <attribute>
+      <name>max_flow</name>
+      <dimension>Volumetric flow rate</dimension>
+      <is_var>N</is_var>
+	  <data_type>timeseries</data_type>
+    </attribute>
+	<attribute>
+      <name>Q</name>
+      <dimension>Volumetric flow rate</dimension>
+      <is_var>Y</is_var>
+	  <data_type>timeseries</data_type>
+    </attribute>
+  </resource>
+  <resource>
+    <type>NETWORK</type>
+    <name>tutorial_model</name>
+    <attribute>
+      <name>Z</name>
+      <dimension>Monetary value</dimension>
+      <is_var>Y</is_var>
+    </attribute>
+  </resource>
+</resources>
+</template_definition>
+
+

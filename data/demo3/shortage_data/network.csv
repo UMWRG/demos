@@ -1,3 +1,0 @@
-ID      , Name              , Type           ,objective_function,Nodes,Links,Groups, Description
-Units   ,                   ,                ,-,,,,
-        ,Demo 3 network,tutorial_network, NULL ,nodes.csv,links.csv,groups.csv,A demonstration network for teaching purposes
