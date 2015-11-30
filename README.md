@@ -2,6 +2,7 @@ Demo Models in GAMS, Pyomo and WaterSys
 =======================================
 
 Here you will find three models:
+
 1. A trivial example of how to minimise cost for a network in a single time step.
 2. A Cost Minimisation Demo (CMD) over multiple time steps
 3. A Water Allocation Demo (WAD), which allocates water to the resources with the greatest need (priority).
