@@ -1,4 +1,6 @@
+_gams*
 *.lst
+*.g00
 *.gdx
 *.gpr
 *.log
