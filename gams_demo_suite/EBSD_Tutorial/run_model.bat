@@ -1,0 +1,1 @@
+C:\Users\Public\Documents\Hydra\plugins\developer\GAMSPlugin\plugins\GAMSAuto\GAMSAutoRun.exe -t 3 -s 3 -st "2010/01/01" -en "2034/01/01" -dt "1 yr" -G C:\\GAMS\win32\24.1 -m EBSD_Tutorial.gms -o ebsd.txt 
