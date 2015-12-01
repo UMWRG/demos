@@ -84,7 +84,7 @@ Objective ..
 *    +SUM(j$links(j,i), Q(j,i,t)
 *    * flow_multiplier(j,i,t))
 *    - SUM(j$links(i,j), Q(i,j,t))
-*    - consumption_coefficient(i, "0") * delivered_water(i))
+*    - consumption_coefficient(i) * delivered_water(i))
 *    =E= 0;
 
 
@@ -93,7 +93,7 @@ MassBalance_urban(urban) ..
     +SUM(j$links(j,urban), Q(j,urban,t)
     * flow_multiplier(j,urban,t))
     - SUM(j$links(urban,j), Q(urban,j,t))
-    - consumption_coefficient(urban,"0")
+    - consumption_coefficient(urban)
     * delivered_water(urban))
     =E= 0;
 
@@ -102,7 +102,7 @@ MassBalance_agricultural(agricultural) ..
     +SUM(j$links(j,agricultural), Q(j,agricultural,t)
     * flow_multiplier(j,agricultural,t))
     - SUM(j$links(agricultural,j), Q(agricultural,j,t))
-    - consumption_coefficient(agricultural,"0")
+    - consumption_coefficient(agricultural)
     * delivered_water(agricultural))
     =E= 0;
 
@@ -124,7 +124,7 @@ MassBalance_storage(surface_reservoir)..
          - SUM(j$links(surface_reservoir,j), Q(surface_reservoir,j,t))
          -S(surface_reservoir,t)
          +storage(surface_reservoir,t-1)$(ord(t) GT 1)
-         + initial_storage(surface_reservoir,t)$(ord(t) EQ 1))
+         + initial_storage(surface_reservoir)$(ord(t) EQ 1))
          =E= 0;
 
 * Lower and upper bound of possible flow in links
