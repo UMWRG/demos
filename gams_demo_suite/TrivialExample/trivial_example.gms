@@ -57,40 +57,40 @@ Objective
 * Objective function
 
 Objective ..
-    Z =E= SUM((i,j)$links(i,j), Q(i,j) * cost(i,j, "0"))
+    Z =E= SUM((i,j)$links(i,j), Q(i,j) * cost(i,j))
 ;
 
 * Mass balance constraints for all the non-storage nodes
 
 MassBalance_junction(junction) ..
-    inflow(junction, "0") +
-    SUM(j$links(j,junction), Q(j,junction) * flow_multiplier(j,junction, '0')) -
+    inflow(junction) +
+    SUM(j$links(j,junction), Q(j,junction) * flow_multiplier(j,junction)) -
     SUM(j$links(junction,j), Q(junction,j)) -
-    consumption_coefficient(junction, "0") * 
+    consumption_coefficient(junction) * 
     delivery(junction)
     =E= 0;
 
 MassBalance_urban(urban) ..
-    SUM(j$links(j,urban), Q(j,urban) * flow_multiplier(j,urban, '0')) -
+    SUM(j$links(j,urban), Q(j,urban) * flow_multiplier(j,urban)) -
     SUM(j$links(urban,j), Q(urban,j)) -
-    consumption_coefficient(urban, "0") * 
+    consumption_coefficient(urban) * 
     delivery(urban)
     =E= 0;
 
 MassBalance_agricultural(agricultural) ..
-    SUM(j$links(j,agricultural), Q(j,agricultural) * flow_multiplier(j,agricultural, '0')) -
+    SUM(j$links(j,agricultural), Q(j,agricultural) * flow_multiplier(j,agricultural)) -
     SUM(j$links(agricultural,j), Q(agricultural,j)) -
-    consumption_coefficient(agricultural, "0") * 
+    consumption_coefficient(agricultural) * 
     delivery(agricultural)
     =E= 0;
 
 * Lower and upper bound of possible flow in links
 
 MinFlow(i,j)$links(i,j) ..
-    Q(i,j) =G= min_flow(i,j, '0');
+    Q(i,j) =G= min_flow(i,j);
 
 MaxFlow(i,j)$links(i,j) ..
-    Q(i,j) =L= max_flow(i,j, '0');
+    Q(i,j) =L= max_flow(i,j);
 
 ** ----------------------------------------------------------------------
 **  Model declaration and solve statements

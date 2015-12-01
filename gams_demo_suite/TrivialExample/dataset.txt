@@ -61,7 +61,7 @@ J2 . Urb1
 /
 
 * Connectivity matrix.
-Table Connect(i,j)
+Parameter Connect(i,j)
                  Ag1     EndPt        J1        J2      Urb1
        Ag1         0         0         0         0         0
 
@@ -84,44 +84,46 @@ t time index /
 0
 /
 
-Parameter timestamp(t) ;
-
-    timestamp("0") = 730120.0 ;
-
-Table consumption_coefficient(i,t) 
-                   0
+Parameter consumption_coefficient(i) 
+/              
     Ag1            1.0
     Urb1           1.0
+/;
 
-Table inflow(i,t) 
-                0
+Parameter inflow(i) 
+/              
     J1          300.0
+/;
 
 
-Table cost(i,j,t)
-                   0
+Parameter cost(i,j)
+/              
     J1 . Ag1       20.0
     J1 . J2        15.0
     J2 . EndPt     10.0
     J2 . Urb1      1.0
+/;
 
-Table flow_multiplier(i,j,t)
-                   0
+Parameter flow_multiplier(i,j)
+/              
     J1 . Ag1       1.0
     J1 . J2        1.0
     J2 . EndPt     1.0
     J2 . Urb1      0.95
+/;
 
-Table min_flow(i,j,t)
-                   0
+Parameter min_flow(i,j)
+/              
     J1 . Ag1       25.0
     J1 . J2        10.0
     J2 . EndPt     10.0
     J2 . Urb1      20.0
+/;
 
-Table max_flow(i,j,t)
-                   0
+Parameter max_flow(i,j)
+/              
     J1 . Ag1       220.0
     J1 . J2        310.0
     J2 . EndPt     220.0
     J2 . Urb1      220.0
+/;
