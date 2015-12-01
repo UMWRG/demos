@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <template_definition>
-<template_name>WaterAllocationDemo</template_name>
+<template_name>Water Allocation Demo</template_name>
 <layout>	    
         <item>
             <name>grouping</name>
@@ -1159,7 +1159,7 @@
 		<layout>
             <item>
                 <name>image</name>
-                <value>images\storage group.png</value>
+                <value>images\storage_group.png</value>
             </item>
         </layout>
 		<attribute>
@@ -1181,7 +1181,7 @@
 		<layout>
             <item>
                 <name>image</name>
-                <value>images\non-storage group.png</value>
+                <value>images\non-storage_group.png</value>
             </item>
         </layout>
 		<attribute>
@@ -1203,7 +1203,7 @@
 		<layout>
             <item>
                 <name>image</name>
-                <value>images\demand group.png</value>
+                <value>images\demand_group.png</value>
             </item>
         </layout>
 		<attribute>
@@ -1243,3 +1243,4 @@
     </resource>
 </resources>
 </template_definition>
+
