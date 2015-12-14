@@ -93,7 +93,7 @@
 		<attribute>
 		  <name>S</name>
 		  <dimension>Dimensionless</dimension>
-		  <is_var>N</is_var>
+		  <is_var>Y</is_var>
 		  <data_type>timeseries</data_type>
 		</attribute>		
 		<attribute>
@@ -105,7 +105,7 @@
 		<attribute>
 		  <name>AS</name>
 		  <dimension>Dimensionless</dimension>
-		  <is_var>N</is_var>
+		  <is_var>Y</is_var>
 		  <data_type>timeseries</data_type>
 		</attribute>
 		<attribute>
@@ -157,7 +157,7 @@
 		<attribute>
 		  <name>S</name>
 		  <dimension>Dimensionless</dimension>
-		  <is_var>N</is_var>
+		  <is_var>Y</is_var>
 		  <data_type>timeseries</data_type>
 		</attribute>
 		<attribute>
@@ -275,13 +275,13 @@
 		<attribute>
 		  <name>Q</name>
 		  <dimension>Volumetric flow rate</dimension>
-		  <is_var>N</is_var>
+		  <is_var>Y</is_var>
 		  <data_type>timeseries</data_type>
 		</attribute>
 		<attribute>
 		  <name>AL</name>
 		  <dimension>Dimensionless</dimension>
-		  <is_var>N</is_var>
+		  <is_var>Y</is_var>
 		  <data_type>timeseries</data_type>
 		</attribute>
 		<attribute>
@@ -337,7 +337,7 @@
 			<attribute>
 		  <name>Q</name>
 		  <dimension>Volumetric flow rate</dimension>
-		  <is_var>N</is_var>
+		  <is_var>Y</is_var>
 		  <data_type>timeseries</data_type>
 		</attribute>
 		<attribute>
@@ -393,7 +393,7 @@
 			<attribute>
 		  <name>Q</name>
 		  <dimension>Volumetric flow rate</dimension>
-		  <is_var>N</is_var>
+		  <is_var>Y</is_var>
 		  <data_type>timeseries</data_type>
 		</attribute>
 		<attribute>
@@ -447,9 +447,27 @@
 			</item>        
 		</layout>
 			<attribute>
+		  <name>AL</name>
+		  <dimension>Dimensionless</dimension>
+		  <is_var>Y</is_var>
+		  <data_type>timeseries</data_type>
+		</attribute>	
+		<attribute>
+		  <name>capitalL</name>
+		  <dimension>Dimensionless</dimension>
+		  <is_var>N</is_var>
+		  <data_type>scalar</data_type>
+		</attribute>
+		<attribute>
+		  <name>aval</name>
+		  <dimension>Dimensionless</dimension>
+		  <is_var>N</is_var>
+		  <data_type>scalar</data_type>
+		</attribute>	
+			<attribute>
 		  <name>Q</name>
 		  <dimension>Volumetric flow rate</dimension>
-		  <is_var>N</is_var>
+		  <is_var>Y</is_var>
 		  <data_type>timeseries</data_type>
 		</attribute>
 		<attribute>
