@@ -2,8 +2,8 @@
 * (c) Copyright 2015, University of Manchester
 *
 * EBSD network: EBSD  model
-* Network-ID:  10
-* Scenario-ID: 10
+* Network-ID:  3
+* Scenario-ID: 3
 *******************************************************************************
 
 * Network definition
@@ -90,24 +90,24 @@ ext2 . WRZ2
 
 * Connectivity matrix.
 Table Connect(i,j)
-                  GW      WRZ1      WRZ2     desal      ext1      ext2     junc1     junc2       res
-        GW         0         0         1         0         0         0         0         0         0
+               GW             WRZ1           WRZ2           desal          ext1           ext2           junc1          junc2          res            
+GW             0              0              1              0              0              0              0              0              0              
 
-      WRZ1         0         0         1         0         0         0         1         1         0
+WRZ1           0              0              1              0              0              0              1              1              0              
 
-      WRZ2         0         0         0         0         0         0         0         0         0
+WRZ2           0              0              0              0              0              0              0              0              0              
 
-     desal         0         1         0         0         0         0         0         0         0
+desal          0              1              0              0              0              0              0              0              0              
 
-      ext1         0         1         0         0         0         0         0         0         0
+ext1           0              1              0              0              0              0              0              0              0              
 
-      ext2         0         0         1         0         0         0         0         0         0
+ext2           0              0              1              0              0              0              0              0              0              
 
-     junc1         0         0         1         0         0         0         0         0         0
+junc1          0              0              1              0              0              0              0              0              0              
 
-     junc2         0         0         1         0         0         0         0         0         0
+junc2          0              0              1              0              0              0              0              0              0              
 
-       res         0         0         1         0         0         0         0         0         0
+res            0              0              1              0              0              0              0              0              0              
 
 
 Parameter x (i)/

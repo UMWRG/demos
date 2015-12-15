@@ -1,0 +1,5 @@
+Name,Type,Member
+regions_with_fixed_demand,NODE,Mexico
+regions_with_fixed_demand,NODE,West_Can
+regions_with_fixed_demand,NODE,Ont_Quebec
+regions_with_fixed_demand,NODE,Atlantic

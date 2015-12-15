@@ -1,0 +1,3 @@
+ID,Name,Type,nodes,links,Groups,benefit,Description
+Units,,,,,,-,
+,GTM Model,GTD_Model,nodes.csv,links.csv,groups.csv,NULL,Gas Trade Model

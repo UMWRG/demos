@@ -1,0 +1,499 @@
+* Data exported from Hydra using GAMSplugin.
+* (c) Copyright 2015, University of Manchester
+*
+* GTM Model: Gas Trade Model
+* Network-ID:  2
+* Scenario-ID: 2
+*******************************************************************************
+
+* Network definition
+
+SETS
+
+i vector of all nodes /
+Alaska
+Alberta_BC
+Appalacia
+Atlantic
+Central
+Mexico
+Mid_Atl
+Mid_Cont
+Midwest
+NY_NJ
+N_Central
+N_West
+New_Engl
+Ont_Quebec
+Pacific
+Permian_B
+Rockies
+South_Atl
+South_West
+US_Gulf
+West
+West_Can
+    /
+
+Alias(i,j)
+
+* Node types
+
+SETS
+
+supply(i) /
+Alaska
+Alberta_BC
+Appalacia
+Mid_Cont
+Pacific
+Permian_B
+Rockies
+US_Gulf
+/
+
+supply_demand(i) /
+Atlantic
+Mexico
+/
+
+demand(i) /
+Central
+Mid_Atl
+Midwest
+NY_NJ
+N_Central
+N_West
+New_Engl
+Ont_Quebec
+South_Atl
+South_West
+West
+West_Can
+/
+
+* Node groups
+
+node_groups vector of all node groups /
+regions_with_fixed_demand
+/
+
+regions_with_fixed_demand(i) /
+Atlantic
+Mexico
+Ont_Quebec
+West_Can
+/
+
+SETS
+
+links(i,j) vector of all links /
+Alaska . Midwest
+Alberta_BC . Central
+Alberta_BC . Mid_Atl
+Alberta_BC . Midwest
+Alberta_BC . NY_NJ
+Alberta_BC . N_Central
+Alberta_BC . N_West
+Alberta_BC . New_Engl
+Alberta_BC . Ont_Quebec
+Alberta_BC . South_Atl
+Alberta_BC . South_West
+Alberta_BC . West
+Alberta_BC . West_Can
+Appalacia . Mid_Atl
+Appalacia . Midwest
+Atlantic . Atlantic
+Atlantic . New_Engl
+Mexico . Mexico
+Mexico . Mid_Atl
+Mexico . Midwest
+Mexico . NY_NJ
+Mexico . South_Atl
+Mexico . South_West
+Mexico . West
+Mid_Cont . Central
+Mid_Cont . Midwest
+Mid_Cont . South_West
+Pacific . West
+Permian_B . Central
+Permian_B . Midwest
+Permian_B . South_Atl
+Permian_B . South_West
+Permian_B . West
+Rockies . Central
+Rockies . Midwest
+Rockies . N_Central
+Rockies . N_West
+Rockies . West
+US_Gulf . Central
+US_Gulf . Mid_Atl
+US_Gulf . Midwest
+US_Gulf . NY_NJ
+US_Gulf . New_Engl
+US_Gulf . South_Atl
+US_Gulf . South_West
+    /
+
+* Link types
+
+pipeline(i,j) /
+Alaska . Midwest
+Alberta_BC . Central
+Alberta_BC . Mid_Atl
+Alberta_BC . Midwest
+Alberta_BC . NY_NJ
+Alberta_BC . N_Central
+Alberta_BC . N_West
+Alberta_BC . New_Engl
+Alberta_BC . Ont_Quebec
+Alberta_BC . South_Atl
+Alberta_BC . South_West
+Alberta_BC . West
+Alberta_BC . West_Can
+Appalacia . Mid_Atl
+Appalacia . Midwest
+Atlantic . Atlantic
+Atlantic . New_Engl
+Mexico . Mexico
+Mexico . Mid_Atl
+Mexico . Midwest
+Mexico . NY_NJ
+Mexico . South_Atl
+Mexico . South_West
+Mexico . West
+Mid_Cont . Central
+Mid_Cont . Midwest
+Mid_Cont . South_West
+Pacific . West
+Permian_B . Central
+Permian_B . Midwest
+Permian_B . South_Atl
+Permian_B . South_West
+Permian_B . West
+Rockies . Central
+Rockies . Midwest
+Rockies . N_Central
+Rockies . N_West
+Rockies . West
+US_Gulf . Central
+US_Gulf . Mid_Atl
+US_Gulf . Midwest
+US_Gulf . NY_NJ
+US_Gulf . New_Engl
+US_Gulf . South_Atl
+US_Gulf . South_West
+/
+
+* Connectivity matrix.
+Table Connect(i,j)
+                         Alaska                   Alberta_BC               Appalacia                Atlantic                 Central                  Mexico                   Mid_Atl                  Mid_Cont                 Midwest                  NY_NJ                    N_Central                N_West                   New_Engl                 Ont_Quebec               Pacific                  Permian_B                Rockies                  South_Atl                South_West               US_Gulf                  West                     West_Can                 
+Alaska                   0                        0                        0                        0                        0                        0                        0                        0                        1                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        
+
+Alberta_BC               0                        0                        0                        0                        1                        0                        1                        0                        1                        1                        1                        1                        1                        1                        0                        0                        0                        1                        1                        0                        1                        1                        
+
+Appalacia                0                        0                        0                        0                        0                        0                        1                        0                        1                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        
+
+Atlantic                 0                        0                        0                        1                        0                        0                        0                        0                        0                        0                        0                        0                        1                        0                        0                        0                        0                        0                        0                        0                        0                        0                        
+
+Central                  0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        
+
+Mexico                   0                        0                        0                        0                        0                        1                        1                        0                        1                        1                        0                        0                        0                        0                        0                        0                        0                        1                        1                        0                        1                        0                        
+
+Mid_Atl                  0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        
+
+Mid_Cont                 0                        0                        0                        0                        1                        0                        0                        0                        1                        0                        0                        0                        0                        0                        0                        0                        0                        0                        1                        0                        0                        0                        
+
+Midwest                  0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        
+
+NY_NJ                    0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        
+
+N_Central                0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        
+
+N_West                   0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        
+
+New_Engl                 0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        
+
+Ont_Quebec               0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        
+
+Pacific                  0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        1                        0                        
+
+Permian_B                0                        0                        0                        0                        1                        0                        0                        0                        1                        0                        0                        0                        0                        0                        0                        0                        0                        1                        1                        0                        1                        0                        
+
+Rockies                  0                        0                        0                        0                        1                        0                        0                        0                        1                        0                        1                        1                        0                        0                        0                        0                        0                        0                        0                        0                        1                        0                        
+
+South_Atl                0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        
+
+South_West               0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        
+
+US_Gulf                  0                        0                        0                        0                        1                        0                        1                        0                        1                        1                        0                        0                        1                        0                        0                        0                        0                        1                        1                        0                        0                        0                        
+
+West                     0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        
+
+West_Can                 0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        
+
+
+Parameter x (i)/
+Alaska                   11164.868                
+Alberta_BC               22502.389                
+Appalacia                32976.647                
+Atlantic                 40112.954                
+Central                  27048.907                
+Mexico                   12315.886                
+Mid_Atl                  33034.198                
+Mid_Cont                 25725.237                
+Midwest                  28027.272                
+NY_NJ                    35048.478                
+N_Central                25034.627                
+N_West                   21063.617                
+New_Engl                 35278.681                
+Ont_Quebec               31940.731                
+Pacific                  20027.702                
+Permian_B                27221.560                
+Rockies                  22847.694                
+South_Atl                32516.240                
+South_West               23135.448                
+US_Gulf                  29466.044                
+West                     22157.084                
+West_Can                 19337.091                
+/;
+
+Parameter y (i)/
+Alaska                   -7308.960                
+Alberta_BC               -16459.548               
+Appalacia                -23826.059               
+Atlantic                 -17150.158               
+Central                  -21581.575               
+Mexico                   -9610.995                
+Mid_Atl                  -19624.846               
+Mid_Cont                 -19452.193               
+Midwest                  -17437.913               
+NY_NJ                    -20142.803               
+N_Central                -17840.769               
+N_West                   -18186.074               
+New_Engl                 -17955.870               
+Ont_Quebec               -15826.488               
+Pacific                  -19912.600               
+Permian_B                -22847.694               
+Rockies                  -16286.895               
+South_Atl                -23653.406               
+South_West               -21984.431               
+US_Gulf                  -24746.873               
+West                     -19624.846               
+West_Can                 -11567.724               
+/;
+
+* Network data
+
+* Nodes data
+
+Parameter  Ref_P1(i)
+/                        
+Alaska                   2                        
+Appalacia                3.5                      
+Mid_Cont                 3.5                      
+Pacific                  3.5                      
+Permian_B                3.5                      
+Rockies                  3.5                      
+US_Gulf                  3.5                      
+/;
+                      
+Parameter  Ref_Q1(i)
+/                        
+Alaska                   0.8                      
+Alberta_BC               3                        
+Appalacia                0.58                     
+Atlantic                 0.25                     
+Mexico                   2                        
+Mid_Cont                 2.07                     
+Pacific                  0.42                     
+Permian_B                1.39                     
+Rockies                  1.16                     
+US_Gulf                  7.88                     
+/;
+                      
+Parameter  Ref_P2(i)
+/                        
+Alaska                   2                        
+Appalacia                7                        
+Mid_Cont                 7                        
+Pacific                  7                        
+Permian_B                7                        
+Rockies                  7                        
+US_Gulf                  7                        
+/;
+                      
+Parameter  Ref_Q2(i)
+/                        
+Alaska                   0.1                      
+Alberta_BC               1.6                      
+Appalacia                0.65                     
+Atlantic                 0.03                     
+Mexico                   0.5                      
+Mid_Cont                 2.31                     
+Pacific                  0.47                     
+Permian_B                1.55                     
+Rockies                  1.3                      
+US_Gulf                  8.82                     
+/;
+                      
+Parameter  Limit(i)
+/                        
+Alaska                   55555                    
+Alberta_BC               3.75                     
+Appalacia                0.72                     
+Atlantic                 0.3                      
+Mexico                   2.5                      
+Mid_Cont                 2.55                     
+Pacific                  0.52                     
+Permian_B                1.72                     
+Rockies                  1.44                     
+US_Gulf                  9.75                     
+/;
+                      
+Parameter  Ref_P(i)
+/                        
+Atlantic                 3.5                      
+Central                  7.79                     
+Mexico                   1                        
+Mid_Atl                  8.26                     
+Midwest                  8.01                     
+NY_NJ                    8.33                     
+N_Central                8.06                     
+N_West                   9.39                     
+New_Engl                 9.37                     
+Ont_Quebec               3.5                      
+South_Atl                8.07                     
+South_West               7.29                     
+West                     8.18                     
+West_Can                 3                        
+/;
+                      
+Parameter  Ref_Q(i)
+/                        
+Atlantic                 0.2                      
+Central                  1.17                     
+Mexico                   2.2                      
+Mid_Atl                  0.89                     
+Midwest                  2.96                     
+NY_NJ                    1.18                     
+N_Central                1.51                     
+N_West                   0.36                     
+New_Engl                 0.76                     
+Ont_Quebec               1.38                     
+South_Atl                1.62                     
+South_West               6.04                     
+West                     2.1                      
+West_Can                 1.47                     
+/;
+                      
+Parameter  Elas(i)
+/                        
+Atlantic                 -0.5                     
+Central                  -0.67                    
+Mexico                   -0.5                     
+Mid_Atl                  -0.65                    
+Midwest                  -0.65                    
+NY_NJ                    -0.66                    
+N_Central                -0.54                    
+N_West                   -0.57                    
+New_Engl                 -0.6                     
+Ont_Quebec               -0.5                     
+South_Atl                -0.89                    
+South_West               -0.84                    
+West                     -0.43                    
+West_Can                 -0.5                     
+/;
+                      
+* Links data
+
+Parameter utc(i,j)
+/                        
+Alaska . Midwest         6                        
+Alberta_BC . Central     0.8                      
+Alberta_BC . Mid_Atl     1.1                      
+Alberta_BC . Midwest     0.8                      
+Alberta_BC . NY_NJ       1.1                      
+Alberta_BC . N_Central   0.65                     
+Alberta_BC . N_West      0.65                     
+Alberta_BC . New_Engl    1.15                     
+Alberta_BC . Ont_Quebec  0.9                      
+Alberta_BC . South_Atl   1.55                     
+Alberta_BC . South_West  1.25                     
+Alberta_BC . West        0.7                      
+Alberta_BC . West_Can    0.4                      
+Appalacia . Mid_Atl      0.72                     
+Appalacia . Midwest      0.46                     
+Atlantic . New_Engl      1.5                      
+Mexico . Mexico          0.25                     
+Mexico . Mid_Atl         2.22                     
+Mexico . Midwest         1.96                     
+Mexico . NY_NJ           2.29                     
+Mexico . South_Atl       2.03                     
+Mexico . South_West      1.25                     
+Mexico . West            2.13                     
+Mid_Cont . Central       0.64                     
+Mid_Cont . Midwest       0.86                     
+Mid_Cont . South_West    0.14                     
+Pacific . West           0.43                     
+Permian_B . Central      0.55                     
+Permian_B . Midwest      0.77                     
+Permian_B . South_Atl    0.83                     
+Permian_B . South_West   0.05                     
+Permian_B . West         0.94                     
+Rockies . Central        0.31                     
+Rockies . Midwest        0.53                     
+Rockies . N_Central      0.58                     
+Rockies . West           0.94                     
+US_Gulf . Central        0.54                     
+US_Gulf . Mid_Atl        1.01                     
+US_Gulf . Midwest        0.75                     
+US_Gulf . NY_NJ          1.08                     
+US_Gulf . New_Engl       2.12                     
+US_Gulf . South_Atl      0.82                     
+US_Gulf . South_West     0.04                     
+/;
+                      
+Parameter pc(i,j)
+/                        
+Alaska . Midwest         0.8                      
+Alberta_BC . Central     55555                    
+Alberta_BC . Mid_Atl     0.1                      
+Alberta_BC . Midwest     55555                    
+Alberta_BC . NY_NJ       0.15                     
+Alberta_BC . N_Central   55555                    
+Alberta_BC . N_West      55555                    
+Alberta_BC . New_Engl    0.3                      
+Alberta_BC . Ont_Quebec  55555                    
+Alberta_BC . West        55555                    
+Alberta_BC . West_Can    55555                    
+Appalacia . Mid_Atl      0.34                     
+Appalacia . Midwest      0.35                     
+Atlantic . Atlantic      55555                    
+Atlantic . New_Engl      55555                    
+Mexico . Mexico          55555                    
+Mexico . Mid_Atl         0.067                    
+Mexico . Midwest         0.067                    
+Mexico . NY_NJ           0.067                    
+Mexico . South_Atl       0.067                    
+Mexico . West            0.033                    
+Mid_Cont . Central       1.03                     
+Mid_Cont . Midwest       0.62                     
+Mid_Cont . South_West    2.3                      
+Pacific . West           0.48                     
+Permian_B . Midwest      0.12                     
+Permian_B . South_West   1.45                     
+Permian_B . West         1.46                     
+Rockies . Central        0.14                     
+Rockies . Midwest        0.48                     
+Rockies . N_Central      55555                    
+Rockies . N_West         55555                    
+Rockies . West           0.1                      
+US_Gulf . Mid_Atl        1.06                     
+US_Gulf . Midwest        2.62                     
+US_Gulf . NY_NJ          1.39                     
+US_Gulf . New_Engl       55555                    
+US_Gulf . South_Atl      2                        
+US_Gulf . South_West     3.73                     
+/;
+                      
