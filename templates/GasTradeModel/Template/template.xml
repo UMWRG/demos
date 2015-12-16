@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <template_definition>
-<template_name>Water_Distribution</template_name>
+<template_name>GasTradeModel</template_name>
 <layout>    
         <item>
             <name>grouping</name>
