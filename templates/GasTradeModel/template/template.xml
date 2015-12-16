@@ -5,7 +5,7 @@
         <item>
             <name>grouping</name>
             <value>			    
-			    <name>GTD_Model</name>
+			    <name>GasTradeModel</name>
 				<description>Gas trade model Network</description>
 				<categories>
 				    <category>
