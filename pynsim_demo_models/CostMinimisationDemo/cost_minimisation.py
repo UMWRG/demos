@@ -20,7 +20,7 @@
 from components import UrbanNode, AgriculturalNode, SurfaceReservoir, Junction, RiverSection,CostMinimisationNetwork
 from engines import PyomoAllocation
 
-from watersys import Simulator
+from pynsim import Simulator
 
 #create the simulator to run
 s = Simulator()

@@ -19,7 +19,7 @@
 
 from components import WaterAllocationNetwork, Junction, WasteWaterTreatmentPlant, HydropowerPlant, UrbanNode, SurfaceReservoir, AgriculturalNode, AquiferStorage, RiverSection
 from engines import PyomoAllocation
-from watersys import Simulator
+from pynsim import Simulator
 
 
 s = Simulator()

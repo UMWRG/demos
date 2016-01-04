@@ -11,3 +11,6 @@ _gams*
 *.pf
 parse_table_datacmds.py
 *~
+*.py-e
+*.py-e-e
+*.py-e-e-e
