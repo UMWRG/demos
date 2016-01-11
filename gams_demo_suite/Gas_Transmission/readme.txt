@@ -46,7 +46,8 @@ supply cost
 squared pressure
 
 
-Reader can find model formulation and core detailed description of the Belgium network on [1]
+Reader can find model formulation and core detailed description of the Belgium network on [1].
+Also, reader can find more details about Hydra Modeller on [2].
 
 Version history:
 ===============
@@ -55,7 +56,8 @@ Version history:
 More information:
 ==============
 1.	de Wolf, D, and Smeers, Y, The Gas Transmission Problem Solved by and Extension of the Simplex Algorithm. Management Science 46, 11 (2000), 1454-1465.
-2.	“Getting started with Hydra Modeller” (online reference)
+2.	Stephen Knox, “Getting started with Hydra Modeller”, https://github.com/UMWRG/demos/blob/master/doc/GettingStartedWithHydraModeller.pdf, Dec 2015.
+
 
 
 
