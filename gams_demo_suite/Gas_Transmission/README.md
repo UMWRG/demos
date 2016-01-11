@@ -2,14 +2,15 @@ Gas Transmission Problem - Belgium
 ==================================
 
 Files available with this model
-===============================
-Template.xml : template which defines nodes and links and their attributes.
-Gas_Trans.xlsx : An excel file to load in Hydra Modeller which contain the network and scenario dara.
-openstreet.wms : file you can load as a background in Hydra Modeller.
+-------------------------------
+`Template.xml <https://github.com/UMWRG/demos/tree/master/templates/Gas_Transmission/Template>`_. : template which defines nodes and links and their attributes.
+`Gas\_Trans.xlsx <https://github.com/UMWRG/demos/tree/master/data/Gas_Transmission>`_. : An excel file to load in Hydra Modeller which contain the network and scenario dara.
+`openstreet.wms <https://github.com/UMWRG/demos/tree/master/data/Gas_Transmission/GIS>`_. : The file you can load as a background in Hydra Modeller.
 gastrans.gms : The current version of the GAS transmission GAMS code
+input.txt    : The input file for the model, containing the network information and data. This is the file Hydra creates using the GAMS App.
 
 Purpose of Model
-================
+----------------
 The problem considered in this model is to minimize the total supply cost of a gas transmission company which must satisfy demand in different nodes at a minimal guaranteed pressure.
 
 The problem of distributing gas through a network of pipelines is formulated as a cost minimization subject to nonlinear flow-pressure relations, material balances, and pressure bounds. The Belgian gas network is used as an example.
@@ -21,7 +22,7 @@ https://www.gams.com/modlib/libhtml/gastrans.htm
 
 
 Running the Model
-=================
+-----------------
 The GAMS code provided here is modified to work with the input file which is genrated from Hydra's GAMS App.
 
 This model can be run directly with the input file provided (input.txt), similar to the orginal code.
@@ -33,13 +34,16 @@ To run this version with Hydra, user needs to:
 - Run the GAMS app using the provided GAMS model.
 
 
-Using this version with hydra modeller allow the user to visualize the model network (cities and pipelines) on their actual location on a dynamic map.
-In addition he/she can explore network data and modify them if needed. Using GAMSApp, the user will be able to run the model automatically and the results will be pushed to system database so the user can explore them. It is possible to have more than one model dataset (scenarios) and run the model for each of them and compare the results.
+Loading the model data (above) into Hydra Modeller, you can visualize the model network (cities and pipelines) on their actual location on a map.
+In addition you can explore and modify network data easily. Using GAMSApp, the user will be able to run 
+the model automatically and the results will be stored so you can explore them. 
+Using Hydra Modeller you can create multiple scenarios and the run the model against each one. Then 
+you can compare the results.
 
-Reader can find more details about the previous steps in getting start with Hydra tutorial[2].
+You can find more details about using Hydra Modeller in this `tutorial <https://github.com/UMWRG/demos/blob/master/doc/GettingStartedWithHydraModeller.pdf>`_. [1]
 
-Model input:
-============
+Model inputs:
+-------------
 compressibility factor (-)
 density of gas relative to air (-)
 length (km)
@@ -52,22 +56,22 @@ supply lower bound (mill M3 per day)
 absolute rugosity (mm)
 gas temperature (K)  
 
-Model Output
-============
+Model Outputs
+-------------
 Arc flow (1e6 SCM)
 supply - demand (1e6 SCM)
 squared pressure 1e6*SCM
 supply cost ($)
 
-Reader can find model formulation and core detailed description of the Belgium network on [1].
+You can find model formulation and core detailed description of the Belgium network in [1].
 
 Version History
-===============
+---------------
 
 - 0.0.1, Jan 2016, modify the orginal version to work with Hydra, K. Mohamed, the University of Manchester
 
 More Information
-================
+----------------
 
 1 de Wolf, D, and Smeers, Y, The Gas Transmission Problem Solved by and Extension of the Simplex Algorithm. Management Science 46, 11 (2000), 1454-1465.
 2 Stephen Knox, ''Getting started with Hydra Modeller'', https://github.com/UMWRG/demos/blob/master/doc/GettingStartedWithHydraModeller.pdf, Dec 2015.
