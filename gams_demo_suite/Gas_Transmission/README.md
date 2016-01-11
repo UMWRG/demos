@@ -3,11 +3,11 @@ Gas Transmission Problem - Belgium
 
 Files available with this model
 -------------------------------
-`Template.xml <https://github.com/UMWRG/demos/tree/master/templates/Gas_Transmission/Template>`_. : template which defines nodes and links and their attributes.
-`Gas\_Trans.xlsx <https://github.com/UMWRG/demos/tree/master/data/Gas_Transmission>`_. : An excel file to load in Hydra Modeller which contain the network and scenario dara.
-`openstreet.wms <https://github.com/UMWRG/demos/tree/master/data/Gas_Transmission/GIS>`_. : The file you can load as a background in Hydra Modeller.
-gastrans.gms : The current version of the GAS transmission GAMS code
-input.txt    : The input file for the model, containing the network information and data. This is the file Hydra creates using the GAMS App.
+- [Template.xml] (https://github.com/UMWRG/demos/tree/master/templates/Gas_Transmission/Template>). : template which defines nodes and links and their attributes.
+- [Gas\_Trans.xlsx] (https://github.com/UMWRG/demos/tree/master/data/Gas_Transmission>). : An excel file to load in Hydra Modeller which contain the network and scenario dara.
+- [openstreet.wms] (https://github.com/UMWRG/demos/tree/master/data/Gas_Transmission/GIS>). : The file you can load as a background in Hydra Modeller.
+- gastrans.gms : The current version of the GAS transmission GAMS code
+- input.txt    : The input file for the model, containing the network information and data. This is the file Hydra creates using the GAMS App.
 
 Purpose of Model
 ----------------
@@ -17,8 +17,7 @@ The problem of distributing gas through a network of pipelines is formulated as 
 
 First, a straight-forward NLP formulation that can be solved by todays NLP solvers is modeled.  Afterwards, the 3-stage approach by Wolf & Smeers [1] is implemented.
 
-The original GAMS code for this model is located at:
-https://www.gams.com/modlib/libhtml/gastrans.htm
+The original GAMS code for this model is located [here] (https://www.gams.com/modlib/libhtml/gastrans.htm)
 
 
 Running the Model
@@ -40,28 +39,28 @@ the model automatically and the results will be stored so you can explore them.
 Using Hydra Modeller you can create multiple scenarios and the run the model against each one. Then 
 you can compare the results.
 
-You can find more details about using Hydra Modeller in this `tutorial <https://github.com/UMWRG/demos/blob/master/doc/GettingStartedWithHydraModeller.pdf>`_. [1]
+You can find more details about using Hydra Modeller in this [tutorial] (https://github.com/UMWRG/demos/blob/master/doc/GettingStartedWithHydraModeller.pdf>). [1]
 
 Model inputs:
 -------------
-compressibility factor (-)
-density of gas relative to air (-)
-length (km)
-diameter (mm)
-cost ($ per MBTU)   
-pressure upper bound (bar)
-pressure lower bound (bar)
-supply upper bound (mill M3 per day)
-supply lower bound (mill M3 per day)
-absolute rugosity (mm)
-gas temperature (K)  
+- compressibility factor (-)
+- density of gas relative to air (-)
+- length (km)
+- diameter (mm)
+- cost ($ per MBTU)   
+- pressure upper bound (bar)
+- pressure lower bound (bar)
+- supply upper bound (mill M3 per day)
+- supply lower bound (mill M3 per day)
+- absolute rugosity (mm)
+- gas temperature (K)  
 
 Model Outputs
 -------------
-Arc flow (1e6 SCM)
-supply - demand (1e6 SCM)
-squared pressure 1e6*SCM
-supply cost ($)
+- Arc flow (1e6 SCM)
+- supply - demand (1e6 SCM)
+- squared pressure 1e6*SCM
+- supply cost ($)
 
 You can find model formulation and core detailed description of the Belgium network in [1].
 
