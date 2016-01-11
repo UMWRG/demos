@@ -1,0 +1,124 @@
+<?xml version="1.0"?>
+<template_definition>
+<template_name>Edc2</template_name>
+<layout>    
+        <item>
+            <name>grouping</name>
+            <value>			    
+			    <name>Edc2</name>
+				<description>Edc2 : Economic Dispatch Calculation of a Total Power of 1,980 MW</description>
+				<categories>
+				    <category>
+						<name>Resources</name>
+						<description>Network resources</description>
+						<displayname>Network resources</displayname>
+						<groups>
+							<group>
+								<name>generator</name>
+								<description>generator node</description>
+								<displayname>generator</displayname>
+								<image>images\reservoir.png</image>
+							</group>
+                            
+							<group>
+								<name>bus_link</name>
+								<description>bus_link</description>
+								<displayname>bus_link</displayname>		
+								<image>images\red_line.png</image>
+							</group>
+						</groups>
+				    </category>	
+				</categories>
+            </value>
+        </item>
+    </layout>
+<resources>    
+    <resource>
+        <type>NETWORK</type>
+        <name>Elect_Model</name>
+		<attribute>
+            <name>Load</name>
+            <dimension>Dimensionless</dimension>
+            <is_var>N</is_var>
+			<data_type>scalar</data_type>
+        </attribute>			
+        <attribute>
+            <name>obj</name>
+            <dimension>Monetary value</dimension>
+            <is_var>Y</is_var>
+			<data_type>scalar</data_type>
+        </attribute>		
+    </resource>      
+    <resource>
+        <type>NODE</type>
+        <name>generator</name>
+        <layout>
+            <item>
+                <name>image</name>
+                <value>images\reservoir.png</value>
+            </item>
+            <item>
+                <name>group</name>
+                <value>generator</value>
+            </item>
+        </layout>      
+        <attribute>
+            <name>upp</name>
+            <dimension>Power</dimension>
+            <is_var>N</is_var>
+			<data_type>scalar</data_type>
+        </attribute>
+		<attribute>
+            <name>low</name>
+            <dimension>Power</dimension>
+            <is_var>N</is_var>
+			<data_type>scalar</data_type>
+        </attribute>
+        <attribute>
+            <name>a</name>
+            <dimension>Dimensionless</dimension>
+            <is_var>N</is_var>
+			<data_type>scalar</data_type>
+        </attribute>
+		<attribute>
+            <name>b</name>
+            <dimension>Dimensionless</dimension>
+            <is_var>N</is_var>
+			<data_type>scalar</data_type>
+        </attribute>
+		 <attribute>
+            <name>c</name>
+            <dimension>Monetary value</dimension>
+            <is_var>N</is_var>
+			<data_type>scalar</data_type>
+        </attribute>        
+		<attribute>
+            <name>P</name>
+            <dimension>Dimensionless</dimension>
+            <is_var>Y</is_var>
+			<data_type>scalar</data_type>
+        </attribute>		   
+    </resource>       
+	<resource>
+        <type>LINK</type>
+        <name>bus_link</name>
+        <layout>
+            <item>
+                <name>image</name>
+                <value>images\red_line.png</value>
+            </item>
+            <item>
+                <name>group</name>
+                <value>bus_link</value>
+            </item>
+        </layout>
+        <attribute>
+            <name>Losscoef</name>
+            <dimension>Dimensionless</dimension>
+            <is_var>N</is_var>
+			<data_type>scalar</data_type>
+        </attribute>	                
+    </resource>   
+	
+</resources>
+</template_definition>
