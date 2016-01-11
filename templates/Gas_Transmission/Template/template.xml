@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <template_definition>
 <template_name>Gas_Transmission</template_name>
-<layout>    
+<layout>
         <item>
             <name>grouping</name>
             <value>			    
@@ -113,13 +113,13 @@
         </attribute>
 		<attribute>
             <name>c</name>
-            <dimension>Energy price</dimension>
+            <dimension>Dimensionless</dimension>
             <is_var>N</is_var>
 			<data_type>scalar</data_type>
         </attribute>
          <attribute>
             <name>s</name>
-            <dimension>Volume</dimension>
+            <dimension>Dimensionless</dimension>
             <is_var>Y</is_var>
 			<data_type>scalar</data_type>
         </attribute>
@@ -149,7 +149,7 @@
 				<item>
 					<name>line_weight</name>
 					<value>2</value>
-				</item>
+				</item>          
             <item>
                 <name>group</name>
                 <value>passive</value>
@@ -169,7 +169,7 @@
         </attribute>	
 		<attribute>
             <name>f</name>
-            <dimension>Volume</dimension>
+            <dimension>Dimensionless</dimension>
             <is_var>Y</is_var>
 			<data_type>scalar</data_type>
         </attribute> 		
@@ -213,7 +213,7 @@
         </attribute>		
 		 <attribute>
             <name>f</name>
-            <dimension>Volume</dimension>
+            <dimension>Dimensionless</dimension>
             <is_var>Y</is_var>
 			<data_type>scalar</data_type>
         </attribute>       
