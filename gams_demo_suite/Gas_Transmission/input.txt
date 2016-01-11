@@ -1,0 +1,444 @@
+* Data exported from Hydra using GAMSplugin.
+* (c) Copyright 2015, University of Manchester
+*
+* Gas_Transmission: Gas Transmission Problem - Belgium
+* Network-ID:  12
+* Scenario-ID: 12
+*******************************************************************************
+
+* Network definition
+
+SETS
+
+i vector of all nodes /
+Anderlues
+Antwerpen
+Arlon
+Berneau
+Blaregnies
+Brugge
+Dudzele
+Gent
+Liege
+Loenhout
+Mons
+Namur
+Peronnes
+Petange
+Sinsin
+Voeren
+Wanze
+Warnand
+Zeebrugge
+Zomergem
+    /
+
+Alias(i,j)
+
+* Node types
+
+SETS
+
+city(i) /
+Anderlues
+Antwerpen
+Arlon
+Berneau
+Blaregnies
+Brugge
+Dudzele
+Gent
+Liege
+Loenhout
+Mons
+Namur
+Peronnes
+Petange
+Sinsin
+Voeren
+Wanze
+Warnand
+Zeebrugge
+Zomergem
+/
+
+SETS
+
+link_name /
+Anderlues_Peronnes
+Antwerpen-Gent
+Arlon_Petange
+Berneau_Liege
+Berneau_Liege_2
+Brugge_Zomergem
+Dudzele_Brugge
+Dudzele_Brugge_2
+Gent_Zomergem
+Liege_Warnand
+Liege_Warnand_2
+Loenhout_Antwerpen
+Mons_Blaregnies
+Namur_Anderlues
+Peronnes_Mons
+Sinsin_Arlon
+Voeren_Berneau
+Voeren_Berneau_2
+Wanze_Sinsin
+Warnand_Namur
+Warnand_Wanze
+Zeebrugg_Dudzele
+Zeebrugge_Dudzele_2
+Zomergem_Peronnes
+/
+
+links (link_name, i, j) vector of all links /
+Anderlues_Peronnes . Anderlues . Peronnes
+Antwerpen-Gent . Antwerpen . Gent
+Arlon_Petange . Arlon . Petange
+Berneau_Liege . Berneau . Liege
+Berneau_Liege_2 . Berneau . Liege
+Brugge_Zomergem . Brugge . Zomergem
+Dudzele_Brugge . Dudzele . Brugge
+Dudzele_Brugge_2 . Dudzele . Brugge
+Gent_Zomergem . Gent . Zomergem
+Liege_Warnand . Liege . Warnand
+Liege_Warnand_2 . Liege . Warnand
+Loenhout_Antwerpen . Loenhout . Antwerpen
+Mons_Blaregnies . Mons . Blaregnies
+Namur_Anderlues . Namur . Anderlues
+Peronnes_Mons . Peronnes . Mons
+Sinsin_Arlon . Sinsin . Arlon
+Voeren_Berneau . Voeren . Berneau
+Voeren_Berneau_2 . Voeren . Berneau
+Wanze_Sinsin . Wanze . Sinsin
+Warnand_Namur . Warnand . Namur
+Warnand_Wanze . Warnand . Wanze
+Zeebrugg_Dudzele . Zeebrugge . Dudzele
+Zeebrugge_Dudzele_2 . Zeebrugge . Dudzele
+Zomergem_Peronnes . Zomergem . Peronnes
+    /
+
+* Link types
+
+passive /
+Anderlues_Peronnes
+Antwerpen-Gent
+Arlon_Petange
+Berneau_Liege
+Berneau_Liege_2
+Brugge_Zomergem
+Dudzele_Brugge
+Dudzele_Brugge_2
+Gent_Zomergem
+Liege_Warnand
+Liege_Warnand_2
+Loenhout_Antwerpen
+Mons_Blaregnies
+Namur_Anderlues
+Peronnes_Mons
+Sinsin_Arlon
+Warnand_Namur
+Warnand_Wanze
+Zeebrugg_Dudzele
+Zeebrugge_Dudzele_2
+Zomergem_Peronnes
+/
+
+active /
+Voeren_Berneau
+Voeren_Berneau_2
+Wanze_Sinsin
+/
+
+* Connectivity matrix.
+Table Connect(i,j)
+                         Anderlues                Antwerpen                Arlon                    Berneau                  Blaregnies               Brugge                   Dudzele                  Gent                     Liege                    Loenhout                 Mons                     Namur                    Peronnes                 Petange                  Sinsin                   Voeren                   Wanze                    Warnand                  Zeebrugge                Zomergem                 
+Anderlues                0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        1                        0                        0                        0                        0                        0                        0                        0                        
+
+Antwerpen                0                        0                        0                        0                        0                        0                        0                        1                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        
+
+Arlon                    0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        1                        0                        0                        0                        0                        0                        0                        
+
+Berneau                  0                        0                        0                        0                        0                        0                        0                        0                        1                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        
+
+Blaregnies               0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        
+
+Brugge                   0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        1                        
+
+Dudzele                  0                        0                        0                        0                        0                        1                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        
+
+Gent                     0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        1                        
+
+Liege                    0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        1                        0                        0                        
+
+Loenhout                 0                        1                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        
+
+Mons                     0                        0                        0                        0                        1                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        
+
+Namur                    1                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        
+
+Peronnes                 0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        1                        0                        0                        0                        0                        0                        0                        0                        0                        0                        
+
+Petange                  0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        
+
+Sinsin                   0                        0                        1                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        
+
+Voeren                   0                        0                        0                        1                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        
+
+Wanze                    0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        1                        0                        0                        0                        0                        0                        
+
+Warnand                  0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        1                        0                        0                        0                        0                        1                        0                        0                        0                        
+
+Zeebrugge                0                        0                        0                        0                        0                        0                        1                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        
+
+Zomergem                 0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        1                        0                        0                        0                        0                        0                        0                        0                        
+
+
+Parameter x (i)/
+Anderlues                429369.000               
+Antwerpen                493318.000               
+Arlon                    648199.000               
+Berneau                  638194.000               
+Blaregnies               434192.000               
+Brugge                   368666.000               
+Dudzele                  359500.000               
+Gent                     415761.000               
+Liege                    627891.000               
+Loenhout                 516936.000               
+Mons                     439995.000               
+Namur                    547981.000               
+Peronnes                 461688.000               
+Petange                  654607.000               
+Sinsin                   586210.000               
+Voeren                   641508.000               
+Wanze                    581029.000               
+Warnand                  579118.000               
+Zeebrugge                357870.000               
+Zomergem                 397652.000               
+/;
+
+Parameter y (i)/
+Anderlues                6495706.000              
+Antwerpen                6671775.000              
+Arlon                    6392646.000              
+Berneau                  6576140.000              
+Blaregnies               6508653.000              
+Brugge                   6660982.000              
+Dudzele                  6670051.000              
+Gent                     6633377.000              
+Liege                    6563768.000              
+Loenhout                 6692418.000              
+Mons                     6524528.000              
+Namur                    6537591.000              
+Peronnes                 6522264.000              
+Petange                  6370160.000              
+Sinsin                   6494500.000              
+Voeren                   6578772.000              
+Wanze                    6539330.000              
+Warnand                  6551332.000              
+Zeebrugge                6680229.000              
+Zomergem                 6642641.000              
+/;
+
+* Network data
+
+Scalar T
+/                        
+281.15                   
+/;
+                      
+Scalar Z
+/                        
+0.8                      
+/;
+                      
+Scalar den
+/                        
+0.616                    
+/;
+                      
+Scalar e
+/                        
+0.05                     
+/;
+                      
+* Nodes data
+
+Parameter  sup(i)
+/                        
+Anderlues                1.2                      
+Antwerpen                -4.034                   
+Arlon                    -0.222                   
+Berneau                  0                        
+Blaregnies               -15.616                  
+Brugge                   -3.918                   
+Dudzele                  8.4                      
+Gent                     -5.256                   
+Liege                    -6.385                   
+Loenhout                 4.8                      
+Mons                     -6.848                   
+Namur                    -2.12                    
+Peronnes                 0.96                     
+Petange                  -1.919                   
+Sinsin                   0                        
+Voeren                   22.012                   
+Wanze                    0                        
+Warnand                  0                        
+Zeebrugge                11.594                   
+Zomergem                 0                        
+/;
+                      
+Parameter  slo(i)
+/                        
+Anderlues                0                        
+Antwerpen                -900                     
+Arlon                    -900                     
+Berneau                  0                        
+Blaregnies               -900                     
+Brugge                   -900                     
+Dudzele                  0                        
+Gent                     -900                     
+Liege                    -900                     
+Loenhout                 0                        
+Mons                     -900                     
+Namur                    -900                     
+Peronnes                 0                        
+Petange                  -900                     
+Sinsin                   0                        
+Voeren                   20.344                   
+Wanze                    0                        
+Warnand                  0                        
+Zeebrugge                8.87                     
+Zomergem                 0                        
+/;
+                      
+Parameter  c(i)
+/                        
+Anderlues                0                        
+Antwerpen                0                        
+Arlon                    0                        
+Berneau                  0                        
+Blaregnies               0                        
+Brugge                   0                        
+Dudzele                  2.28                     
+Gent                     0                        
+Liege                    0                        
+Loenhout                 2.28                     
+Mons                     0                        
+Namur                    0                        
+Peronnes                 1.68                     
+Petange                  0                        
+Sinsin                   0                        
+Voeren                   1.68                     
+Wanze                    0                        
+Warnand                  0                        
+Zeebrugge                2.28                     
+Zomergem                 0                        
+/;
+                      
+Parameter  pup(i)
+/                        
+Anderlues                66.2                     
+Antwerpen                80                       
+Arlon                    66.2                     
+Berneau                  66.2                     
+Blaregnies               66.2                     
+Brugge                   80                       
+Dudzele                  77                       
+Gent                     80                       
+Liege                    66.2                     
+Loenhout                 77                       
+Mons                     66.2                     
+Namur                    66.2                     
+Peronnes                 66.2                     
+Petange                  66.2                     
+Sinsin                   63                       
+Voeren                   66.2                     
+Wanze                    66.2                     
+Warnand                  66.2                     
+Zeebrugge                77                       
+Zomergem                 80                       
+/;
+                      
+Parameter  plo(i)
+/                        
+Anderlues                0                        
+Antwerpen                30                       
+Arlon                    0                        
+Berneau                  0                        
+Blaregnies               50                       
+Brugge                   30                       
+Dudzele                  0                        
+Gent                     30                       
+Liege                    30                       
+Loenhout                 0                        
+Mons                     0                        
+Namur                    0                        
+Peronnes                 0                        
+Petange                  25                       
+Sinsin                   0                        
+Voeren                   50                       
+Wanze                    0                        
+Warnand                  0                        
+Zeebrugge                0                        
+Zomergem                 0                        
+/;
+                      
+* Links data
+
+Parameter L(link_name, i,j)
+/                        
+Anderlues_Peronnes.Anderlues.Peronnes	                        5                        
+Antwerpen-Gent.Antwerpen.Gent	                        29                       
+Arlon_Petange.Arlon.Petange	                        6                        
+Berneau_Liege.Berneau.Liege	                        20                       
+Berneau_Liege_2.Berneau.Liege	                        20                       
+Brugge_Zomergem.Brugge.Zomergem	                        26                       
+Dudzele_Brugge.Dudzele.Brugge	                        6                        
+Dudzele_Brugge_2.Dudzele.Brugge	                        6                        
+Gent_Zomergem.Gent.Zomergem	                        19                       
+Liege_Warnand.Liege.Warnand	                        25                       
+Liege_Warnand_2.Liege.Warnand	                        25                       
+Loenhout_Antwerpen.Loenhout.Antwerpen	                        43                       
+Mons_Blaregnies.Mons.Blaregnies	                        25                       
+Namur_Anderlues.Namur.Anderlues	                        40                       
+Peronnes_Mons.Peronnes.Mons	                        10                       
+Sinsin_Arlon.Sinsin.Arlon	                        98                       
+Voeren_Berneau.Voeren.Berneau	                        5                        
+Voeren_Berneau_2.Voeren.Berneau	                        5                        
+Wanze_Sinsin.Wanze.Sinsin	                        26                       
+Warnand_Namur.Warnand.Namur	                        42                       
+Warnand_Wanze.Warnand.Wanze	                        10.5                     
+Zeebrugg_Dudzele.Zeebrugge.Dudzele	                        4                        
+Zeebrugge_Dudzele_2.Zeebrugge.Dudzele	                        4                        
+Zomergem_Peronnes.Zomergem.Peronnes	                        55                       
+/;
+                      
+Parameter D(link_name, i,j)
+/                        
+Anderlues_Peronnes.Anderlues.Peronnes	                        890                      
+Antwerpen-Gent.Antwerpen.Gent	                        590.1                    
+Arlon_Petange.Arlon.Petange	                        315.5                    
+Berneau_Liege.Berneau.Liege	                        890                      
+Berneau_Liege_2.Berneau.Liege	                        395                      
+Brugge_Zomergem.Brugge.Zomergem	                        890                      
+Dudzele_Brugge.Dudzele.Brugge	                        890                      
+Dudzele_Brugge_2.Dudzele.Brugge	                        890                      
+Gent_Zomergem.Gent.Zomergem	                        590.1                    
+Liege_Warnand.Liege.Warnand	                        890                      
+Liege_Warnand_2.Liege.Warnand	                        395                      
+Loenhout_Antwerpen.Loenhout.Antwerpen	                        590.1                    
+Mons_Blaregnies.Mons.Blaregnies	                        890                      
+Namur_Anderlues.Namur.Anderlues	                        890                      
+Peronnes_Mons.Peronnes.Mons	                        890                      
+Sinsin_Arlon.Sinsin.Arlon	                        315.5                    
+Voeren_Berneau.Voeren.Berneau	                        890                      
+Voeren_Berneau_2.Voeren.Berneau	                        395                      
+Wanze_Sinsin.Wanze.Sinsin	                        315.5                    
+Warnand_Namur.Warnand.Namur	                        890                      
+Warnand_Wanze.Warnand.Wanze	                        395.5                    
+Zeebrugg_Dudzele.Zeebrugge.Dudzele	                        890                      
+Zeebrugge_Dudzele_2.Zeebrugge.Dudzele	                        890                      
+Zomergem_Peronnes.Zomergem.Peronnes	                        890                      
+/;
+                      

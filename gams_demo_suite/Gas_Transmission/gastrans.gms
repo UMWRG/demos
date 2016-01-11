@@ -47,7 +47,7 @@ and Extension of the Simplex Algorithm. Management Science 46, 11
 $offtext
 $eolcom //
 
-$ 	include "hydra_input.txt"
+$ 	include "input.txt"
 
 parameter lam(link_name,i,j)    lambda constant (page 1464)
           c2(link_name,i,j)     pipe constant (page 1463)

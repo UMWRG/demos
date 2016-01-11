@@ -80,7 +80,7 @@
         <layout>
             <item>
                 <name>image</name>
-                <value>images\reservoir.png</value>
+                <value>images\home_with_smog_pipe_16.png</value>
             </item>
             <item>
                 <name>group</name>
@@ -136,8 +136,20 @@
         <layout>
             <item>
                 <name>image</name>
-                <value>images\urban.png</value>
+                <value>images\red_line.png</value>
             </item>
+			<item>
+					<name>symbol</name>
+					<value>solid</value>
+				</item>
+				<item>
+					<name>colour</name>
+					<value>black</value>
+				</item>
+				<item>
+					<name>line_weight</name>
+					<value>2</value>
+				</item>
             <item>
                 <name>group</name>
                 <value>passive</value>
@@ -170,6 +182,18 @@
                 <name>image</name>
                 <value>images\red_line.png</value>
             </item>
+			<item>
+					<name>symbol</name>
+					<value>solid</value>
+				</item>
+				<item>
+					<name>colour</name>
+					<value>black</value>
+				</item>
+				<item>
+					<name>line_weight</name>
+					<value>2</value>
+				</item>
             <item>
                 <name>group</name>
                 <value>active</value>
