@@ -32,12 +32,9 @@ To run this version with Hydra, user needs to:
 - Download and install GAMS App into Hydra Modeller
 - Run the GAMS app using the provided GAMS model.
 
-
-Loading the model data (above) into Hydra Modeller, you can visualize the model network (cities and pipelines) on their actual location on a map.
-In addition you can explore and modify network data easily. Using GAMSApp, the user will be able to run 
-the model automatically and the results will be stored so you can explore them. 
-Using Hydra Modeller you can create multiple scenarios and the run the model against each one. Then 
-you can compare the results.
+You can load GIS layer using the provided wms file into Hydra Modeller then you can visualize the model network (cities and pipelines) on their actual location on a map.
+In addition you can explore and modify network data easily. Using GAMSApp, the user will be able to run the model automatically and the results will be stored so you can explore them. 
+Using Hydra Modeller you can create multiple scenarios and the run the model against each one. Then you can compare the results.
 
 You can find more details about using Hydra Modeller in this [tutorial] (https://github.com/UMWRG/demos/blob/master/doc/GettingStartedWithHydraModeller.pdf>). [1]
 
