@@ -57,9 +57,9 @@ Model inputs:
 
 Model Outputs
 -------------
-- Arc flow (1e6 SCM)
+- pipeline flow (1e6 SCM)
 - supply - demand (1e6 SCM)
-- squared pressure 1e6*SCM
+- squared pressure 
 - supply cost ($)
 
 You can find model formulation and core detailed description of the Belgium network in [1].
