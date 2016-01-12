@@ -3,9 +3,9 @@ Gas Transmission Problem - Belgium
 
 Files available with this model
 -------------------------------
-- [Template.xml] (https://github.com/UMWRG/demos/tree/master/templates/Gas_Transmission/Template>). : template which defines nodes and links and their attributes.
-- [Gas\_Trans.xlsx] (https://github.com/UMWRG/demos/tree/master/data/Gas_Transmission>). : An excel file to load in Hydra Modeller which contain the network and scenario dara.
-- [openstreet.wms] (https://github.com/UMWRG/demos/tree/master/data/Gas_Transmission/GIS>). : The file you can load as a background in Hydra Modeller.
+- [Template.xml] (https://github.com/UMWRG/demos/tree/master/templates/Gas_Transmission/Template>) : template which defines nodes and links and their attributes.
+- [Gas\_Trans.xlsx] (https://github.com/UMWRG/demos/tree/master/data/Gas_Transmission>) : An excel file to load in Hydra Modeller which contain the network and scenario data.
+- [openstreet.wms] (https://github.com/UMWRG/demos/tree/master/data/Gas_Transmission/GIS>) : The file you can load as a background in Hydra Modeller.
 - gastrans.gms : The current version of the GAS transmission GAMS code
 - input.txt    : The input file for the model, containing the network information and data. This is the file Hydra creates using the GAMS App.
 
