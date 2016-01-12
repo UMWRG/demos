@@ -70,7 +70,7 @@ Version History
 More Information
 ----------------
 
-1 de Wolf, D, and Smeers, Y, The Gas Transmission Problem Solved by and Extension of the Simplex Algorithm. Management Science 46, 11 (2000), 1454-1465.
-2 Stephen Knox, ''Getting started with Hydra Modeller'', https://github.com/UMWRG/demos/blob/master/doc/GettingStartedWithHydraModeller.pdf, Dec 2015.
+1. de Wolf, D, and Smeers, Y, The Gas Transmission Problem Solved by and Extension of the Simplex Algorithm. Management Science 46, 11 (2000), 1454-1465.
+2. Stephen Knox, ''Getting started with Hydra Modeller'', https://github.com/UMWRG/demos/blob/master/doc/GettingStartedWithHydraModeller.pdf, Dec 2015.
 
 
