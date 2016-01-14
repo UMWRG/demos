@@ -9,7 +9,7 @@ Option Limcol=100;
 Option Limrow=1500;
 option optcr = 0.1 ;
 
-$        include "ebsd.txt";
+$        include "input.txt";
 
 Alias(i,aa)
 
