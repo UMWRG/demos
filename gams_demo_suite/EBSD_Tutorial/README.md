@@ -60,6 +60,6 @@ Version History
 
 More Information
 ----------------
-1. [Model formulation and core detailed description of the model and network in this document] (https://github.com/UMWRG/demos/blob/master/gams_demo_suite/EBSD_Tutorial/EBSD_Tutorial.docx>)
-2. [Details about using Hydra Modeller in this tutorial] (https://github.com/UMWRG/demos/blob/master/doc/GettingStartedWithHydraModeller.pdf>).  
+1. [Model formulation and core detailed description of the model and network document] (https://github.com/UMWRG/demos/blob/master/gams_demo_suite/EBSD_Tutorial/EBSD_Tutorial.docx>)
+2. [Details about using Hydra Modeller tutorial] (https://github.com/UMWRG/demos/blob/master/doc/GettingStartedWithHydraModeller.pdf>).  
 
