@@ -1,4 +1,5 @@
-Water infrastructure investment planning model ==============================================
+Water infrastructure investment planning model 
+==============================================
 
 Files available with this model
 -------------------------------
