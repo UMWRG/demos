@@ -3,31 +3,30 @@ Water infrastructure investment planning model
 
 Files available with this model
 -------------------------------
-- [Template.xml] (https://github.com/UMWRG/demos/tree/master/templates/EBSD_model/template>) : template which defines nodes and links and their attributes.
-- [EBSD_Tutorial_Data.xlsx] (https://github.com/UMWRG/demos/tree/master/data/EBSD_Tutorial>) : An excel file to load in Hydra Modeller which contain the network and scenario data.
+- [Template.xml] (https://github.com/UMWRG/demos/tree/master/templates/EBSD_model/template>) : The template which defines the EBSD node and link types and their attributes.
+- [EBSD_Tutorial_Data.xlsx] (https://github.com/UMWRG/demos/tree/master/data/EBSD_Tutorial>) : An excel file containing the network and scenario data. You can load this file into Hydra Modeller.
 - [openstreet.wms] (https://github.com/UMWRG/demos/tree/master/data/EBSD_Tutorial/GIS>) : The file you can load as a background in Hydra Modeller.
 - EBSD_Tutorial.gms : The current version of the EBS tutorial GAMS code
-- input.txt    : The input file for the model, containing the network information and data. This is the file Hydra creates using the GAMS App.
+- input.txt    : The input file for the model, containing the network information and data. This is the file Hydra created using the GAMS App.
 
 Purpose of Model
 ----------------
-Economics of Balancing Supply and Demand (EBSD) planning framework used by the water industry since 2002 in England. The base model is formulated as a mixed integer linear programming optimisation model that selects the least cost annual schedule of supply and demand management options that meet forecasted demand over the planning horizon. 
-This a simple tutorial model for EBSD where a hypothetical regional system composed by two water companies is considered. Water Company 1 has one demand node named ‘WRZ1’, node ‘WRZ2’ belongs to Company 2. Existing and optional future schemes are represented through nodes, interconnected via links to their respective demand nodes. Demand nodes‘WRZ2’ can also receive water from ‘WRZ1’ through an existing link or two optional ones. The demand required in nodes ‘WRZ1’ and ‘WRZ2’ are given. . The planning period 26 years, from year 2010 to year 2035.
+Economics of Balancing Supply and Demand (EBSD) planning framework has been used by the water industry in England since 2002. The base model is formulated as a mixed integer linear programming optimisation model that selects the least cost annual schedule of supply and demand management options that meet forecasted demand over the planning horizon. 
+This a simple tutorial model for EBSD where a hypothetical regional system composed by two water companies is considered. Water Company 1 has one demand node named â€˜WRZ1â€™, node â€˜WRZ2â€™ belongs to Company 2. Existing and optional future schemes are represented through nodes, interconnected via links to their respective demand nodes. Demand nodesâ€˜WRZ2â€™ can also receive water from â€˜WRZ1â€™ through an existing link or two optional ones. The demand required in nodes â€˜WRZ1â€™ and â€˜WRZ2â€™ are given. . The planning period 26 years, from year 2010 to year 2035.
 
 Running the Model
 -----------------
 The GAMS code provided here is modified to work with the input file which is genrated from Hydra's GAMS App.
 
-This model can be run directly with the input file provided file(input.txt).
+This model can be run directly with the input file provided file (input.txt).
 
-To run this version with Hydra, user needs to:
-- Install the template
-- Import the newtork and scenario data using the excel file.
-- Download and install GAMS App into Hydra Modeller
-- Run the GAMS app using the provided GAMS model.
+You can also run the model through Hydra Modeller. Hydra Modeller displays the network graphically with a GIS background and allows you to edit the network data and create new scenarios. Using the [GAMS App] (http://hydraappstore.com/details/?app=1088), you can run the model automatically and the results will be stored in Hydra Modeller so you can explore them. You can then create multiple scenarios and the run the model against each one. Then you can compare the results graphically.
 
-Hydra Modeller also allows you to explore and modify network data easily. Using the [GAMS App] (http://hydraappstore.com/details/?app=1088), you can run the model automatically and the results will be stored in Hydra Modeller so you can explore them. 
-You can then create multiple scenarios and the run the model against each one. Then you can compare the results graphically.
+To run this version with Hydra, follow the following steps:
+- Install the template.
+- Import the network and scenario data using the excel file.
+- Download and install the GAMS App into Hydra Modeller.
+- Run the GAMS App using the provided GAMS model. This will create the 'input.txt' file, run the model and then import the results back to Hydra.
 
 Model inputs:
 -------------
@@ -38,15 +37,15 @@ Model inputs:
 -  final year of the planning horizon,
 -  connectivity matrix (network topology)
 -  sundiscapi, lundiscapi,j= undiscounted capital cost for optional sources and links respectively
-- fixed operating costs for sources and links 
+-  fixed operating costs for sources and links 
 -  variable operating costs for sources and links 
-- water demand at demand node
+-  water demand at demand node
 
 Model Outputs
 -------------
-- Annualised capital and operating cost of sources&links [-];
-- Activation for optional source during period t [-]
-- Activitation of link optilnal during period t [-];
+- Annualised capital and operating cost of sources&links [no unit];
+- Activation for optional source during period t [no unit]
+- Activitation of link optilnal during period t [no unit];
 - Flow from node i to j during year t [1e6 m^3 mon^-1]
 - Supply from source i during year t [1e6 m^3];
 
