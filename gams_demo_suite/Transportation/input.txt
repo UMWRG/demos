@@ -1,0 +1,182 @@
+* Data exported from Hydra using GAMSplugin.
+* (c) Copyright 2015, University of Manchester
+*
+* transportation_model: Gas Transmission Problem - Belgium
+* Network-ID:  3
+* Scenario-ID: 3
+*******************************************************************************
+
+* Network definition
+
+SETS
+
+i vector of all nodes /
+A
+B
+C
+Chicago
+Cleveland
+Detroit
+Milwaukee 
+Minneapolis
+New_York
+    /
+
+Alias(i,j)
+
+* Node types
+
+SETS
+
+factory(i) /
+A
+B
+C
+/
+
+city(i) /
+Chicago
+Cleveland
+Detroit
+Milwaukee 
+Minneapolis
+New_York
+/
+
+SETS
+
+links(i,j) vector of all links /
+A . Chicago
+A . Cleveland
+A . Detroit
+A . Milwaukee 
+A . Minneapolis
+A . New_York
+B . Chicago
+B . Cleveland
+B . Detroit
+B . Milwaukee 
+B . Minneapolis
+B . New_York
+C . Chicago
+C . Cleveland
+C . Detroit
+C . Milwaukee 
+C . Minneapolis
+C . New_York
+    /
+
+* Link types
+
+transportation_line(i,j) /
+A . Chicago
+A . Cleveland
+A . Detroit
+A . Milwaukee 
+A . Minneapolis
+A . New_York
+B . Chicago
+B . Cleveland
+B . Detroit
+B . Milwaukee 
+B . Minneapolis
+B . New_York
+C . Chicago
+C . Cleveland
+C . Detroit
+C . Milwaukee 
+C . Minneapolis
+C . New_York
+/
+
+* Connectivity matrix.
+Table Connect(i,j)
+                           A                          B                          C                          Chicago                    Cleveland                  Detroit                    Milwaukee                  Minneapolis                New_York                   
+A                          0                          0                          0                          1                          1                          1                          1                          1                          1                          
+
+B                          0                          0                          0                          1                          1                          1                          1                          1                          1                          
+
+C                          0                          0                          0                          1                          1                          1                          1                          1                          1                          
+
+Chicago                    0                          0                          0                          0                          0                          0                          0                          0                          0                          
+
+Cleveland                  0                          0                          0                          0                          0                          0                          0                          0                          0                          
+
+Detroit                    0                          0                          0                          0                          0                          0                          0                          0                          0                          
+
+Milwaukee                  0                          0                          0                          0                          0                          0                          0                          0                          0                          
+
+Minneapolis                0                          0                          0                          0                          0                          0                          0                          0                          0                          
+
+New_York                   0                          0                          0                          0                          0                          0                          0                          0                          0                          
+
+
+Parameter x (i)/
+A                          -13387679.000              
+B                          -13733973.000              
+C                          -13650204.000              
+Chicago                    -9753849.000               
+Cleveland                  -9088808.000               
+Detroit                    -9244019.000               
+Milwaukee                  -9786083.000               
+Minneapolis                -10381301.000              
+New_York                   -8231842.000               
+/;
+
+Parameter y (i)/
+A                          4203113.000                
+B                          4921749.000                
+C                          5864680.000                
+Chicago                    5143421.000                
+Cleveland                  5089941.000                
+Detroit                    5214220.000                
+Milwaukee                  5319729.000                
+Minneapolis                5618890.000                
+New_York                   4972068.000                
+/;
+
+* Network data
+
+* Nodes data
+
+Parameter  capacity(i)
+/                          
+A                          160                        
+B                          85                         
+C                          320                        
+/;
+                        
+Parameter  demand(i)
+/                          
+Chicago                    39                         
+Cleveland                  28                         
+Detroit                    42                         
+Milwaukee                  25                         
+Minneapolis                55                         
+New_York                   70                         
+/;
+                        
+* Links data
+
+Parameter trans_cost(i,j)
+/                          
+A . Chicago                9.1                        
+A . Cleveland              14.3                       
+A . Detroit                12.5                       
+A . Milwaukee              15.55                      
+A . Minneapolis            13.8                       
+A . New_York               10.8                       
+B . Chicago                15.6                       
+B . Cleveland              17.1                       
+B . Detroit                13.2                       
+B . Milwaukee              13.4                       
+B . Minneapolis            12.8                       
+B . New_York               13.2                       
+C . Chicago                14.6                       
+C . Cleveland              13.9                       
+C . Detroit                13.4                       
+C . Milwaukee              15.2                       
+C . Minneapolis            13.6                       
+C . New_York               14.4                       
+/;
+                        
