@@ -32,18 +32,18 @@ To run this version with Hydra, user needs to:
 Using the network data and GIS (wms) file provided, Hydra Modeller allows you to visualize the model network (cities and factories) on their on a map. Hydra Modeller also allows you to explore and modify network data easily. Using the [GAMS App] (http://hydraappstore.com/details/?app=1088), you can run the model automatically and the results will be stored in Hydra Modeller so you can explore them. 
 You can then create multiple scenarios and the run the model against each one. Then you can compare the results graphically.
 
-You can find more details about using Hydra Modeller in this [tutorial] (https://github.com/UMWRG/demos/blob/master/doc/GettingStartedWithHydraModeller.pdf>). [1]
+You can find more details about using Hydra Modeller in this [tutorial] (https://github.com/UMWRG/demos/blob/master/doc/GettingStartedWithHydraModeller.pdf>). [2]
 
 Model inputs:
 -------------
-- transportation cost 
-- demand at markets
+- transportation cost ($)
+- demand at markets 
 - capacity of factories
 
 Model Outputs
 -------------
 - shipment quantities 
-- total transportation costs
+- total transportation costs ($)	
 
 You can find model formulation and core detailed description of the Belgium network in [1].
 
