@@ -12,7 +12,7 @@ Files available with this model
 Purpose of Model
 ----------------
 Economics of Balancing Supply and Demand (EBSD) planning framework has been used by the water industry in England since 2002. The base model is formulated as a mixed integer linear programming optimisation model that selects the least cost annual schedule of supply and demand management options that meet forecasted demand over the planning horizon. 
-This a simple tutorial model for EBSD where a hypothetical regional system composed by two water companies is considered. Water Company 1 has one demand node named ‘WRZ1’, node ‘WRZ2’ belongs to Company 2. Existing and optional future schemes are represented through nodes, interconnected via links to their respective demand nodes. Demand nodes‘WRZ2’ can also receive water from ‘WRZ1’ through an existing link or two optional ones. The demand required in nodes ‘WRZ1’ and ‘WRZ2’ are given. . The planning period 26 years, from year 2010 to year 2035.
+This a simple tutorial model for EBSD where a hypothetical regional system composed by two water companies is considered. Water Company 1 has one demand node named WRZ1, node WRZ12, belongs to Company 2. Existing and optional future schemes are represented through nodes, interconnected via links to their respective demand nodes. Demand nodes WRZ2 can also receive water from WRZ1 through an existing link or two optional ones. The demand required in nodes WRZ1 and WRZ2 are given. The planning period 26 years, from year 2010 to year 2035.
 
 Running the Model
 -----------------
