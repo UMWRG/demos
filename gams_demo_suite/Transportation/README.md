@@ -36,11 +36,14 @@ You can find more details about using Hydra Modeller in this [tutorial] (https:/
 
 Model inputs:
 -------------
--  
+- transportation cost 
+- demand at markets
+- capacity of factories
 
 Model Outputs
 -------------
--  
+- shipment quantities 
+- total transportation costs
 
 You can find model formulation and core detailed description of the Belgium network in [1].
 
