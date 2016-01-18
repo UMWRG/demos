@@ -17,13 +17,13 @@
 								<name>city</name>
 								<description>city</description>
 								<displayname>city</displayname>
-								<image>images\reservoir.png</image>
+								<image>images\city_4.png</image>
 							</group>
                             <group>
 								<name>factory</name>
 								<description>factory</description>
 								<displayname>factory</displayname>
-								<image>images\urban.png</image>
+								<image>images\factory_1.png</image>
 							</group>   
 							<group>
 								<name>transportation_line</name>
@@ -54,7 +54,7 @@
         <layout>
             <item>
                 <name>image</name>
-                <value>images\reservoir.png</value>
+                <value>images\city_4.png</value>
             </item>
             <item>
                 <name>group</name>
@@ -74,7 +74,7 @@
         <layout>
             <item>
                 <name>image</name>
-                <value>images\urban.png</value>
+                <value>images\factory_1.png</value>
             </item>
             <item>
                 <name>group</name>
