@@ -76,7 +76,7 @@
       <name>delivery</name>
       <dimension>Volumetric flow rate</dimension>
       <is_var>Y</is_var>
-      <data_type>timeseries</data_type>
+      <data_type>scalar</data_type>
     </attribute>
     <attribute>
       <name>consumption_coefficient</name>
@@ -110,7 +110,7 @@
       <name>delivery</name>
       <dimension>Volumetric flow rate</dimension>
       <is_var>Y</is_var>
-	  <data_type>timeseries</data_type>
+	  <data_type>scalar</data_type>
     </attribute>
     <attribute>
       <name>consumption_coefficient</name>
@@ -144,7 +144,7 @@
       <name>inflow</name>
       <dimension>Volumetric flow rate</dimension>
       <is_var>N</is_var>
-	  <data_type>timeseries</data_type>
+	  <data_type>scalar</data_type>
     </attribute>
   </resource>
     <resource>
@@ -199,31 +199,31 @@
       <name>cost</name>
       <dimension>Monetary value</dimension>
       <is_var>N</is_var>
-	  <data_type>timeseries</data_type>
+	  <data_type>scalar</data_type>
     </attribute>
     <attribute>
       <name>flow_multiplier</name>
       <dimension>Dimensionless</dimension>
       <is_var>N</is_var>
-	  <data_type>timeseries</data_type>
+	  <data_type>scalar</data_type>
     </attribute>
     <attribute>
       <name>min_flow</name>
       <dimension>Volumetric flow rate</dimension>
       <is_var>N</is_var>
-	  <data_type>timeseries</data_type>
+	  <data_type>scalar</data_type>
     </attribute>
     <attribute>
       <name>max_flow</name>
       <dimension>Volumetric flow rate</dimension>
       <is_var>N</is_var>
-	  <data_type>timeseries</data_type>
+	  <data_type>scalar</data_type>
     </attribute>
 	<attribute>
       <name>Q</name>
       <dimension>Volumetric flow rate</dimension>
       <is_var>Y</is_var>
-	  <data_type>timeseries</data_type>
+	  <data_type>scalar</data_type>
     </attribute>
   </resource>
   <resource>
