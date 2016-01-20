@@ -1,0 +1,192 @@
+* Data exported from Hydra using GAMSplugin.
+* (c) Copyright 2015, University of Manchester
+*
+* Water Distribution: Design of a Water Distribution Network
+* Network-ID:  10
+* Scenario-ID: 10
+*******************************************************************************
+
+* Network definition
+
+SETS
+
+i vector of all nodes /
+cc
+e
+n
+nw
+s
+se
+sw
+w
+    /
+
+Alias(i,j)
+
+* Node types
+
+SETS
+
+demand_nodes(i) /
+cc
+n
+s
+se
+sw
+w
+/
+
+reservoirs_nodes(i) /
+e
+nw
+/
+
+SETS
+
+links(i,j) vector of all links /
+cc . n
+cc . s
+cc . sw
+cc . w
+e . cc
+e . n
+e . s
+e . se
+nw . cc
+nw . n
+nw . w
+s . se
+s . sw
+sw . w
+    /
+
+* Link types
+
+* Connectivity matrix.
+Table Connect(i,j)
+         cc       e        n        nw       s        se       sw       w        
+cc       0        0        1        0        1        0        1        1        
+
+e        1        0        1        0        1        1        0        0        
+
+n        0        0        0        0        0        0        0        0        
+
+nw       1        0        1        0        0        0        0        1        
+
+s        0        0        0        0        0        1        1        0        
+
+se       0        0        0        0        0        0        0        0        
+
+sw       0        0        0        0        0        0        0        1        
+
+w        0        0        0        0        0        0        0        0        
+
+
+Parameter x (i)/
+cc       2000.000 
+e        4000.000 
+n        3700.000 
+nw       1200.000 
+s        2000.000 
+se       4000.000 
+sw       900.000  
+w        750.000  
+/;
+
+Parameter y (i)/
+cc       2300.000 
+e        2200.000 
+n        3500.000 
+nw       3600.000 
+s        1000.000 
+se       900.000  
+sw       1200.000 
+w        2400.000 
+/;
+
+* Network data
+
+Scalar dprc
+/        
+6.90E-02 
+/;
+      
+Scalar dmin
+/        
+0.15     
+/;
+      
+Scalar dmax
+/        
+2        
+/;
+      
+Scalar hloss
+/        
+1.03E-03 
+/;
+      
+Scalar r
+/        
+0.1      
+/;
+      
+Scalar qpow
+/        
+2        
+/;
+      
+Scalar cpow
+/        
+1.29     
+/;
+      
+Scalar dpow
+/        
+5.33     
+/;
+      
+* Nodes data
+
+Parameter  demand(i)
+/        
+cc       1.212    
+n        0.456    
+s        0.652    
+se       0.252    
+sw       0.245    
+w        0.452    
+/;
+      
+Parameter  height(i)
+/        
+cc       3.02     
+e        3.25     
+n        6.3      
+nw       6.5      
+s        1.5      
+se       0        
+sw       4.2      
+w        5.16     
+/;
+      
+Parameter  pcost(i)
+/        
+e        1.02     
+nw       1.02     
+/;
+      
+Parameter  supply(i)
+/        
+e        6        
+nw       2.5      
+/;
+      
+Parameter  wcost(i)
+/        
+e        0.17     
+nw       0.2      
+/;
+      
+* Links data
+

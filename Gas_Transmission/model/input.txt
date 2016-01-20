@@ -2,8 +2,8 @@
 * (c) Copyright 2015, University of Manchester
 *
 * Gas_Transmission: Gas Transmission Problem - Belgium
-* Network-ID:  12
-* Scenario-ID: 12
+* Network-ID:  9
+* Scenario-ID: 9
 *******************************************************************************
 
 * Network definition

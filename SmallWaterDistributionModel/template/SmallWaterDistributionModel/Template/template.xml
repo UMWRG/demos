@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <template_definition>
-<template_name>Water_Distribution</template_name>
+<template_name>SmallWaterDistributionModel</template_name>
 <layout>    
         <item>
             <name>grouping</name>
             <value>			    
-			    <name>Water Distribution system</name>
+			    <name>Small Water Distribution Model</name>
 				<description>Design of a Water Distribution Network</description>
 				<categories>
 				    <category>
@@ -41,7 +41,7 @@
 <resources>    
     <resource>
         <type>NETWORK</type>
-        <name>water_distribution</name>		
+        <name>SmallWaterDistributionModel</name>		
         <attribute>
             <name>dpow</name>
             <dimension>Dimensionless</dimension>
