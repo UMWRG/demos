@@ -80,9 +80,10 @@ def run_model (input_data_file):
     list=[]
     insts=[]
     opt = SolverFactory("glpk")
-    instance=model.create(input_data_file)
+    instance=model.create_instance(input_data_file)
     res = opt.solve(instance)
-    instance.load(res)
+    instance.solutions.load_from(res)
+    #instance.load(res)
     list.append(res)
     insts.append(instance)
     print res

@@ -62,30 +62,31 @@ class PyMode():
         model.storage_mass_balance_const = Constraint(model.surface_reservoir, rule=storage_mass_balance)
         self.model=model
 
-    def run(self, input_file):
+    def run(self, input_file):        
         opt = SolverFactory("glpk")
         list=[]
         list_=[]
         instances=[]
         self.model.current_time_step.add(1)
-        instance=self.model.create(input_file)
-        for comp in instance.active_components():
-            if(comp=="time_step"):
-                parmobject = getattr(instance, comp)
+        instance=self.model.create_instance(input_file)
+        for comp in instance.component_objects():
+            if str(comp) == "time_step":
+                parmobject = getattr(instance, str(comp))
                 for vv in parmobject.value:
-                    list_.append(vv)
-        instance =self.model.create(input_file)
+                      list_.append(vv)
+        instance =self.model.create_instance(input_file)
         storage={}
         demand_nodes=get_demand_nodes_list(instance)
+
 
         for vv in list_:
             ##################
             self.cu_timp=vv
             self.model.current_time_step.clear()
-            self.model.preprocess()
+            #self.model.preprocess()
             self.model.current_time_step.add(vv)
-            self.model.preprocess()
-            instance=self.model.create(input_file)
+            #self.model.preprocess()
+            instance=self.model.create_instance(input_file)
 
             if(len(storage)>0):
                 set_initial_storage(instance, storage)
@@ -94,10 +95,11 @@ class PyMode():
             else:
                 instance.preprocess()
             res=opt.solve(instance)
-            instance.load(res)
+            instance.solutions.load_from(res)
             instance.preprocess()
             storage=get_storage(instance)
             set_delivery(instance, demand_nodes, vv)
+            instance.solutions.load_from(res)
             instances.append(instance)
             list.append(res)
             count=1
@@ -107,20 +109,22 @@ class PyMode():
             count+=1
         return  list, instances
 
-    def display_variables (self, instance):
-        for var in instance.active_components(Var):
-                s_var = getattr(instance, var)
-                print "=================="
-                print "Variable: %s"%s_var
-                print "=================="
-                for vv in s_var:
-                    if(s_var[vv].value is None):
-                        continue
-                    if len(vv) ==2:
-                        name="[" + ', '.join(map(str,vv)) + "]"
-                    else:
-                        name= ''.join(map(str,vv))
-                    print name,": ",(s_var[vv].value)
+    def display_variables(self, instance):
+        for var in instance.component_objects(Var):
+            s_var = getattr(instance, str(var))
+            print "=================="
+            print "Variable: %s"%s_var
+            print "=================="
+            for vv in s_var:
+              if vv is None:
+                    print s_var," : ", s_var.value
+                    continue
+              if type(vv) is str:
+                name = ''.join(map(str,vv))
+                print name ,": ",(s_var[vv].value)
+              elif len(vv) == 2:
+                name = "[" + ', '.join(map(str,vv)) + "]"
+                print name ,": ",(s_var[vv].value)
 
 
 
@@ -202,7 +206,7 @@ def storage_mass_balance(model, storage_nodes):
 
 def get_storage(instance):
     storage={}
-    for var in instance.active_components(Var):
+    for var in instance.component_objects(Var):
             if(var=="S"):
                 s_var = getattr(instance, var)
                 for vv in s_var:
@@ -211,7 +215,7 @@ def get_storage(instance):
     return storage
 
 def set_initial_storage(instance, storage):
-    for var in instance.active_components(Param):
+    for var in instance.component_objects(Param):
             if(var=="initial_storage"):
                 s_var = getattr(instance, var)
                 for vv in s_var:
@@ -219,38 +223,38 @@ def set_initial_storage(instance, storage):
 
 def get_demand_nodes_list(instance):
     list={}
-    for comp in instance.active_components():
-        if(comp=="agricultural"):
-            parmobject = getattr(instance, comp)
+    for comp in instance.component_objects():
+        if(str(comp)=="agricultural"):
+            parmobject = getattr(instance, str(comp))
             for vv in parmobject.value:
-                for comp_2 in instance.active_components():
-                    if(comp_2=="consumption_coefficient"):
-                        parmobject_2 = getattr(instance, comp_2)
+                for comp_2 in instance.component_objects():
+                    if(str(comp_2)=="consumption_coefficient"):
+                        parmobject_2 = getattr(instance, str(comp_2))
                         for vv2 in parmobject_2:
                             list[vv]=parmobject_2[vv2]
-        elif(comp=="urban"):
-                parmobject = getattr(instance, comp)
+        elif(str(comp)=="urban"):
+                parmobject = getattr(instance, str(comp))
                 for vv in parmobject.value:
-                    for comp_2 in instance.active_components():
-                        if(comp_2=="consumption_coefficient"):
-                            parmobject_2 = getattr(instance, comp_2)
+                    for comp_2 in instance.component_objects():
+                        if(str(comp_2)=="consumption_coefficient"):
+                            parmobject_2 = getattr(instance, str(comp_2))
                             for vv2 in parmobject_2:
                                 list[vv]=parmobject_2[vv2]
     return list
 
 def set_delivery(instance, demand_nodes, cs):
-    for var in instance.active_components(Var):
-            if(var=="delivery"):
-                s_var = getattr(instance, var)
+    for var in instance.component_objects(Var):            
+            if(str(var)=="delivery"):
+                s_var = getattr(instance, str(var))
                 for vv in s_var:
                     #s_var[vv]=-2
                     if(vv in demand_nodes.keys()):
                         sum=0
                         q=0
                         flow_m=0
-                        for var_2 in instance.active_components():
-                            if(var_2=="Q"):
-                                s_var_2 = getattr(instance, var_2)
+                        for var_2 in instance.component_objects():
+                            if(str(var_2)=="Q"):
+                                s_var_2 = getattr(instance, str(var_2))
                                 for vv2 in s_var_2:
                                     if(vv == vv2[1]):
                                         q=s_var_2[vv2].value
@@ -258,8 +262,8 @@ def set_delivery(instance, demand_nodes, cs):
                                             sum=sum+q*flow_m
                                             q=0
                                             flow_m=0
-                            if(var_2=="flow_multiplier"):
-                                s_var_2 = getattr(instance, var_2)
+                            if(str(var_2)=="flow_multiplier"):
+                                s_var_2 = getattr(instance, str(var_2))
                                 for vv2 in s_var_2:
                                     if(vv == vv2[1] and cs== vv2[2]):
                                         flow_m=s_var_2[vv2]
