@@ -1,9 +1,32 @@
+**  (c) Copyright 2016, University of Manchester
+**
+**  This file is part of the GAMS Plugin Demo Suite.
+**
+**  The GAMS Plugin Demo Suite is free software: you can redistribute it and/or modify
+**  it under the terms of the GNU General Public License as published by
+**  the Free Software Foundation, either version 3 of the License, or
+**  (at your option) any later version.
+**
+**  The Pyomo Plugin Demo Suite is distributed in the hope that it will be useful,
+**  but WITHOUT ANY WARRANTY; without even the implied warranty of
+**  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+**  GNU General Public License for more details.
+**
+**  You should have received a copy of the GNU General Public License
+**  along with the Pyomo Plugin Demo Suite.  If not, see <http://www.gnu.org/licenses/>.
 
+* The Gas Trade Model (GTM) models interrelated gas markets.
+* Prices may be free to move as to equilibrate supplies and
+* demand. Disequilibria can be introduced with controls over
+* prices and/or quantities traded.
+
+** orginal source: https://www.gams.com/modlib/libhtml/gtm.htm
+* Manne, A S, and Beltramo, M A, GTM: An International Gas Trade Model , 
+* International Energy Program Report. Stanford University, 1984.
+
+$TITLE GasTradeModel.gms
 
 $        include "input.txt";
-
-
-
 
 $Eject
 Sets 
