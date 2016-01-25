@@ -3,9 +3,8 @@ water distribution systems model
 
 Files available with this model
 -------------------------------
-- [Template.xml] (https://github.com/UMWRG/demos/tree/master/SmallWaterDistributionModel/templates/EBSD_model/template>) : template which defines nodes and links and their attributes.
+- [Template.xml] (https://github.com/UMWRG/demos/tree/master/SmallWaterDistributionModel/template/SmallWaterDistributionModel/Template>) : template which defines nodes and links and their attributes.
 - [Water.xlsx] (https://github.com/UMWRG/demos/tree/master/SmallWaterDistributionModel/data/>) : An excel file to load in Hydra Modeller which contain the network and scenario data.
-- [openstreet.wms] (https://github.com/UMWRG/demos/tree/master/SmallWaterDistributionModel/GIS>) : The file you can load as a background in Hydra Modeller.
 - [water.gms](https://github.com/UMWRG/demos/tree/master/SmallWaterDistributionModel/model>) : The current version of the water GAMS code
 - [input.txt]https://github.com/UMWRG/demos/tree/master/SmallWaterDistributionModel/model>)     : The input file for the model, containing the network information and data. This is the file Hydra creates using the GAMS App.
 

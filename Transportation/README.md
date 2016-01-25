@@ -3,11 +3,11 @@ A Transportation Problem
 
 Files available with this model
 -------------------------------
-- [Template.xml] (https://github.com/UMWRG/demos/tree/master/templates/Transportation/Template>) : template which defines nodes and links and their attributes.
-- [Transportation.xlsx] (https://github.com/UMWRG/demos/tree/master/data/Transportation>) : An excel file to load in Hydra Modeller which contain the network and scenario data.
-- [openstreet.wms] (https://github.com/UMWRG/demos/tree/master/data/Transportation/GIS>) : The file you can load as a background in Hydra Modeller.
-- Transportation.gms : The current version of the GAS transmission GAMS code
-- input.txt    : The input file for the model, containing the network information and data. This is the file Hydra creates using the GAMS App.
+- [Template.xml] (https://github.com/UMWRG/demos/tree/master/Transportation/template/Transportation_model/Template>) : template which defines nodes and links and their attributes.
+- [Transportation.xlsx] (https://github.com/UMWRG/demos/tree/master/Transportation/data>) : An excel file to load in Hydra Modeller which contain the network and scenario data.
+- [openstreet.wms] (https://github.com/UMWRG/demos/tree/master/Transportation/GIS>) : The file you can load as a background in Hydra Modeller.
+- [Transportation.gms](https://github.com/UMWRG/demos/tree/master/Transportation/model>) : The current version of the GAS transmission GAMS code
+- [input.txt](https://github.com/UMWRG/demos/tree/master/Transportation/model>)    : The input file for the model, containing the network information and data. This is the file Hydra creates using the GAMS App.
 
 Purpose of Model
 ----------------

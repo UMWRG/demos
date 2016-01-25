@@ -3,12 +3,10 @@ International Gas Trade Model (GTM)
 
 Files available with this model
 -------------------------------
-- [Template.xml] (https://github.com/UMWRG/demos/tree/master/templates/GasTradeModel/Template>) : template which defines nodes and links and their attributes.
-- [network.csv] (https://github.com/UMWRG/demos/tree/master/data/GasTradeModel>) : CSV files to load in Hydra Modeller which contain the network and scenario data.
-- [GasTradeModel.gms](https://github.com/UMWRG/demos/tree/master/data/GasTradeModel/MODEL>) : The current version of the GAS trade model GAMS code
-- [openstreet.wms] (https://github.com/UMWRG/demos/tree/master/data/GasTradeModel/GIS>) : The file you can load as a background in Hydra Modeller.
-- [GasTradeModel.gms](https://github.com/UMWRG/demos/tree/master/data/GasTradeModel/MODEL>)  : The current version of the GAS trade model GAMS code
-- [input.txt](https://github.com/UMWRG/demos/tree/master/data/GasTradeModel/MODEL>)    : The input file for the model, containing the network information and data. This is the file Hydra creates using the GAMS App.
+- [Template.xml] (https://github.com/UMWRG/demos/tree/master/GasTradeModel/template/GasTradeModel/template>) : template which defines nodes and links and their attributes.
+- [network.csv] (https://github.com/UMWRG/demos/tree/master/GasTradeModel/data>) : CSV files to load in Hydra Modeller which contain the network and scenario data.
+- [GasTradeModel.gms](https://github.com/UMWRG/demos/tree/master/GasTradeModel/model>) : The current version of the GAS trade model GAMS code
+- [input.txt](https://github.com/UMWRG/demos/tree/master/GasTradeModel/model>)    : The input file for the model, containing the network information and data. This is the file Hydra creates using the GAMS App.
 
 Purpose of Model
 ----------------
