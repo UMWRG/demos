@@ -1,0 +1,182 @@
+* Data exported from Hydra using GAMSplugin.
+* (c) Copyright 2015, University of Manchester
+*
+* Power_network: None
+* Network-ID:  17
+* Scenario-ID: 17
+*******************************************************************************
+
+* Network definition
+
+SETS
+
+i vector of all nodes /
+a1
+a2
+a3
+a4
+a5
+a6
+a7
+a8
+    /
+
+Alias(i,j)
+
+* Node types
+
+SETS
+
+generators(i) /
+a1
+a5
+/
+
+consumers(i) /
+a2
+a4
+a7
+a8
+/
+
+junctions(i) /
+a3
+a6
+/
+
+* Node groups
+
+node_groups vector of all node groups /
+mrf
+/
+
+mrf(i) /
+a2
+a4
+a8
+/
+
+SETS
+
+links(i,j) vector of all links /
+a1 . a2
+a1 . a8
+a2 . a1
+a2 . a3
+a3 . a2
+a3 . a4
+a3 . a7
+a4 . a3
+a4 . a5
+a5 . a4
+a5 . a6
+a6 . a5
+a6 . a7
+a6 . a8
+a7 . a3
+a7 . a6
+a8 . a1
+a8 . a6
+    /
+
+* Link types
+
+variable_flow(i,j) /
+a1 . a2
+a1 . a8
+a2 . a1
+a3 . a2
+a3 . a4
+a3 . a7
+a4 . a3
+a4 . a5
+a5 . a4
+a5 . a6
+a6 . a5
+a6 . a7
+a6 . a8
+a7 . a3
+a7 . a6
+a8 . a1
+/
+
+Fixed_flow(i,j) /
+a2 . a3
+a8 . a6
+/
+
+* Connectivity matrix.
+Table Connect(i,j)
+         a1       a2       a3       a4       a5       a6       a7       a8       
+a1       0        1        0        0        0        0        0        1        
+
+a2       1        0        1        0        0        0        0        0        
+
+a3       0        1        0        1        0        0        1        0        
+
+a4       0        0        1        0        1        0        0        0        
+
+a5       0        0        0        1        0        1        0        0        
+
+a6       0        0        0        0        1        0        1        1        
+
+a7       0        0        1        0        0        1        0        0        
+
+a8       1        0        0        0        0        1        0        0        
+
+
+Parameter x_coord (i)/
+a1       7612836.000
+a2       7818018.000
+a3       8073357.000
+a4       8073357.000
+a5       8073357.000
+a6       8073357.000
+a7       8366783.000
+a8       7282549.000
+/;
+
+Parameter y_coord (i)/
+a1       4892819.000
+a2       4892819.000
+a3       4892819.000
+a4       4817014.000
+a5       4747957.000
+a6       4679428.000
+a7       4793200.000
+a8       4772510.000
+/;
+
+* Network data
+
+* Nodes data
+
+Parameter  max_genration(i)
+/        
+a1       900      
+a5       100      
+/;
+      
+Parameter  min_genration(i)
+/        
+a1       0        
+a5       100      
+/;
+      
+Parameter  fc(i)
+/        
+a2       10       
+a4       80       
+a8       30       
+/;
+      
+
+
+* Links data
+
+Parameter fixed_power_flow(i,j)
+/        
+a2 . a3  50       
+a8 . a6  100      
+/;
+      
