@@ -46,8 +46,6 @@ Model Outputs
 - power generation
 - power flow
 
-You can find model formulation and core detailed description of the Belgium network in [1].
-
 Version History
 ---------------
 
