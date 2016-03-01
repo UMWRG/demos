@@ -6,8 +6,8 @@ Files available with this model
 - [Template.xml] (https://github.com/UMWRG/demos/tree/master/Power_Generation_Distribution_and_Consumption/template/Power_network/Template>) : template which defines nodes and links and their attributes.
 - [power_network.xlsx] (https://github.com/UMWRG/demos/tree/master/Power_Generation_Distribution_and_Consumption/data>) : An excel file to load in Hydra Modeller which contain the network and scenario data.
 - [openstreet.wms] (https://github.com/UMWRG/demos/tree/master/Power_Generation_Distribution_and_Consumption/GIS>) : The file you can load as a background in Hydra Modeller.
-- [Power.gms](https://github.com/UMWRG/demos/tree/master/Power_Generation_Distribution_and_Consumption/model>) : The current version of the GAS transmission GAMS code
-- [input.txt](https://github.com/UMWRG/demos/tree/master/Power_Generation_Distribution_and_Consumption/model>)    : The input file for the model, containing the network information and data. This is the file Hydra creates using the GAMS App.
+- [Power.gms](https://github.com/UMWRG/demos/tree/master/Power_Generation_Distribution_and_Consumption/model>) : The current version of the model GAMS code
+- [input.txt](https://github.com/UMWRG/demos/tree/master/Power_Generation_Distribution_and_Consumption/model>): The input file for the model, containing the network information and data. This is the file Hydra creates using the GAMS App.
 
 Purpose of Model
 ----------------
@@ -36,14 +36,15 @@ You can find more details about using Hydra Modeller in this [tutorial] (https:/
 
 Model inputs:
 -------------
-- transportation cost ($)
-- demand at markets 
-- capacity of factories
+- min_genration
+- max_genration
+- fixed power flow
 
 Model Outputs
 -------------
-- shipment quantities 
-- total transportation costs ($)	
+- power consumption
+- power generation
+- power flow
 
 You can find model formulation and core detailed description of the Belgium network in [1].
 
