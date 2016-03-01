@@ -4,9 +4,9 @@ A Power generation distribution and consumption Problem
 Files available with this model
 -------------------------------
 - [Template.xml] (https://github.com/UMWRG/demos/tree/master/Power_Generation_Distribution_and_Consumption/template/Power_network/Template>) : template which defines nodes and links and their attributes.
-- [Transportation.xlsx] (https://github.com/UMWRG/demos/tree/master/Power_Generation_Distribution_and_Consumption/data>) : An excel file to load in Hydra Modeller which contain the network and scenario data.
+- [power_network.xlsx] (https://github.com/UMWRG/demos/tree/master/Power_Generation_Distribution_and_Consumption/data>) : An excel file to load in Hydra Modeller which contain the network and scenario data.
 - [openstreet.wms] (https://github.com/UMWRG/demos/tree/master/Power_Generation_Distribution_and_Consumption/GIS>) : The file you can load as a background in Hydra Modeller.
-- [Transportation.gms](https://github.com/UMWRG/demos/tree/master/Power_Generation_Distribution_and_Consumption/model>) : The current version of the GAS transmission GAMS code
+- [Power.gms](https://github.com/UMWRG/demos/tree/master/Power_Generation_Distribution_and_Consumption/model>) : The current version of the GAS transmission GAMS code
 - [input.txt](https://github.com/UMWRG/demos/tree/master/Power_Generation_Distribution_and_Consumption/model>)    : The input file for the model, containing the network information and data. This is the file Hydra creates using the GAMS App.
 
 Purpose of Model
@@ -15,7 +15,7 @@ Consider a power network comprised of two groups: the first group with power gen
 The power transfer in all lines of the network and the power generation at the node U1 (a1) are to be determined.  It is known that the power generation at this node is less than 900.  
 This problem is similar to the problem connected with power generation and power transfer between the nodes countries in the Central Asian network.  The essence of the problem becomes clear assuming that "a1" refers to the set UZB (Uzbekistan), and "a5" to another set KIR (Kyrgyzstan).  
 Besides, there is a condition on specified power transfer through the transmission lines of the network.  
-The original model is located in section in this [document] (http://www.ce.utexas.edu/prof/mckinney/ce385d/papers/GAMS-Tutorial.pdf)
+The original model is located in section 7.1 in this [document] (http://www.ce.utexas.edu/prof/mckinney/ce385d/papers/GAMS-Tutorial.pdf)
 
 Running the Model
 -----------------
