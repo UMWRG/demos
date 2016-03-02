@@ -11,10 +11,10 @@ Files available with this model
 
 Purpose of Model
 ----------------
-Consider a power network comprised of two groups: the first group with power generation facilities and the second group for power consumption.  The power transmission lines can be used to transfer power to consumers.
-The power transfer in all lines of the network and the power generation at the node U1 (a1) are to be determined.  It is known that the power generation at this node is less than 900.  
-This problem is similar to the problem connected with power generation and power transfer between the nodes countries in the Central Asian network.  The essence of the problem becomes clear assuming that "a1" refers to the set UZB (Uzbekistan), and "a5" to another set KIR (Kyrgyzstan).  
-Besides, there is a condition on specified power transfer through the transmission lines of the network.  
+Electricity is mainly produced at generation facilities, shipped though the transmission and distribution grids to the consumers
+Consider a power network comprised of two groups: the first group with power generation facilities and the second group for power consumption.  The power transmission lines can be used to transfer power to consumers. 
+The essence of the problem becomes clear assuming that "a1" refers to the set UZB (Uzbekistan), and "a5" to another set KIR (Kyrgyzstan).  
+The power transfer in all lines of the network and the power generation at Uzbekistan are to be determined. 
 The original model is located in section 7.1 in this [document] (http://www.ce.utexas.edu/prof/mckinney/ce385d/papers/GAMS-Tutorial.pdf)
 
 Running the Model
@@ -36,15 +36,15 @@ You can find more details about using Hydra Modeller in this [tutorial] (https:/
 
 Model inputs:
 -------------
-- min_genration
-- max_genration
-- fixed power flow
+- Min genration at each producer node.
+- Max genration at each producer node.
+- Fixed power flow for fixed flow links.
 
 Model Outputs
 -------------
-- power consumption
-- power generation
-- power flow
+- power generation at power producer node.
+- power consumption at consumer node.
+- power flow from node i to node j.
 
 Version History
 ---------------
