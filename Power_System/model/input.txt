@@ -2,8 +2,8 @@
 * (c) Copyright 2015, University of Manchester
 *
 * Power_network: None
-* Network-ID:  17
-* Scenario-ID: 17
+* Network-ID:  8
+* Scenario-ID: 10
 *******************************************************************************
 
 * Network definition
@@ -29,13 +29,11 @@ SETS
 
 generators(i) /
 a1
-a5
 /
 
-consumers(i) /
+fixed_consumers(i) /
 a2
 a4
-a7
 a8
 /
 
@@ -44,16 +42,12 @@ a3
 a6
 /
 
-* Node groups
-
-node_groups vector of all node groups /
-mrf
+fixed_generators(i) /
+a5
 /
 
-mrf(i) /
-a2
-a4
-a8
+consumers(i) /
+a7
 /
 
 SETS
@@ -154,20 +148,23 @@ a8       4772510.000
 Parameter  max_genration(i)
 /        
 a1       900      
-a5       100      
 /;
       
 Parameter  min_genration(i)
 /        
 a1       0        
-a5       100      
 /;
       
-Parameter  fc(i)
+Parameter  fixed_consummation(i)
 /        
 a2       10       
 a4       80       
 a8       30       
+/;
+      
+Parameter  fixed_genration(i)
+/        
+a5       100      
 /;
       
 

@@ -21,6 +21,13 @@
 $        include "input.txt";
 
 
+Sets
+all_genratore(i)
+all_consumers(i);
+
+all_genratore(i)=generators(i)+fixed_generators(i);
+all_consumers(i)=fixed_consumers(i)+consumers(i);
+
 VARIABLES 
 power_generation(i),     power generation 
 power_consumption(i),     power consumption 
@@ -39,18 +46,20 @@ coni(i,j)..         power_flow(i,j) =e= -power_flow(j,i)  ;
 * Junction nodes 
 conu0(i)$(junctions(i))..   sum(j$(links(i,j)),power_flow(i,j)) =e=   0     ; 
 * Generation nodes 
-conue(i)$(generators(i))..   sum(j$(links(i,j)),power_flow(i,j)) =e=   power_generation(i)  ; 
+conue(i)$(all_genratore(i))..   sum(j$(links(i,j)),power_flow(i,j)) =e=   power_generation(i)  ; 
 * Consumption nodes 
-conur(i)$(consumers(i))..   sum(j$(links(i,j)),power_flow(i,j))  =e=  -power_consumption(i)  ;  
+conur(i)$(all_consumers(i))..   sum(j$(links(i,j)),power_flow(i,j))  =e=  -power_consumption(i)  ;  
 ben..           obj =E= 1;  
 
 power_generation.up(generators)=max_genration(generators);
+
 power_generation.lo(generators)=min_genration(generators);
 
-power_consumption.fx(mrf)=fc(mrf);
+power_generation.fx(fixed_generators)=fixed_genration(fixed_generators);
 
-power_flow.fx(Fixed_flow)=fixed_power_flow(Fixed_flow)
+power_consumption.fx(fixed_consumers)=fixed_consummation(fixed_consumers);
  
+power_flow.fx(Fixed_flow)=fixed_power_flow(Fixed_flow)
 
 MODEL VAN /ALL/; 
 

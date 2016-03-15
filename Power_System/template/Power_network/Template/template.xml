@@ -18,7 +18,13 @@
 								<description>consumers</description>
 								<displayname>consumers</displayname>
 								<image>images\consumer.png</image>
-							</group>  
+							</group> 
+							<group>
+								<name>fixed_consumers</name>
+								<description>fixed_consumers</description>
+								<displayname>fixed_consumers</displayname>
+								<image>images\consumer.png</image>
+							</group> 							
 							<group>
 								<name>junctions</name>
 								<description>junctions</description>
@@ -29,6 +35,12 @@
 								<name>generators</name>
 								<description>generators</description>
 								<displayname>generators</displayname>
+								<image>images\generators.png</image>
+							</group>
+							<group>
+								<name>fixed_generators</name>
+								<description>fixed_generators</description>
+								<displayname>fixed_generators</displayname>
 								<image>images\generators.png</image>
 							</group>
 							<group>
@@ -72,9 +84,23 @@
             <dimension>Dimensionless</dimension>
             <is_var>Y</is_var>
 			<data_type>scalar</data_type>
-        </attribute>
+        </attribute>		
+    </resource>   
+	<resource>
+          <type>NODE</type>
+        <name>fixed_consumers</name>
+        <layout>
+            <item>
+                <name>image</name>
+                <value>images\consumer.png</value>
+            </item>
+            <item>
+                <name>group</name>
+                <value>fixed_consumers</value>
+            </item>
+        </layout>   	    
 	<attribute>
-            <name>fc</name>
+            <name>fixed_consummation</name>
             <dimension>Dimensionless</dimension>
             <is_var>N</is_var>
 			<data_type>scalar</data_type>
@@ -112,6 +138,26 @@
 			<data_type>scalar</data_type>
         </attribute>       	
     </resource>   
+	 <resource>
+          <type>NODE</type>
+        <name>fixed_generators</name>
+        <layout>
+            <item>
+                <name>image</name>
+                <value>images\generator.png</value>
+            </item>
+            <item>
+                <name>group</name>
+                <value>fixed_generators</value>
+            </item>
+        </layout> 
+	<attribute>		
+	        <name>fixed_genration</name>
+            <dimension>Dimensionless</dimension>
+            <is_var>N</is_var>
+			<data_type>scalar</data_type>
+        </attribute>       	
+    </resource> 
    <resource>
         <type>NODE</type>
         <name>junctions</name>
@@ -189,16 +235,6 @@
             <is_var>N</is_var>
 			<data_type>scalar</data_type>
         </attribute>				
-    </resource>     
-	<resource>
-        <type>GROUP</type>
-        <name>mrf</name>
-		<layout>
-            <item>
-                <name>image</name>
-                <value>images\mrf.png</value>
-            </item>
-        </layout>	
-    </resource>   	
+    </resource>     	
   </resources>
 </template_definition>
