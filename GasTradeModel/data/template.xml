@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <template_definition>
-<template_name>Water_Distribution</template_name>
+<template_name>GasTradeModel</template_name>
 <layout>    
         <item>
             <name>grouping</name>
             <value>			    
-			    <name>GTD_Model</name>
+			    <name>GasTradeModel</name>
 				<description>Gas trade model Network</description>
 				<categories>
 				    <category>
@@ -70,25 +70,25 @@
         </layout>      
         <attribute>
             <name>Ref_P1</name>
-            <dimension>Unit price (volume)</dimension>
+            <dimension>Dimensionless</dimension>
             <is_var>N</is_var>
 			<data_type>scalar</data_type>
         </attribute>
 		<attribute>
             <name>Ref_Q1</name>
-            <dimension>Volume</dimension>
+            <dimension>Dimensionless</dimension>
             <is_var>N</is_var>
 			<data_type>scalar</data_type>
         </attribute>
         <attribute>
             <name>Ref_P2</name>
-            <dimension>Unit price (volume)</dimension>
+            <dimension>Dimensionless</dimension>
             <is_var>N</is_var>
 			<data_type>scalar</data_type>
         </attribute>
 		<attribute>
             <name>Ref_Q2</name>
-            <dimension>Volume</dimension>
+            <dimension>Dimensionless</dimension>
             <is_var>N</is_var>
 			<data_type>scalar</data_type>
         </attribute>
@@ -101,7 +101,7 @@
         
 		<attribute>
             <name>regional_supply</name>
-            <dimension>Volume</dimension>
+            <dimension>Dimensionless</dimension>
             <is_var>Y</is_var>
 			<data_type>scalar</data_type>
         </attribute>		   
@@ -121,25 +121,25 @@
         </layout>
 		        <attribute>
             <name>Ref_P1</name>
-            <dimension>Unit price (volume)</dimension>
+            <dimension>Dimensionless</dimension>
             <is_var>N</is_var>
 			<data_type>scalar</data_type>
         </attribute>
 		<attribute>
             <name>Ref_Q1</name>
-            <dimension>Volume</dimension>
+            <dimension>Dimensionless</dimension>
             <is_var>N</is_var>
 			<data_type>scalar</data_type>
         </attribute>
         <attribute>
             <name>Ref_P2</name>
-            <dimension>Unit price (volume)</dimension>
+            <dimension>Dimensionless</dimension>
             <is_var>N</is_var>
 			<data_type>scalar</data_type>
         </attribute>
 		<attribute>
             <name>Ref_Q2</name>
-            <dimension>Volume</dimension>
+            <dimension>Dimensionless</dimension>
             <is_var>N</is_var>
 			<data_type>scalar</data_type>
         </attribute>
@@ -157,13 +157,13 @@
         </attribute>
         <attribute>
             <name>Ref_P</name>
-            <dimension>Unit price (volume)</dimension>
+            <dimension>Dimensionless</dimension>
             <is_var>N</is_var>
 			<data_type>scalar</data_type>
         </attribute>		
 		 <attribute>
             <name>Ref_Q</name>
-            <dimension>Volume</dimension>
+            <dimension>Dimensionless</dimension>
             <is_var>N</is_var>
 			<data_type>scalar</data_type>
         </attribute>
@@ -180,13 +180,13 @@
 			<data_type>scalar</data_type>
         </attribute><attribute>		 
             <name>regional_supply</name>
-            <dimension>Volume</dimension>
+            <dimension>Dimensionless</dimension>
             <is_var>Y</is_var>
 			<data_type>scalar</data_type>
         </attribute>
 		<attribute>
             <name>regional_demand</name>
-            <dimension>Volume</dimension>
+            <dimension>Dimensionless</dimension>
             <is_var>Y</is_var>
 			<data_type>scalar</data_type>
         </attribute>
@@ -212,13 +212,13 @@
         </attribute>
         <attribute>
             <name>Ref_P</name>
-            <dimension>Unit price (volume)</dimension>
+            <dimension>Dimensionless</dimension>
             <is_var>N</is_var>
 			<data_type>scalar</data_type>
         </attribute>		
 		 <attribute>
             <name>Ref_Q</name>
-            <dimension>Volume</dimension>
+            <dimension>Dimensionless</dimension>
             <is_var>N</is_var>
 			<data_type>scalar</data_type>
         </attribute>
@@ -236,7 +236,7 @@
 			</attribute>
         	<attribute>
             <name>regional_demand</name>
-            <dimension>Volume</dimension>
+            <dimension>Dimensionless</dimension>
             <is_var>Y</is_var>
 			<data_type>scalar</data_type>
         </attribute>
@@ -256,19 +256,19 @@
         </layout>
         <attribute>
             <name>utc</name>
-            <dimension>Unit price (volume)</dimension>
+            <dimension>Dimensionless</dimension>
             <is_var>N</is_var>
 			<data_type>scalar</data_type>
         </attribute>				
         <attribute>
             <name>shipment_of_natural_gas</name>
-            <dimension>Volume</dimension>
+            <dimension>Dimensionless</dimension>
             <is_var>Y</is_var>
 			<data_type>scalar</data_type>
         </attribute>
 		<attribute>
             <name>pc</name>
-            <dimension>Volume</dimension>
+            <dimension>Dimensionless</dimension>
             <is_var>N</is_var>
 			<data_type>scalar</data_type>
         </attribute>        

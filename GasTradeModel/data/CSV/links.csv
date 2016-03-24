@@ -1,5 +1,5 @@
 Name,From,To,Type,shipment_of_natural_gas,utc,pc,Description
-Units,,,,tcf,USS Mcf^-1,tcf,
+Units,,,,tcf,-,-,
 Mexico_Mexico,Mexico,Mexico,pipeline,NULL,0.25,55555,
 Mexico_NY_NJ,Mexico,NY_NJ,pipeline,NULL,2.29,0.067,
 Mexico_Mid_Atl,Mexico,Mid_Atl,pipeline,NULL,2.22,0.067,

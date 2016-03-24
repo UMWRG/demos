@@ -2,8 +2,8 @@
 * (c) Copyright 2015, University of Manchester
 *
 * GTM Model: Gas Trade Model
-* Network-ID:  2
-* Scenario-ID: 2
+* Network-ID:  20
+* Scenario-ID: 22
 *******************************************************************************
 
 * Network definition
@@ -233,60 +233,99 @@ West                     0                        0                        0    
 West_Can                 0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        0                        
 
 
-Parameter x (i)/
-Alaska                   11164.868                
-Alberta_BC               22502.389                
-Appalacia                32976.647                
-Atlantic                 40112.954                
-Central                  27048.907                
-Mexico                   12315.886                
-Mid_Atl                  33034.198                
-Mid_Cont                 25725.237                
-Midwest                  28027.272                
-NY_NJ                    35048.478                
-N_Central                25034.627                
-N_West                   21063.617                
-New_Engl                 35278.681                
-Ont_Quebec               31940.731                
-Pacific                  20027.702                
-Permian_B                27221.560                
-Rockies                  22847.694                
-South_Atl                32516.240                
-South_West               23135.448                
-US_Gulf                  29466.044                
-West                     22157.084                
-West_Can                 19337.091                
+Parameter x_coord (i)/
+Alaska                   -18350196.000            
+Alberta_BC               -12615733.000            
+Appalacia                -9227678.000             
+Atlantic                 -12642234.000            
+Central                  -10993280.000            
+Mexico                   -11570166.000            
+Mid_Atl                  -9857973.000             
+Mid_Cont                 -11047342.000            
+Midwest                  -10157117.000            
+NY_NJ                    -9240948.000             
+N_Central                -12049296.000            
+N_West                   -13238666.000            
+New_Engl                 -7900074.000             
+Ont_Quebec               -9254528.000             
+Pacific                  -13761268.000            
+Permian_B                -11531200.000            
+Rockies                  -13613238.000            
+South_Atl                -8960539.000             
+South_West               -12384482.000            
+US_Gulf                  -9198140.000             
+West                     -13829746.000            
+West_Can                 -14994330.000            
 /;
 
-Parameter y (i)/
-Alaska                   -7308.960                
-Alberta_BC               -16459.548               
-Appalacia                -23826.059               
-Atlantic                 -17150.158               
-Central                  -21581.575               
-Mexico                   -9610.995                
-Mid_Atl                  -19624.846               
-Mid_Cont                 -19452.193               
-Midwest                  -17437.913               
-NY_NJ                    -20142.803               
-N_Central                -17840.769               
-N_West                   -18186.074               
-New_Engl                 -17955.870               
-Ont_Quebec               -15826.488               
-Pacific                  -19912.600               
-Permian_B                -22847.694               
-Rockies                  -16286.895               
-South_Atl                -23653.406               
-South_West               -21984.431               
-US_Gulf                  -24746.873               
-West                     -19624.846               
-West_Can                 -11567.724               
+Parameter y_coord (i)/
+Alaska                   9796783.000              
+Alberta_BC               7114318.000              
+Appalacia                4402886.000              
+Atlantic                 7060316.000              
+Central                  3778584.000              
+Mexico                   2822883.000              
+Mid_Atl                  6121282.000              
+Mid_Cont                 5088693.000              
+Midwest                  5443701.000              
+NY_NJ                    4974486.000              
+N_Central                6205979.000              
+N_West                   6090646.000              
+New_Engl                 5465720.000              
+Ont_Quebec               5844945.000              
+Pacific                  5717617.000              
+Permian_B                3569573.000              
+Rockies                  6190155.000              
+South_Atl                3785792.000              
+South_West               5025620.000              
+US_Gulf                  4134777.000              
+West                     4894068.000              
+West_Can                 7437866.000              
 /;
 
 * Network data
 
 * Nodes data
 
+Parameter  Ref_P2(i)
+/                        
+Alaska                   2                        
+Appalacia                7                        
+Mid_Cont                 7                        
+Pacific                  7                        
+Permian_B                7                        
+Rockies                  7                        
+US_Gulf                  7                        
+/;
+                      
+Parameter  Limit(i)
+/                        
+Alaska                   55555                    
+Alberta_BC               3.75                     
+Appalacia                0.72                     
+Atlantic                 0.3                      
+Mexico                   2.5                      
+Mid_Cont                 2.55                     
+Pacific                  0.52                     
+Permian_B                1.72                     
+Rockies                  1.44                     
+US_Gulf                  9.75                     
+/;
+                      
+Parameter  Ref_Q2(i)
+/                        
+Alaska                   0.1                      
+Alberta_BC               1.6                      
+Appalacia                0.65                     
+Atlantic                 0.03                     
+Mexico                   0.5                      
+Mid_Cont                 2.31                     
+Pacific                  0.47                     
+Permian_B                1.55                     
+Rockies                  1.3                      
+US_Gulf                  8.82                     
+/;
+                      
 Parameter  Ref_P1(i)
 /                        
 Alaska                   2                        
@@ -312,43 +351,22 @@ Rockies                  1.16
 US_Gulf                  7.88                     
 /;
                       
-Parameter  Ref_P2(i)
+Parameter  Elas(i)
 /                        
-Alaska                   2                        
-Appalacia                7                        
-Mid_Cont                 7                        
-Pacific                  7                        
-Permian_B                7                        
-Rockies                  7                        
-US_Gulf                  7                        
-/;
-                      
-Parameter  Ref_Q2(i)
-/                        
-Alaska                   0.1                      
-Alberta_BC               1.6                      
-Appalacia                0.65                     
-Atlantic                 0.03                     
-Mexico                   0.5                      
-Mid_Cont                 2.31                     
-Pacific                  0.47                     
-Permian_B                1.55                     
-Rockies                  1.3                      
-US_Gulf                  8.82                     
-/;
-                      
-Parameter  Limit(i)
-/                        
-Alaska                   55555                    
-Alberta_BC               3.75                     
-Appalacia                0.72                     
-Atlantic                 0.3                      
-Mexico                   2.5                      
-Mid_Cont                 2.55                     
-Pacific                  0.52                     
-Permian_B                1.72                     
-Rockies                  1.44                     
-US_Gulf                  9.75                     
+Atlantic                 -0.5                     
+Central                  -0.67                    
+Mexico                   -0.5                     
+Mid_Atl                  -0.65                    
+Midwest                  -0.65                    
+NY_NJ                    -0.66                    
+N_Central                -0.54                    
+N_West                   -0.57                    
+New_Engl                 -0.6                     
+Ont_Quebec               -0.5                     
+South_Atl                -0.89                    
+South_West               -0.84                    
+West                     -0.43                    
+West_Can                 -0.5                     
 /;
                       
 Parameter  Ref_P(i)
@@ -387,24 +405,8 @@ West                     2.1
 West_Can                 1.47                     
 /;
                       
-Parameter  Elas(i)
-/                        
-Atlantic                 -0.5                     
-Central                  -0.67                    
-Mexico                   -0.5                     
-Mid_Atl                  -0.65                    
-Midwest                  -0.65                    
-NY_NJ                    -0.66                    
-N_Central                -0.54                    
-N_West                   -0.57                    
-New_Engl                 -0.6                     
-Ont_Quebec               -0.5                     
-South_Atl                -0.89                    
-South_West               -0.84                    
-West                     -0.43                    
-West_Can                 -0.5                     
-/;
-                      
+
+
 * Links data
 
 Parameter utc(i,j)

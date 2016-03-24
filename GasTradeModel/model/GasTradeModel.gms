@@ -78,12 +78,12 @@ benefit consumers benefits minus cost[-]
 ;
 
 Positive Variables 
-shipment_of_natural_gas(i,j) shipment of natural gas [tcf]
-regional_supply(i) regional supply(tcf) [tcf]
-regional_demand(j) regional demand (tcf) [tcf]
+shipment_of_natural_gas(i,j) shipment of natural gas [-]
+regional_supply(i) regional supply(-) [-]
+regional_demand(j) regional demand (-) [-]
 ;
- Equations sb(i)    supply_ balance          (tcf)
-           db(i)    demand_ balance          (tcf)
+ Equations sb(i)    supply_ balance          (-)
+           db(i)    demand_ balance          (-)
            bdef     benefit definition ;
 
  sb(supply_)..   sum(demand_$ij(supply_,demand_), shipment_of_natural_gas(supply_,demand_)) =l= regional_supply(supply_) ;
