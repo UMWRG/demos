@@ -1,0 +1,3 @@
+ID, Name,Type,objective,Nodes,Links,Description
+Units,,                 ,-,,,    
+,SiouxFalls_network,SiouxFalls_traffic,NULL,nodes.csv,links.csv,traffic for SiouxFalls
