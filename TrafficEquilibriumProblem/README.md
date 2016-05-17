@@ -10,11 +10,10 @@ Files available with this model
 
 Purpose of Model
 ----------------
+In this model, a network that is given by a set of nodes N and a set of arcs A. it is assumed that the time cost of traveling along a given arc is a nonlinear (increasing) function of the total flow along that arc. There are two subsets of N that represent the set of origin nodes O and destination nodes D respectively. Associated with each origin-destination pair is a demand that represents the required flow from the origin node to the destination node.
 The fundamental assumption of this model is that drivers are fully informed: a driver going from point A to point B follows the fastest available route, taking the decisions of other drivers as given.
 A multicommodity formulation which  can provide a compact and efficient representation of the model, permitting direct solution with “off-the-shelf” algorithms, is demonstrated. It is found that in many cases the larger complementarity model provides a more efficient formulation than either the primal or dual nonlinear program.
-in this model, a network that is given by a set of nodes N and a set of arcs A. it is assumed that the time cost of traveling along a given arc is a nonlinear (increasing) function of the total flow along that arc. There are two subsets of N that represent the set of origin nodes O and destination nodes D respectively. Associated with each origin-destination pair is a demand that represents the required flow from the origin node to the destination node.
 Three different models are used to compute traffic equilibria. These are a mixed complementarity formulation and a primal and dual formulation using NLPs [1].
-
 The original GAMS code for this model is located in this [paper] (http://ftp.cs.wisc.edu/math-prog/tech-reports/95-03.pdf
 and [here](https://www.gams.com/modlib/libhtml/traffic.htm)
 
