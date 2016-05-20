@@ -10,11 +10,13 @@ Files available with this model
 
 Purpose of Model
 ----------------
+The problem seeks to determine the travel paths of minimal cost from origins to their respective destinations.  The problem has an interpretation as an economic equilibrium problem where the demand side corresponds to potential travellers, or consumers, of the network, whereas the supply side is represented by the network itself, with prices corresponding to travel costs. The equilibrium occurs when the number of trips between an origin and a destination equals the travel demand[1].
+
 This model operates on a network, defined by a set of nodes N and a set of arcs A. It is assumed that the time cost of traveling along a given arc is a nonlinear (increasing) function of the total flow along that arc. There are two subsets of N that represent the set of origin nodes O and destination nodes D respectively. Associated with each origin-destination pair is a demand that represents the required flow from the origin node to the destination node.
 The fundamental assumption of this model is that drivers are fully informed: a driver going from point A to point B follows the fastest available route, taking the decisions of other drivers as given.
 This model demonstrates a multicommodity formulation which can provide a compact and efficient representation of the model, permitting direct solution with “off-the-shelf” algorithms. 
 
-Three different models are used to compute traffic equilibria. These are a mixed complementarity formulation and a primal and dual formulation using NLPs [1].
+Three different models are used to compute traffic equilibria. These are a mixed complementarity formulation and a primal and dual formulation using NLPs [2].
 
 It is found that in many cases a larger complementarity model provides a more efficient formulation than either a primal or dual nonlinear program.
 
@@ -62,7 +64,8 @@ Version History
 More Information
 ----------------
 
-1. Ferris, M C, Meeraus, A, and Rutherford, T F, Computing Wardropian Equilibria in a Complementarity Framework. Optimization Methods and Software 10 (1999), 669-685.
+1.https://pdfs.semanticscholar.org/86a1/ccca3f58853c8f8fd7b5da23702e101e28da.pdf
+2. Ferris, M C, Meeraus, A, and Rutherford, T F, Computing Wardropian Equilibria in a Complementarity Framework. Optimization Methods and Software 10 (1999), 669-685.
 3. Stephen Knox, ''Getting started with Hydra Modeller'', https://github.com/UMWRG/demos/blob/master/doc/GettingStartedWithHydraModeller.pdf, Dec 2015.
 
 
