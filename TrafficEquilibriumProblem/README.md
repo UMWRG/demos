@@ -46,8 +46,6 @@ Model Outputs
 - j v(i,j) time to traverse arc form i to j 
 - y(i,j,k) flow to k along arc i-j 
 - x(i,j) aggregate flow on arc i-j 
-- objpnlp objective for nlp formulation 
-- objdnlp objective for nlp formulation
 
 You can find model formulation and core detailed description of the network in [1].
 
