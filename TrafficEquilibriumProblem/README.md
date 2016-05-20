@@ -5,7 +5,7 @@ Files available with this model
 -------------------------------
 - [Template.xml] (https://github.com/UMWRG/demos/tree/master/TrafficEquilibrium/template/TrafficEquilibriumModel/template>) : template which defines nodes and links and their attributes.
 - [network.csv] (https://github.com/UMWRG/demos/tree/master/TrafficEquilibrium/data>) : CSV files to load in Hydra Modeller which contain the network and scenario data.
-- [TrafficEquilibrium.gms](https://github.com/UMWRG/demos/tree/master/TrafficEquilibrium/model>) : The current version of the GAS trade model GAMS code
+- [TrafficEquilibrium.gms](https://github.com/UMWRG/demos/tree/master/TrafficEquilibrium/model>) : The current version of the Traffic Equilibrium model GAMS code
 - [input.txt](https://github.com/UMWRG/demos/tree/master/TrafficEquilibrium/model/input.txt>)    : The input file for the model, containing the network information and data. This is the file Hydra creates using the GAMS App.
 
 Purpose of Model
@@ -38,7 +38,6 @@ Model inputs:
 -------------
 - arc cost data: a, b, and k
 - trip matrix from i to j
--
 
 Model Outputs
 -------------
