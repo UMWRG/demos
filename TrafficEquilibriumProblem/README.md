@@ -20,7 +20,7 @@ Three different models are used to compute traffic equilibria. These are a mixed
 
 It is found that in many cases a larger complementarity model provides a more efficient formulation than either a primal or dual nonlinear program.
 
-The original GAMS code for this model is located in this [paper] (http://ftp.cs.wisc.edu/math-prog/tech-reports/95-03.pdf
+The original GAMS code for this model is located in this [paper](http://ftp.cs.wisc.edu/math-prog/tech-reports/95-03.pdf)
 and [here](https://www.gams.com/modlib/libhtml/traffic.htm)
 
 Running the Model
@@ -38,7 +38,7 @@ To run this version with Hydra, user needs to:
 Hydra Modeller also allows you to explore and modify network data easily. Using the [GAMS App] (http://hydraappstore.com/details/?app=1088), you can run the model automatically and the results will be stored in Hydra Modeller so you can explore them. 
 You can then create multiple scenarios and the run the model against each one. Then you can compare the results graphically.
 
-You can find more details about using Hydra Modeller in this [tutorial] (https://github.com/UMWRG/demos/blob/master/doc/GettingStartedWithHydraModeller.pdf>). [2]
+You can find more details about using Hydra Modeller in this [tutorial] (https://github.com/UMWRG/demos/blob/master/doc/GettingStartedWithHydraModeller.pdf>). [3]
 
 Model inputs:
 -------------
@@ -52,14 +52,14 @@ Model Outputs
 - y(i,j,k) flow to k along arc i-j 
 - x(i,j) aggregate flow on arc i-j 
 
-You can find model formulation and core detailed description of the network in [1].
+You can find model formulation and core detailed description of the network in [2].
 
 Version History
 ---------------
 
 | Version | Date     | Comment                                       | Author                                   |
 | ------- | -------- | --------------------------------------------- | ---------------------------------------- |
-| 0.0.1   | Jan 2016 | Modify the orginal version to work with Hydra | K. Mohamed, the University of Manchester |
+| 0.0.1   | May 2016 | Modify the orginal version to work with Hydra | K. Mohamed, the University of Manchester |
 
 More Information
 ----------------
