@@ -64,7 +64,7 @@ Version History
 More Information
 ----------------
 
-1.https://pdfs.semanticscholar.org/86a1/ccca3f58853c8f8fd7b5da23702e101e28da.pdf
+1.https://pdfs.semanticscholar.org/86a1/ccca3f58853c8f8fd7b5da23702e101e28da.pdf.
 2. Ferris, M C, Meeraus, A, and Rutherford, T F, Computing Wardropian Equilibria in a Complementarity Framework. Optimization Methods and Software 10 (1999), 669-685.
 3. Stephen Knox, ''Getting started with Hydra Modeller'', https://github.com/UMWRG/demos/blob/master/doc/GettingStartedWithHydraModeller.pdf, Dec 2015.
 
