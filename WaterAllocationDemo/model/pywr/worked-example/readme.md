@@ -2,8 +2,14 @@
 This is a step-by-step set of instructions for running the water allocation model
 in pywr through Hydra Platform.
 
-Please note that this example is broken into multiple scripts for illustration. 
-A single connection would normally be used for all communiucation with Hydra Platform.
+## Disclaimer
+This example is broken into multiple scripts for illustration, and does not necessarily reflect
+how a cliient interaction should be performed.
+
+For example,a single connection would normally be used for all communiucation with Hydra Platform. 
+
+The code is kept as short as possible for clarity, so there is a minimum of error
+checking in place! 
 
 #Prerequisites
 
@@ -14,12 +20,14 @@ to use powershell or other
 2. You have Docker installed
 
 # Step 1
-Get Hydra
+Get Hydra and some dependencies
 
 ```bash
     >>> pip install hydra-base
     >>>
     >>> pip install hydra-client-python
+    >>> pip install click
+    >>> pip install matplotlib
 ```
 
 # Step 2
@@ -73,7 +81,7 @@ Create a second user
 Share the network with user A, keeping 'costs' hidden.
 
 ```bash
-    >>> python share_network.py -u <user_id> --hide 'cost'
+    >>> python share_network.py -u <user_id> --hidden-attribute 'cost'
 ```
 
 # Step 9
