@@ -14,28 +14,23 @@ to use powershell or other
 2. You have Docker installed
 
 # Step 1
-
 Get Hydra
 
 ```bash
     >>> pip install hydra-base
     >>>
     >>> pip install hydra-client-python
-    
 ```
 
 # Step 2
-
 Create a project in Hydra. This will output a project ID to the terminal.
 
 ```bash
     >>> python create_project.py -u 1
-    >>> Project <project_id> created
-
+    Project <project_id> created
 ```
 
 # Step 3
-
 Get the pywr app
 
 ```bash
@@ -43,7 +38,6 @@ Get the pywr app
 ```
 
 # Step 4
-
 Register pywr template
 
 ```bash
@@ -51,7 +45,6 @@ Register pywr template
 ```
 
 # Step 5
-
 Using the pywr app, upload the network to Hydra
 
 ```bash
@@ -62,7 +55,6 @@ Using the pywr app, upload the network to Hydra
 ```
 
 # Step 6
-
 Run the model
 
 ```bash
@@ -85,9 +77,9 @@ Share the network with user A, keeping 'costs' hidden.
 ```
 
 # Step 9
-Inspect results with a simple graph
+Posing as the shared user, Inspect results (in this case, simulated_volume) with a simple graph.
 
 ```bash
-    >>> python plot_result.py -s <scenario_id> -a <attribute_name>
+    >>> python plot_result.py -u <user_id> -p <password> -s <scenario_id> -a simulated_volume
 ```
 
