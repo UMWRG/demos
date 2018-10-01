@@ -1,4 +1,4 @@
-#A worked example running the pywr model through Hydra Platform 
+# A worked example running the pywr model through Hydra Platform 
 This is a step-by-step set of instructions for running the water allocation model
 in pywr through Hydra Platform.
 
@@ -13,7 +13,7 @@ to use powershell or other
 1. You have Python 3.6 installed
 2. You have Docker installed
 
-#Step 1
+# Step 1
 
 Get Hydra
 
@@ -24,7 +24,7 @@ Get Hydra
     
 ```
 
-#Step 1
+# Step 2
 
 Create a project in Hydra. This will output a project ID to the terminal.
 
@@ -34,7 +34,7 @@ Create a project in Hydra. This will output a project ID to the terminal.
 
 ```
 
-#Step 1
+# Step 3
 
 Get the pywr app
 
@@ -42,7 +42,7 @@ Get the pywr app
     >>> docker pull pywr/hydra-pywr
 ```
 
-#Step 1
+# Step 4
 
 Register pywr template
 
@@ -50,9 +50,7 @@ Register pywr template
     >>> docker run -it hydra-pywr register
 ```
 
-
-
-#Step 2
+# Step 5
 
 Using the pywr app, upload the network to Hydra
 
@@ -63,7 +61,7 @@ Using the pywr app, upload the network to Hydra
     >>> Name: 'Water Allocation Demo', 'ID': <network_id> 'Scenario ID': <scenario_id>     
 ```
 
-#Step 
+# Step 6
 
 Run the model
 
@@ -71,7 +69,7 @@ Run the model
     >>> docker run -it hydra-pywr run  -n <network_id> -s <scenario_id>
 ```
 
-#Step4
+# Step 7
 Create a second user
 
 ```bash
@@ -79,14 +77,14 @@ Create a second user
     >>> User <user_id> created
 ```
 
-#Step 4
+# Step 8
 Share the network with user A, keeping 'costs' hidden.
 
 ```bash
     >>> python share_network.py -u <user_id> --hide 'cost'
 ```
 
-#Step 
+# Step 9
 Inspect results with a simple graph
 
 ```bash
