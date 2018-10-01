@@ -56,9 +56,9 @@ Using the pywr app, upload the network to Hydra
 
 ```bash
     >>> docker run -it hydra-pywr upload ../wad.json -p <project_id>
-    >>> Network <network_id> created 
+    Network <network_id> created 
     >>> python get_network_details.py -n <network_id>
-    >>> Name: 'Water Allocation Demo', 'ID': <network_id> 'Scenario ID': <scenario_id>     
+    Name: 'Water Allocation Demo', 'ID': <network_id> 'Scenario ID': <scenario_id>     
 ```
 
 # Step 6
@@ -74,7 +74,7 @@ Create a second user
 
 ```bash
     >>> python create_user.py 
-    >>> User <user_id> created
+    User <user_id> created
 ```
 
 # Step 8
